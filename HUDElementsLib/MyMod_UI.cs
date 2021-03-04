@@ -8,10 +8,9 @@ using Terraria.ModLoader;
 namespace HUDElementsLib {
 	public partial class HUDElementsLibMod : Mod {
 		public override void UpdateUI( GameTime gameTime ) {
-Main.NewText( "update 1" );
 			this.MyUI?.Update( gameTime );
 
-			foreach( HUDElement elem in this.Elements.Values ) {
+			foreach( HUDElement elem in this.HUDManager.Elements.Values ) {
 				elem.Update( gameTime );
 
 				if( elem.IsDragging ) {
@@ -22,7 +21,7 @@ Main.NewText( "update 1" );
 		}
 
 
-		////
+		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			GameInterfaceDrawMethod widgetsUI = delegate {
@@ -39,7 +38,7 @@ Main.NewText( "update 1" );
 			int cursorIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
 			if( cursorIdx == -1 ) { return; }
 
-			foreach( HUDElement elem in this.Elements.Values ) {
+			foreach( HUDElement elem in this.HUDManager.Elements.Values ) {
 				if( elem.ConsumesCursor() ) {
 					layers.RemoveAt( cursorIdx );
 					break;

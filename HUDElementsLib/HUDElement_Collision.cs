@@ -44,32 +44,32 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public Vector2 ResolveCollisionSmart( HUDElement element ) {
+		public Vector2 ResolveCollisionSmart( Rectangle obstacleArea ) {
 			int forWidth = (int)this.Width.Pixels;
 			int forHeight = (int)this.Height.Pixels;
 
 			//
 
-			Rectangle againstArea = element.GetOuterDimensions().ToRectangle();
+			Rectangle paddedArea = obstacleArea;
 
-			againstArea.X -= forWidth / 2;
-			if( againstArea.X < 0 ) {
-				againstArea.X = 0;
+			paddedArea.X -= forWidth / 2;
+			if( paddedArea.X < 0 ) {
+				paddedArea.X = 0;
 			}
 
-			againstArea.Width += forWidth;
-			if( againstArea.Right >= Main.screenWidth ) {
-				againstArea.Width = againstArea.Right - Main.screenWidth;
+			paddedArea.Width += forWidth;
+			if( paddedArea.Right >= Main.screenWidth ) {
+				paddedArea.Width = paddedArea.Right - Main.screenWidth;
 			}
 
-			againstArea.Y -= forHeight / 2;
-			if( againstArea.Y < 0 ) {
-				againstArea.Y = 0;
+			paddedArea.Y -= forHeight / 2;
+			if( paddedArea.Y < 0 ) {
+				paddedArea.Y = 0;
 			}
 
-			againstArea.Height += forHeight;
-			if( againstArea.Bottom >= Main.screenHeight ) {
-				againstArea.Height = againstArea.Bottom - Main.screenHeight;
+			paddedArea.Height += forHeight;
+			if( paddedArea.Bottom >= Main.screenHeight ) {
+				paddedArea.Height = paddedArea.Bottom - Main.screenHeight;
 			}
 
 			//
@@ -77,16 +77,16 @@ namespace HUDElementsLib {
 			int screenMidX = Main.screenWidth / 2;
 			int screenMidY = Main.screenHeight / 2;
 
-			bool isCloserToLeft = Math.Abs( screenMidX - againstArea.Left ) < Math.Abs( screenMidX - againstArea.Right );
+			bool isCloserToLeft = Math.Abs( screenMidX - paddedArea.Left ) < Math.Abs( screenMidX - paddedArea.Right );
 			var pos = new Vector2( this.Left.Pixels, this.Top.Pixels );
 
 			if( isCloserToLeft ) {
-				pos.X = againstArea.Left - ( forWidth / 2 );
+				pos.X = paddedArea.Left - ( forWidth / 2 );
 				if( pos.X < 0f ) {
 					pos.X = 0f;
 				}
 			} else {
-				pos.X = againstArea.Right - ( forWidth / 2 );
+				pos.X = paddedArea.Right - ( forWidth / 2 );
 
 				float right = this.Width.Pixels + this.Left.Pixels;
 				if( right >= Main.screenWidth ) {
@@ -98,7 +98,7 @@ namespace HUDElementsLib {
 		}
 
 
-		public virtual Vector2 ResolveCollisionCustom( HUDElement element ) {
+		public virtual Vector2 ResolveCollisionCustom( Rectangle obstacleArea ) {
 			return new Vector2( this.Left.Pixels, this.Top.Pixels );
 		}
 	}
