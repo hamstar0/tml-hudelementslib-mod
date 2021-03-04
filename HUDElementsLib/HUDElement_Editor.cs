@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.UI;
+using Terraria.ModLoader;
 
 
 namespace HUDElementsLib {
@@ -18,7 +19,6 @@ namespace HUDElementsLib {
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
 			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
 				|| Main.keyState.IsKeyDown( Keys.RightAlt );
-Main.NewText( "hover area: "+area.ToString()+", isHovering: "+isHovering );
 
 			if( Main.mouseLeft && isAlt ) {
 				if( this.BaseDragOffset.HasValue || isHovering ) {
@@ -40,11 +40,26 @@ Main.NewText( "hover area: "+area.ToString()+", isHovering: "+isHovering );
 				return;
 			}
 
+			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
+
 			Vector2 movedSince = Main.MouseScreen - this.PreviousDragMousePos;
 			this.PreviousDragMousePos = Main.MouseScreen;
 
-			this.Left.Pixels += movedSince.X;
-			this.Top.Pixels += movedSince.Y;
+			this.DesiredPosition += movedSince;
+
+			Vector2 validatedPosition = default;
+
+			for( int i=0; i<10; i++ ) {	// <- lazy
+				Vector2 testValidatedPosition = mymod.HUDManager.HandleFirstFoundCollision( this );
+				if( testValidatedPosition == validatedPosition ) {
+					break;
+				}
+
+				validatedPosition = testValidatedPosition;
+			}
+
+			this.Left.Pixels += validatedPosition.X;
+			this.Top.Pixels += validatedPosition.Y;
 		}
 	}
 }

@@ -11,12 +11,10 @@ namespace HUDElementsLib {
 			//	mymod.Elements[ layerName ] = new HashSet<HUDElement>();
 			//}
 
-			mymod.LoadHUDElementFromInfo( element.Name, element );
+			mymod.HUDManager.LoadHUDElementFromInfo( element );
 
 			mymod.MyUI?.Append( element );
 			mymod.MyUI?.Recalculate();
-
-			mymod.Elements[ element.Name ] = element;
 		}
 	}
 }

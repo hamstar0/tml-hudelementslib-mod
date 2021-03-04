@@ -17,12 +17,15 @@ namespace HUDElementsLib {
 		public bool IsHovering { get; private set; } = false;
 		public bool IsDragging { get; private set; } = false;
 
+		public Vector2 DesiredPosition { get; private set; } = default;
+
 
 
 		////////////////
 
 		public HUDElement( string name ) : base() {
 			this.Name = name;
+			this.DesiredPosition = new Vector2( this.Left.Pixels, this.Top.Pixels );
 		}
 
 
@@ -34,10 +37,15 @@ namespace HUDElementsLib {
 
 
 		////////////////
-
+		
 		public override void Update( GameTime gameTime ) {
-			this.IsDragging = this.RunHUDEditorIf( out bool isHovering );
-			this.IsHovering = isHovering;
+			if( Main.playerInventory ) {
+				this.IsDragging = this.RunHUDEditorIf( out bool isHovering );
+				this.IsHovering = isHovering;
+			} else {
+				this.IsDragging = false;
+				this.IsHovering = false;
+			}
 		}
 
 

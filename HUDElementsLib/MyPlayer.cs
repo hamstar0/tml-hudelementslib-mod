@@ -11,6 +11,8 @@ namespace HUDElementsLib {
 			}
 
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
+			HUDManager hudMngr = mymod.HUDManager;
+
 			int count = tag.GetInt( "hud_element_count" );
 
 			for( int i=0; i<count; i++ ) {
@@ -18,19 +20,21 @@ namespace HUDElementsLib {
 				float x = tag.GetFloat( "hud_element_x_"+i );
 				float y = tag.GetFloat( "hud_element_y_"+i );
 
-				mymod.LoadHUDElementAsInfo( name, x, y );
+				hudMngr.LoadHUDElementAsInfo( name, x, y );
 			}
 		}
 
 		public override TagCompound Save() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
+			HUDManager hudMngr = mymod.HUDManager;
+
 			var tag = new TagCompound {
-				{ "hud_element_count", mymod.SavedElementInfo.Count }
+				{ "hud_element_count", hudMngr.SavedElementInfo.Count }
 			};
 
 			int i = 0;
-			foreach( string name in mymod.Elements.Keys ) {
-				HUDElement elem = mymod.Elements[ name ];
+			foreach( string name in hudMngr.Elements.Keys ) {
+				HUDElement elem = hudMngr.Elements[ name ];
 
 				tag[ "hud_element_"+i ] = name;
 				tag[ "hud_element_x_"+i ] = elem.Left.Pixels;
