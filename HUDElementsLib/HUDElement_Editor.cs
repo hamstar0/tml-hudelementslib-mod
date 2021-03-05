@@ -55,12 +55,11 @@ namespace HUDElementsLib {
 
 			this.DesiredDragPosition += movedSince;
 
-			Vector2? validatedNewPosition = mymod.HUDManager.HandleCollisions( this, this.DesiredDragPosition.Value );
+			Vector2 oldPos = new Vector2( this.Left.Pixels, this.Top.Pixels );
+			Vector2 validPos = mymod.HUDManager.HandleCollisions( this, oldPos, this.DesiredDragPosition.Value );
 
-			if( validatedNewPosition.HasValue ) {
-				this.Left.Pixels = validatedNewPosition.Value.X;
-				this.Top.Pixels = validatedNewPosition.Value.Y;
-			}
+			this.Left.Pixels = validPos.X;
+			this.Top.Pixels = validPos.Y;
 		}
 	}
 }

@@ -6,85 +6,58 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public virtual bool AvoidsCollisions() => false;
+		public virtual bool IgnoresCollisions() => false;
 
 
 
 		////////////////
 
-		public bool CollidesWith( HUDElement element ) {
-			int forX = (int)this.Left.Pixels;
-			int forY = (int)this.Top.Pixels;
-			int forWidth = (int)this.Width.Pixels;
-			int forHeight = (int)this.Height.Pixels;
-			int forMidX = forX + ( forWidth / 2 );
-			int forMidY = forY + ( forHeight / 2 );
+		public virtual Vector2 ResolveCollision( Vector2 oldPosition, Vector2 desiredPosition, string obstacleName, Rectangle obstacle ) {
+			return oldPosition;
+			/*Rectangle rect = this.GetRect();
+			Rectangle obstaclePadding = obstacle;
 
-			Rectangle againstArea = element.GetRect();
-
-			againstArea.X -= forWidth / 2;
-			againstArea.Width += forWidth;
-
-			againstArea.Y -= forHeight / 2;
-			againstArea.Height += forHeight;
-
-			return againstArea.Contains( forMidX, forMidY );
-		}
-
-
-		////////////////
-
-		public virtual Vector2 ResolveCollision( Vector2 desiredPosition, Rectangle obstacleArea ) {
-			int forWidth = (int)this.Width.Pixels;
-			int forHeight = (int)this.Height.Pixels;
-
-			//
-
-			Rectangle paddedArea = obstacleArea;
-
-			paddedArea.X -= forWidth / 2;
-			if( paddedArea.X < 0 ) {
-				paddedArea.X = 0;
+			obstaclePadding.X -= rect.Width / 2;
+			if( obstaclePadding.X < 0 ) {
+				obstaclePadding.X = 0;
 			}
 
-			paddedArea.Width += forWidth;
-			if( paddedArea.Right >= Main.screenWidth ) {
-				paddedArea.Width = paddedArea.Right - Main.screenWidth;
+			obstaclePadding.Width += rect.Width;
+			if( obstaclePadding.Right >= Main.screenWidth ) {
+				obstaclePadding.Width = obstaclePadding.Right - Main.screenWidth;
 			}
 
-			paddedArea.Y -= forHeight / 2;
-			if( paddedArea.Y < 0 ) {
-				paddedArea.Y = 0;
+			obstaclePadding.Y -= rect.Height / 2;
+			if( obstaclePadding.Y < 0 ) {
+				obstaclePadding.Y = 0;
 			}
 
-			paddedArea.Height += forHeight;
-			if( paddedArea.Bottom >= Main.screenHeight ) {
-				paddedArea.Height = paddedArea.Bottom - Main.screenHeight;
+			obstaclePadding.Height += rect.Height;
+			if( obstaclePadding.Bottom >= Main.screenHeight ) {
+				obstaclePadding.Height = obstaclePadding.Bottom - Main.screenHeight;
 			}
 
 			//
 
-			int screenMidX = Main.screenWidth / 2;
-			int screenMidY = Main.screenHeight / 2;
-
-			bool isCloserToLeft = Math.Abs( screenMidX - paddedArea.Left ) < Math.Abs( screenMidX - paddedArea.Right );
 			Vector2 pos = desiredPosition;
+			int midDistX = Math.Abs( (int)pos.X - obstacle.Center.X );
+			int midDistY = Math.Abs( (int)pos.Y - obstacle.Center.Y );
 
-			if( isCloserToLeft ) {
-				pos.X = paddedArea.Left - ( forWidth / 2 );
-				if( pos.X < 0f ) {
-					pos.X = 0f;
+			if( midDistX < midDistY ) {
+				if( pos.X < obstacle.Center.X ) {
+					pos.X = obstacle.Left - rect.Width - 1;
+				} else {
+					pos.X = obstacle.Right + 1;
 				}
 			} else {
-				pos.X = paddedArea.Right - ( forWidth / 2 );
-
-				float right = this.Width.Pixels + this.Left.Pixels;
-				if( right >= Main.screenWidth ) {
-					pos.X = right - Main.screenWidth;
+				if( pos.Y < obstacle.Center.Y ) {
+					pos.Y = obstacle.Top - rect.Height - 1;
+				} else {
+					pos.Y = obstacle.Bottom + 1;
 				}
 			}
 
-			return pos;
+			return pos;*/
 		}
 	}
 }
