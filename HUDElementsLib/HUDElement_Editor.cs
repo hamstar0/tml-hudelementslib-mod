@@ -9,14 +9,14 @@ using Terraria.ModLoader;
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		private bool RunHUDEditorIf( out bool isHovering ) {
-			var area = new Rectangle(
-				(int)this.Left.Pixels,
-				(int)this.Top.Pixels,
-				(int)this.Width.Pixels,
-				(int)this.Height.Pixels
-			);
+			Rectangle area = this.GetRect();
 
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
+
+			HUDElement currDrag = HUDElementsLibAPI.GetDraggingElement();
+			if( currDrag != null && currDrag != this ) {
+				return false;
+			}
 
 			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
 			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )

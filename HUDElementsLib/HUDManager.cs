@@ -50,6 +50,7 @@ namespace HUDElementsLib {
 			if( this.Elements.ContainsKey(name) ) {
 				this.Elements[name].Left.Pixels = x;
 				this.Elements[name].Top.Pixels = y;
+				this.Elements[name].Recalculate();
 			} else {
 				this.SavedElementInfo[name] = (x, y);
 			}
@@ -60,10 +61,12 @@ namespace HUDElementsLib {
 
 			if( this.SavedElementInfo.ContainsKey(element.Name) ) {
 				(float x, float y) elemInfo = this.SavedElementInfo[ element.Name ];
+
 				this.SavedElementInfo.Remove( element.Name );
 
 				element.Left.Pixels = elemInfo.x;
 				element.Top.Pixels = elemInfo.y;
+				element.Recalculate();
 			}
 		}
 	}

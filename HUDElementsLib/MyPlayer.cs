@@ -29,16 +29,26 @@ namespace HUDElementsLib {
 			HUDManager hudMngr = mymod.HUDManager;
 
 			var tag = new TagCompound {
-				{ "hud_element_count", hudMngr.SavedElementInfo.Count }
+				{ "hud_element_count", hudMngr.Elements.Count + hudMngr.SavedElementInfo.Count }
 			};
 
 			int i = 0;
+
 			foreach( string name in hudMngr.Elements.Keys ) {
 				HUDElement elem = hudMngr.Elements[ name ];
 
 				tag[ "hud_element_"+i ] = name;
 				tag[ "hud_element_x_"+i ] = elem.Left.Pixels;
 				tag[ "hud_element_y_"+i ] = elem.Top.Pixels;
+				i++;
+			} 
+
+			foreach( string name in hudMngr.SavedElementInfo.Keys ) {
+				(float x, float y) elemInfo = hudMngr.SavedElementInfo[ name ];
+
+				tag[ "hud_element_"+i ] = name;
+				tag[ "hud_element_x_"+i ] = elemInfo.x;
+				tag[ "hud_element_y_"+i ] = elemInfo.y;
 				i++;
 			} 
 

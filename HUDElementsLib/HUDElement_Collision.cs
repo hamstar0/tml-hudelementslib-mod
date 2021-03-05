@@ -20,7 +20,7 @@ namespace HUDElementsLib {
 			int forMidX = forX + ( forWidth / 2 );
 			int forMidY = forY + ( forHeight / 2 );
 
-			Rectangle againstArea = element.GetOuterDimensions().ToRectangle();
+			Rectangle againstArea = element.GetRect();
 
 			againstArea.X -= forWidth / 2;
 			againstArea.Width += forWidth;

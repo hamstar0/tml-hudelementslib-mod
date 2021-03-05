@@ -11,7 +11,7 @@ namespace HUDElementsLib {
 
 
 		////////////////
-
+		
 		public string Name { get; private set; }
 
 		public bool IsHovering { get; private set; } = false;
@@ -31,7 +31,19 @@ namespace HUDElementsLib {
 
 
 		////////////////
-		
+
+		public Rectangle GetRect() {
+			return new Rectangle(
+				(int)this.Left.Pixels,
+				(int)this.Top.Pixels,
+				(int)this.Width.Pixels,
+				(int)this.Height.Pixels
+			);
+		}
+
+
+		////////////////
+
 		public virtual bool ConsumesCursor() {
 			return this.IsDragging;
 		}
@@ -47,26 +59,6 @@ namespace HUDElementsLib {
 				this.IsHovering = false;
 
 				this.DesiredDragPosition = null;
-			}
-		}
-
-
-		////////////////
-
-		public override void Draw( SpriteBatch spriteBatch ) {
-			base.Draw( spriteBatch );
-
-			if( this.IsHovering && !this.IsDragging ) {
-				Utils.DrawBorderStringFourWay(
-					sb: spriteBatch,
-					font: Main.fontMouseText,
-					text: "Alt+Click to drag",
-					x: Main.MouseScreen.X + 12,
-					y: Main.MouseScreen.Y + 16,
-					textColor: new Color( Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor ),
-					borderColor: Color.Black,
-					origin: default
-				);
 			}
 		}
 	}
