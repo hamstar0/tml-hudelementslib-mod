@@ -5,19 +5,9 @@ using Terraria.UI;
 
 
 namespace HUDElementsLib {
-	public enum HUDCollision {
-		None,
-		Smart,
-		Custom
-	}
-
-
-
-
 	public partial class HUDElement : UIElement {
-		public virtual HUDCollision CollisionDecision() {
-			return HUDCollision.Smart;
-		}
+		public virtual bool AvoidsCollisions() => false;
+
 
 
 		////////////////
@@ -44,7 +34,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public Vector2 ResolveCollisionSmart( Rectangle obstacleArea ) {
+		public virtual Vector2 ResolveCollision( Vector2 desiredPosition, Rectangle obstacleArea ) {
 			int forWidth = (int)this.Width.Pixels;
 			int forHeight = (int)this.Height.Pixels;
 
@@ -78,7 +68,7 @@ namespace HUDElementsLib {
 			int screenMidY = Main.screenHeight / 2;
 
 			bool isCloserToLeft = Math.Abs( screenMidX - paddedArea.Left ) < Math.Abs( screenMidX - paddedArea.Right );
-			var pos = new Vector2( this.Left.Pixels, this.Top.Pixels );
+			Vector2 pos = desiredPosition;
 
 			if( isCloserToLeft ) {
 				pos.X = paddedArea.Left - ( forWidth / 2 );
@@ -95,11 +85,6 @@ namespace HUDElementsLib {
 			}
 
 			return pos;
-		}
-
-
-		public virtual Vector2 ResolveCollisionCustom( Rectangle obstacleArea ) {
-			return new Vector2( this.Left.Pixels, this.Top.Pixels );
 		}
 	}
 }

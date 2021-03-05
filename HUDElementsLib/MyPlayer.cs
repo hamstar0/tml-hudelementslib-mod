@@ -20,7 +20,7 @@ namespace HUDElementsLib {
 				float x = tag.GetFloat( "hud_element_x_"+i );
 				float y = tag.GetFloat( "hud_element_y_"+i );
 
-				hudMngr.LoadHUDElementAsInfo( name, x, y );
+				hudMngr.LoadHUDElementInfo( name, x, y );
 			}
 		}
 
@@ -43,6 +43,22 @@ namespace HUDElementsLib {
 			} 
 
 			return tag;
+		}
+
+
+		////////////////
+
+		public override void PreUpdate() {
+			if( this.player.whoAmI == Main.myPlayer ) {
+				this.PreUpdateLocal();
+			}
+		}
+
+		////
+
+		private void PreUpdateLocal() {
+			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
+			mymod.MyUI?.Update( Main._drawInterfaceGameTime );  //:blobshrug:
 		}
 	}
 }

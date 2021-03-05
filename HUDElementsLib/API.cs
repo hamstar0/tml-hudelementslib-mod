@@ -26,7 +26,7 @@ namespace HUDElementsLib {
 			//	mymod.Elements[ layerName ] = new HashSet<HUDElement>();
 			//}
 
-			mymod.HUDManager.LoadHUDElementFromInfo( element );
+			mymod.HUDManager.LoadHUDElement( element );
 
 			mymod.MyUI?.Append( element );
 			mymod.MyUI?.Recalculate();

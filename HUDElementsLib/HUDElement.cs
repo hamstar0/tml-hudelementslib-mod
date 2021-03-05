@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private Vector2? BaseDragOffset = null;
+		private Vector2? DesiredDragPosition = null;
 		private Vector2 PreviousDragMousePos = default;
 
 
@@ -15,9 +15,11 @@ namespace HUDElementsLib {
 		public string Name { get; private set; }
 
 		public bool IsHovering { get; private set; } = false;
-		public bool IsDragging { get; private set; } = false;
 
-		public Vector2 DesiredPosition { get; private set; } = default;
+
+		////////////////
+
+		public bool IsDragging => this.DesiredDragPosition.HasValue;
 
 
 
@@ -25,14 +27,13 @@ namespace HUDElementsLib {
 
 		public HUDElement( string name ) : base() {
 			this.Name = name;
-			this.DesiredPosition = new Vector2( this.Left.Pixels, this.Top.Pixels );
 		}
 
 
 		////////////////
 		
 		public virtual bool ConsumesCursor() {
-			return this.BaseDragOffset.HasValue;
+			return this.IsDragging;
 		}
 
 
@@ -40,11 +41,12 @@ namespace HUDElementsLib {
 		
 		public override void Update( GameTime gameTime ) {
 			if( Main.playerInventory ) {
-				this.IsDragging = this.RunHUDEditorIf( out bool isHovering );
+				this.RunHUDEditorIf( out bool isHovering );
 				this.IsHovering = isHovering;
 			} else {
-				this.IsDragging = false;
 				this.IsHovering = false;
+
+				this.DesiredDragPosition = null;
 			}
 		}
 
@@ -54,7 +56,7 @@ namespace HUDElementsLib {
 		public override void Draw( SpriteBatch spriteBatch ) {
 			base.Draw( spriteBatch );
 
-			if( this.IsHovering && !this.BaseDragOffset.HasValue ) {
+			if( this.IsHovering && !this.IsDragging ) {
 				Utils.DrawBorderStringFourWay(
 					sb: spriteBatch,
 					font: Main.fontMouseText,

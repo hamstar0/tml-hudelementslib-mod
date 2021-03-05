@@ -2,39 +2,43 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.UI;
+using Terraria.GameInput;
 using Terraria.ModLoader;
 
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		private bool RunHUDEditorIf( out bool isHovering ) {
-			var pos = new Vector2( this.Left.Pixels, this.Top.Pixels );
 			var area = new Rectangle(
-				(int)pos.X,
-				(int)pos.Y,
+				(int)this.Left.Pixels,
+				(int)this.Top.Pixels,
 				(int)this.Width.Pixels,
 				(int)this.Height.Pixels
 			);
 
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
+
+			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
 			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
 				|| Main.keyState.IsKeyDown( Keys.RightAlt );
 
-			if( Main.mouseLeft && isAlt ) {
-				if( this.BaseDragOffset.HasValue || isHovering ) {
-					this.RunHUDEditor_Drag( pos );
+			if( mouseLeft && isAlt ) {
+				if( this.IsDragging || isHovering ) {
+					this.RunHUDEditor_Drag();
 				}
 			} else {
-				this.BaseDragOffset = null;
+				this.DesiredDragPosition = null;
 			}
 
-			return this.BaseDragOffset.HasValue;
+			return this.DesiredDragPosition.HasValue;
 		}
 
 
-		private void RunHUDEditor_Drag( Vector2 basePos ) {
-			if( !this.BaseDragOffset.HasValue ) {
-				this.BaseDragOffset = basePos - Main.MouseScreen;
+		private void RunHUDEditor_Drag() {
+			Main.LocalPlayer.mouseInterface = true;
+
+			if( !this.DesiredDragPosition.HasValue ) {
+				this.DesiredDragPosition = new Vector2( this.Left.Pixels, this.Top.Pixels );
 				this.PreviousDragMousePos = Main.MouseScreen;
 
 				return;
@@ -45,21 +49,18 @@ namespace HUDElementsLib {
 			Vector2 movedSince = Main.MouseScreen - this.PreviousDragMousePos;
 			this.PreviousDragMousePos = Main.MouseScreen;
 
-			this.DesiredPosition += movedSince;
-
-			Vector2 validatedPosition = default;
-
-			for( int i=0; i<10; i++ ) {	// <- lazy
-				Vector2 testValidatedPosition = mymod.HUDManager.HandleFirstFoundCollision( this );
-				if( testValidatedPosition == validatedPosition ) {
-					break;
-				}
-
-				validatedPosition = testValidatedPosition;
+			if( movedSince == default ) {
+				return;
 			}
 
-			this.Left.Pixels += validatedPosition.X;
-			this.Top.Pixels += validatedPosition.Y;
+			this.DesiredDragPosition += movedSince;
+
+			Vector2? validatedNewPosition = mymod.HUDManager.HandleCollisions( this, this.DesiredDragPosition.Value );
+
+			if( validatedNewPosition.HasValue ) {
+				this.Left.Pixels = validatedNewPosition.Value.X;
+				this.Top.Pixels = validatedNewPosition.Value.Y;
+			}
 		}
 	}
 }

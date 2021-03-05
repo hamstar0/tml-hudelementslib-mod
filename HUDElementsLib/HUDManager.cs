@@ -46,7 +46,7 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		public void LoadHUDElementAsInfo( string name, float x, float y ) {
+		public void LoadHUDElementInfo( string name, float x, float y ) {
 			if( this.Elements.ContainsKey(name) ) {
 				this.Elements[name].Left.Pixels = x;
 				this.Elements[name].Top.Pixels = y;
@@ -55,48 +55,16 @@ namespace HUDElementsLib {
 			}
 		}
 
-		public void LoadHUDElementFromInfo( HUDElement element ) {
-			if( !this.SavedElementInfo.ContainsKey(element.Name) ) {
-				return;
-			}
-
-			(float x, float y) elemInfo = this.SavedElementInfo[ element.Name ];
-			this.SavedElementInfo.Remove( element.Name );
-
-			element.Left.Pixels = elemInfo.x;
-			element.Top.Pixels = elemInfo.y;
-
+		public void LoadHUDElement( HUDElement element ) {
 			this.Elements[ element.Name ] = element;
-		}
 
+			if( this.SavedElementInfo.ContainsKey(element.Name) ) {
+				(float x, float y) elemInfo = this.SavedElementInfo[ element.Name ];
+				this.SavedElementInfo.Remove( element.Name );
 
-		////////////////
-
-		public Vector2 HandleFirstFoundCollision( HUDElement element ) {
-			HUDCollision collDec = element.CollisionDecision();
-			if( collDec == HUDCollision.None ) {
-				return element.DesiredPosition;
+				element.Left.Pixels = elemInfo.x;
+				element.Top.Pixels = elemInfo.y;
 			}
-
-			foreach( HUDElement elem in this.Elements.Values ) {
-				if( elem == element ) {
-					continue;
-				}
-				if( !element.CollidesWith( elem ) ) {
-					continue;
-				}
-
-				switch( element.CollisionDecision() ) {
-				case HUDCollision.Smart:
-					return element.ResolveCollisionSmart( elem.GetOuterDimensions().ToRectangle() );
-				case HUDCollision.Custom:
-					return element.ResolveCollisionCustom( elem.GetOuterDimensions().ToRectangle() );
-				}
-
-				break;
-			}
-
-			return element.DesiredPosition;
 		}
 	}
 }
