@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 
@@ -41,6 +41,25 @@ namespace HUDElementsLib {
 			);
 		}
 
+		public virtual Vector2 GetDisplacementDirection() {
+			int x = (int)(this.Left.Pixels + this.Width.Pixels);
+			int y = (int)(this.Left.Pixels + this.Width.Pixels);
+			int midX = Main.screenWidth / 2;
+			int midY = Main.screenHeight / 2;
+
+			x -= midX;
+			y -= midY;
+
+			return Vector2.Normalize( new Vector2(x, y) );
+		}
+
+		////
+
+		public void SetPosition( Vector2 pos ) {
+			this.Left.Pixels = pos.X;
+			this.Top.Pixels = pos.Y;
+		}
+
 
 		////////////////
 
@@ -52,6 +71,10 @@ namespace HUDElementsLib {
 		////////////////
 		
 		public override void Update( GameTime gameTime ) {
+			ModContent.GetInstance<HUDElementsLibMod>()
+				.HUDManager
+				.ApplyDisplacementsIf( this );
+
 			if( Main.playerInventory ) {
 				this.RunHUDEditorIf( out bool isHovering );
 				this.IsHovering = isHovering;
