@@ -55,8 +55,7 @@ namespace HUDElementsLib {
 
 			this.DesiredDragPosition += movedSince;
 
-			Vector2 oldPos = new Vector2( this.Left.Pixels, this.Top.Pixels );
-			Vector2 validPos = mymod.HUDManager.HandleCollisions( this, oldPos, this.DesiredDragPosition.Value );
+			Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
 
 			this.Left.Pixels = validPos.X;
 			this.Top.Pixels = validPos.Y;

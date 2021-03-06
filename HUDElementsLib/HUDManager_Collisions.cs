@@ -5,7 +5,7 @@ using Terraria;
 
 namespace HUDElementsLib {
 	partial class HUDManager {
-		public Vector2 HandleCollisions( HUDElement element, Vector2 oldPosition, Vector2 desiredPosition ) {
+		public Vector2 FindNonCollidingPosition( HUDElement element, Vector2 desiredPosition ) {
 			if( element.IgnoresCollisions() ) {
 				return desiredPosition;
 			}
@@ -13,7 +13,7 @@ namespace HUDElementsLib {
 			Vector2 bestPosition = desiredPosition;
 
 			for( int i = 0; i < 10; i++ ) { // <- lazy
-				Vector2 testPos = this.HandleFirstFoundCollision( element, oldPosition, bestPosition );
+				Vector2 testPos = this.FindFirstCollisionSolvedPosition( element, bestPosition );
 				if( testPos == bestPosition ) {
 					return bestPosition;
 				}
@@ -21,11 +21,11 @@ namespace HUDElementsLib {
 				bestPosition = testPos;
 			}
 
-			return oldPosition;
+			return new Vector2( element.Left.Pixels, element.Top.Pixels );
 		}
 
 
-		private Vector2 HandleFirstFoundCollision( HUDElement element, Vector2 oldPosition, Vector2 desiredPosition ) {
+		private Vector2 FindFirstCollisionSolvedPosition( HUDElement element, Vector2 desiredPosition ) {
 			Rectangle desiredArea = element.GetRect();
 			desiredArea.X = (int)desiredPosition.X - 1;
 			desiredArea.Y = (int)desiredPosition.Y - 1;
@@ -44,11 +44,11 @@ namespace HUDElementsLib {
 					continue;
 				}
 
-				return element.ResolveCollision(
-					oldPosition,
-					desiredPosition,
-					elemName,
-					obstacleArea
+				return HUDElement.FindClosestNonCollidingPosition(
+					currentArea: element.GetRect(),
+					desiredPosition: desiredPosition,
+					obstacleName: elemName,
+					obstacleArea: obstacleArea
 				);
 			}
 
