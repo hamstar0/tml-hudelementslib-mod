@@ -9,6 +9,8 @@ namespace HUDElementsLib {
 		private Vector2? DesiredDragPosition = null;
 		private Vector2 PreviousDragMousePos = default;
 
+		private (int x, int y)? PreDisplacementPos = null;
+
 
 		////////////////
 		
@@ -32,13 +34,20 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public Rectangle GetRect() {
-			return new Rectangle(
+		public Rectangle GetRect( bool withoutDisplacement = false ) {
+			var rect = new Rectangle(
 				(int)this.Left.Pixels,
 				(int)this.Top.Pixels,
 				(int)this.Width.Pixels,
 				(int)this.Height.Pixels
 			);
+
+			if( !withoutDisplacement && this.PreDisplacementPos.HasValue ) {
+				rect.X = this.PreDisplacementPos.Value.x;
+				rect.Y = this.PreDisplacementPos.Value.y;
+			}
+
+			return rect;
 		}
 
 		public virtual Vector2 GetDisplacementDirection() {
@@ -55,13 +64,33 @@ namespace HUDElementsLib {
 
 		////
 
-		public void SetPosition( Vector2 pos ) {
+		public void SetDisplacedPosition( Vector2 pos ) {
+			this.PreDisplacementPos = ( (int)this.Left.Pixels, (int)this.Top.Pixels );
 			this.Left.Pixels = pos.X;
 			this.Top.Pixels = pos.Y;
 		}
 
+		public void RevertDisplacedPosition() {
+			if( !this.PreDisplacementPos.HasValue ) {
+				return;
+			}
+			this.Left.Pixels = this.PreDisplacementPos.Value.x;
+			this.Top.Pixels = this.PreDisplacementPos.Value.y;
+
+			this.PreDisplacementPos = null;
+		}
 
 		////////////////
+
+		public virtual bool IsEnabled() {
+			return true;
+		}
+		
+		public virtual bool IsLocked() {
+			return false;
+		}
+
+		////
 
 		public virtual bool ConsumesCursor() {
 			return this.IsDragging;
@@ -71,6 +100,10 @@ namespace HUDElementsLib {
 		////////////////
 		
 		public override void Update( GameTime gameTime ) {
+			if( !this.IsEnabled() ) {
+				return;
+			}
+
 			ModContent.GetInstance<HUDElementsLibMod>()
 				.HUDManager
 				.ApplyDisplacementsIf( this );

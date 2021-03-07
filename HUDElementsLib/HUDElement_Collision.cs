@@ -36,8 +36,7 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		public virtual Vector2? FindDisplacedPositionIf( HUDElement element ) {
-			Rectangle currentArea = this.GetRect();
+		public static Vector2? FindDisplacedPositionIf( Rectangle currentArea, HUDElement element ) {
 			Rectangle obstacleArea = element.GetRect();
 			if( !currentArea.Intersects(obstacleArea) ) {
 				return null;

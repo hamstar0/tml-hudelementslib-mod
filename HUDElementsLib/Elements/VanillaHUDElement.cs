@@ -68,10 +68,40 @@ namespace HUDElementsLib {
 
 
 		////////////////
+		
+		internal static void LoadVanillaElements() {
+			foreach( KeyValuePair<string, (Func<bool> context, Rectangle area)> kv in VanillaHUDElement.VanillaHUDInfo ) {
+				var elem = new VanillaHUDElement( kv.Key, kv.Value.context, kv.Value.area );
 
-		internal VanillaHUDElement( string name ) : base( name ) { }
+				HUDElementsLibAPI.AddWidget( elem );
+			}
+		}
+
+
+
+		////////////////
+
+		public Func<bool> EnablingCondition;
+
+
+
+		////////////////
+
+		internal VanillaHUDElement( string name, Func<bool> enablingCondition, Rectangle area ) : base( name ) {
+			this.EnablingCondition = enablingCondition;
+			this.Left.Pixels = area.X;
+			this.Left.Precent = area.X < 0f ? 1f : 0f;
+			this.Top.Pixels = area.Y;
+			this.Top.Precent = area.Y < 0f ? 1f : 0f;
+			this.Width.Pixels = area.Width;
+			this.Height.Pixels = area.Height;
+		}
 
 
 		public override bool IsAnchored() => true;
+
+		public override bool IsLocked() => true;
+
+		public override bool IsEnabled() => this.EnablingCondition.Invoke();
 	}
 }

@@ -38,6 +38,9 @@ namespace HUDElementsLib {
 				if( elem == element ) {
 					continue;
 				}
+				if( !elem.IsEnabled() ) {
+					continue;
+				}
 
 				Rectangle obstacleArea = elem.GetRect();
 
@@ -59,23 +62,27 @@ namespace HUDElementsLib {
 
 		public bool ApplyDisplacementsIf( HUDElement element ) {
 			bool isDisplaced = false;
-			Rectangle currentArea = element.GetRect();
+			Rectangle currentArea = element.GetRect( true );
 
 			foreach( string elemName in this.Elements.Keys ) {
 				HUDElement elem = this.Elements[elemName];
-
 				if( elem == element ) {
 					continue;
 				}
 
-				Rectangle obstacleArea = elem.GetRect();
-
-				Vector2? displacedPos = element.FindDisplacedPositionIf( elem );
-				if( displacedPos.HasValue ) {
-					isDisplaced = true;
-
-					element.SetPosition( displacedPos.Value );
+				Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, elem );
+				if( !displacedPos.HasValue ) {
+					continue;
 				}
+
+				element.SetDisplacedPosition( displacedPos.Value );
+				currentArea = element.GetRect( false );
+
+				isDisplaced = true;
+			}
+
+			if( !isDisplaced ) {
+				element.RevertDisplacedPosition();
 			}
 
 			return isDisplaced;

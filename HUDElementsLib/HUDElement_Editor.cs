@@ -13,6 +13,10 @@ namespace HUDElementsLib {
 
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
 
+			if( this.IsLocked() ) {
+				return false;
+			}
+
 			HUDElement currDrag = HUDElementsLibAPI.GetDraggingElement();
 			if( currDrag != null && currDrag != this ) {
 				return false;

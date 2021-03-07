@@ -28,6 +28,7 @@ namespace HUDElementsLib {
 				this.MyUIMngr.SetState( this.MyUI );
 
 				this.HUDManager = new HUDManager( this.MyUI );
+				VanillaHUDElement.LoadVanillaElements();
 			}
 		}
 	}

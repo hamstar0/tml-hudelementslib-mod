@@ -7,23 +7,28 @@ using Terraria.UI;
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		public override void Draw( SpriteBatch sb ) {
+			if( !this.IsEnabled() ) {
+				return;
+			}
+
 			base.Draw( sb );
 
 			if( HUDElementsLibAPI.GetDraggingElement() != null ) {
 				Rectangle area = this.GetRect();
 				float tint = (float)Main.mouseTextColor / 255f;
+				tint *= this.IsDragging ? 0.75f : 0.5f;
 
 				Utils.DrawRectangle(
 					sb,
 					area.TopLeft() + Main.screenPosition,
 					area.BottomRight() + Main.screenPosition,
-					Color.White * tint * 0.5f,
-					Color.White * tint * 0.5f,
-					2
+					Color.White * tint,
+					Color.White * tint,
+					this.IsDragging ? 3 : 2
 				);
 			}
 
-			if( this.IsHovering && !this.IsDragging ) {
+			if( !this.IsLocked() && this.IsHovering && !this.IsDragging ) {
 				Utils.DrawBorderStringFourWay(
 					sb: sb,
 					font: Main.fontMouseText,
