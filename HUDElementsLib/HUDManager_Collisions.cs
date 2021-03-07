@@ -21,12 +21,12 @@ namespace HUDElementsLib {
 				bestPosition = testPos;
 			}
 
-			return new Vector2( element.Left.Pixels, element.Top.Pixels );
+			return element.GetPositionOnHUD( true );
 		}
 
 
 		private Vector2 FindFirstCollisionSolvedPosition( HUDElement element, Vector2 desiredPosition ) {
-			Rectangle currentArea = element.GetRect();
+			Rectangle currentArea = element.GetAreaOnHUD( true );
 			Rectangle desiredArea = currentArea;
 			desiredArea.X = (int)desiredPosition.X - 1;
 			desiredArea.Y = (int)desiredPosition.Y - 1;
@@ -42,7 +42,7 @@ namespace HUDElementsLib {
 					continue;
 				}
 
-				Rectangle obstacleArea = elem.GetRect();
+				Rectangle obstacleArea = elem.GetAreaOnHUD( false );
 
 				if( desiredArea.Intersects(obstacleArea) ) {
 					return HUDElement.FindClosestNonCollidingPosition(
@@ -62,7 +62,7 @@ namespace HUDElementsLib {
 
 		public bool ApplyDisplacementsIf( HUDElement element ) {
 			bool isDisplaced = false;
-			Rectangle currentArea = element.GetRect( true );
+			Rectangle currentArea = element.GetAreaOnHUD( true );
 
 			foreach( string elemName in this.Elements.Keys ) {
 				HUDElement elem = this.Elements[elemName];
@@ -76,7 +76,7 @@ namespace HUDElementsLib {
 				}
 
 				element.SetDisplacedPosition( displacedPos.Value );
-				currentArea = element.GetRect( false );
+				currentArea = element.GetAreaOnHUD( false );
 
 				isDisplaced = true;
 			}

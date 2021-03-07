@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.UI;
 
@@ -13,8 +14,10 @@ namespace HUDElementsLib {
 
 			base.Draw( sb );
 
-			if( HUDElementsLibAPI.GetDraggingElement() != null ) {
-				Rectangle area = this.GetRect();
+			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
+
+			if( isAlt ) {
+				Rectangle area = this.GetAreaOnHUD( false );
 				float tint = (float)Main.mouseTextColor / 255f;
 				tint *= this.IsDragging ? 0.75f : 0.5f;
 

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -38,19 +39,19 @@ namespace HUDElementsLib {
 				HUDElement elem = hudMngr.Elements[ name ];
 
 				tag[ "hud_element_"+i ] = name;
-				tag[ "hud_element_x_"+i ] = elem.Left.Pixels;
-				tag[ "hud_element_y_"+i ] = elem.Top.Pixels;
+				tag[ "hud_element_x_"+i ] = (float)elem.GetPositionOnHUD( true ).X;
+				tag[ "hud_element_y_"+i ] = (float)elem.GetPositionOnHUD( true ).Y;
 				i++;
-			} 
+			}
 
 			foreach( string name in hudMngr.SavedElementInfo.Keys ) {
-				(float x, float y) elemInfo = hudMngr.SavedElementInfo[ name ];
+				Vector2 elemInfo = hudMngr.SavedElementInfo[ name ];
 
 				tag[ "hud_element_"+i ] = name;
-				tag[ "hud_element_x_"+i ] = elemInfo.x;
-				tag[ "hud_element_y_"+i ] = elemInfo.y;
+				tag[ "hud_element_x_"+i ] = (float)elemInfo.X;
+				tag[ "hud_element_y_"+i ] = (float)elemInfo.Y;
 				i++;
-			} 
+			}
 
 			return tag;
 		}
