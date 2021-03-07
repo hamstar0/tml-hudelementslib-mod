@@ -8,15 +8,7 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private bool RunHUDEditorIf( out bool isHovering ) {
-			Rectangle area = this.GetRect();
-
-			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
-
-			if( this.IsLocked() ) {
-				return false;
-			}
-
+		private bool UpdateDrag( bool isHovering ) {
 			HUDElement currDrag = HUDElementsLibAPI.GetDraggingElement();
 			if( currDrag != null && currDrag != this ) {
 				return false;
@@ -28,7 +20,7 @@ namespace HUDElementsLib {
 
 			if( mouseLeft && isAlt ) {
 				if( this.IsDragging || isHovering ) {
-					this.RunHUDEditor_Drag();
+					this.ApplyDrag();
 				}
 			} else {
 				this.DesiredDragPosition = null;
@@ -38,7 +30,9 @@ namespace HUDElementsLib {
 		}
 
 
-		private void RunHUDEditor_Drag() {
+		////////////////
+
+		private void ApplyDrag() {
 			Main.LocalPlayer.mouseInterface = true;
 
 			if( !this.DesiredDragPosition.HasValue ) {

@@ -109,7 +109,7 @@ namespace HUDElementsLib {
 				.ApplyDisplacementsIf( this );
 
 			if( Main.playerInventory ) {
-				this.RunHUDEditorIf( out bool isHovering );
+				this.UpdateInteractionsIf( out bool isHovering );
 				this.IsHovering = isHovering;
 			} else {
 				this.IsHovering = false;
