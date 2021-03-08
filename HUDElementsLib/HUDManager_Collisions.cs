@@ -70,12 +70,11 @@ namespace HUDElementsLib {
 				return false;
 			}
 
-			bool isNowDisplaced = false;
-			bool isDisplaced = false;
 			Rectangle currentArea = element.GetAreaOnHUD( true );
+			bool isDisplaced = false;
 
-			do {
-				isNowDisplaced = false;
+			for( int i=0; i<10; i++ ) {
+				bool isNowDisplaced = false;
 
 				foreach( string elemName in this.Elements.Keys ) {
 					HUDElement elem = this.Elements[elemName];
@@ -101,7 +100,11 @@ namespace HUDElementsLib {
 					isDisplaced = true;
 					break;
 				}
-			} while( isNowDisplaced );
+
+				if( !isNowDisplaced ) {
+					break;
+				}
+			}
 
 			if( !isDisplaced ) {
 				element.RevertDisplacedPosition();

@@ -16,29 +16,8 @@ namespace HUDElementsLib {
 
 			if( Main.playerInventory ) {
 				bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
-
 				if( isAlt ) {
-					Rectangle area = this.GetAreaOnHUD( false );
-					Color baseColor = this.IsLocked()
-						? Color.Red
-						: Color.White;
-					float pulse = (float)Main.mouseTextColor / 255f;
-					float tint = this.IsDragging ? 1f : 0.5f;
-
-					sb.Draw(
-						texture: Main.magicPixel,
-						destinationRectangle: area,
-						color: baseColor * pulse * tint * 0.25f
-					);
-
-					Utils.DrawRectangle(
-						sb: sb,
-						start: area.TopLeft() + Main.screenPosition,
-						end: area.BottomRight() + Main.screenPosition,
-						colorStart: baseColor * pulse * tint * 0.5f,
-						colorEnd: baseColor * pulse * tint * 0.5f,
-						width: 2
-					);
+					this.DrawBoxes( sb );
 				}
 			}
 
@@ -54,6 +33,45 @@ namespace HUDElementsLib {
 					origin: default
 				);
 			}
+		}
+
+
+		////
+
+		private void DrawBoxes( SpriteBatch sb ) {
+			Rectangle area = this.GetAreaOnHUD( true );
+			Color baseColor = this.IsLocked()
+				? Color.Red
+				: Color.White;
+			float tint = this.IsDragging ? 1f : 0.5f;
+
+			this.DrawBox( sb, area, baseColor, tint );
+
+			if( this.DisplacedPosition.HasValue ) {
+				Rectangle displacedArea = this.GetAreaOnHUD( false );
+
+				this.DrawBox( sb, displacedArea, Color.Yellow, tint * 0.5f );
+			}
+		}
+
+
+		private void DrawBox( SpriteBatch sb, Rectangle area, Color baseColor, float tint ) {
+			float pulse = (float)Main.mouseTextColor / 255f;
+
+			sb.Draw(
+				texture: Main.magicPixel,
+				destinationRectangle: area,
+				color: baseColor * pulse * tint * 0.25f
+			);
+
+			Utils.DrawRectangle(
+				sb: sb,
+				start: area.TopLeft() + Main.screenPosition,
+				end: area.BottomRight() + Main.screenPosition,
+				colorStart: baseColor * pulse * tint * 0.5f,
+				colorEnd: baseColor * pulse * tint * 0.5f,
+				width: 2
+			);
 		}
 	}
 }

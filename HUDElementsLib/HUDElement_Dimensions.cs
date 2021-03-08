@@ -5,8 +5,52 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
+		public virtual Vector2 GetPositionOnHUD( bool withoutDisplacement ) {
+			Vector2 pos;
+
+			if( !withoutDisplacement && this.DisplacedPosition.HasValue ) {
+				pos.X = (int)this.DisplacedPosition.Value.X;
+				pos.Y = (int)this.DisplacedPosition.Value.Y;
+			} else {
+				pos = new Vector2(
+					this.CustomPosition.X < 0
+						? Main.screenWidth + this.CustomPosition.X
+						: this.CustomPosition.X,
+					this.CustomPosition.Y < 0
+						? Main.screenHeight + this.CustomPosition.Y
+						: this.CustomPosition.Y
+				);
+			}
+
+			return pos;
+		}
+
+		////
+
+		public virtual Vector2 GetDimensionsOnHUD() {
+			return new Vector2( this.CustomDimensions.X, this.CustomDimensions.Y );
+		}
+
+
+		////////////////
+
+		public Rectangle GetAreaOnHUD( bool withoutDisplacement ) {
+			Vector2 pos = this.GetPositionOnHUD( withoutDisplacement );
+			Vector2 dim = this.GetDimensionsOnHUD();
+
+			return new Rectangle(
+				(int)pos.X,
+				(int)pos.Y,
+				(int)dim.X,
+				(int)dim.Y
+			);
+		}
+
+
+		////////////////
+
 		public void SetBasePosition( Vector2 pos ) {
-			this.Position = pos;
+			this.CustomPosition = pos;
 		}
 
 
@@ -18,49 +62,6 @@ namespace HUDElementsLib {
 
 		internal void RevertDisplacedPosition() {
 			this.DisplacedPosition = null;
-		}
-
-
-		////////////////
-
-		public Vector2 GetPositionOnHUD( bool withoutDisplacement ) {
-			Vector2 pos;
-
-			if( !withoutDisplacement && this.DisplacedPosition.HasValue ) {
-				pos.X = (int)this.DisplacedPosition.Value.X;
-				pos.Y = (int)this.DisplacedPosition.Value.Y;
-			} else {
-				pos = new Vector2(
-					this.Position.X < 0
-						? Main.screenWidth + this.Position.X
-						: this.Position.X,
-					this.Position.Y < 0
-						? Main.screenHeight + this.Position.Y
-						: this.Position.Y
-				);
-			}
-
-			return pos;
-		}
-
-		////
-
-		public Vector2 GetDimensionsOnHUD() {
-			return new Vector2( this.Dimensions.X, this.Dimensions.Y );
-		}
-
-		////
-
-		public Rectangle GetAreaOnHUD( bool withoutDisplacement ) {
-			Vector2 scrPos = this.GetPositionOnHUD( withoutDisplacement );
-			Vector2 baseScrDim = this.GetDimensionsOnHUD();
-
-			return new Rectangle(
-				(int)scrPos.X,
-				(int)scrPos.Y,
-				(int)baseScrDim.X,
-				(int)baseScrDim.Y
-			);
 		}
 	}
 }

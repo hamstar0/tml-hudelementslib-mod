@@ -8,8 +8,6 @@ namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		public virtual bool IgnoresCollisions() => false;
 
-		public virtual bool IsAnchored() => false;
-
 
 		////////////////
 

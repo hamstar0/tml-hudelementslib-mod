@@ -9,13 +9,13 @@ namespace HUDElementsLib {
 		private Vector2? DesiredDragPosition = null;
 		private Vector2 PreviousDragMousePos = default;
 
-		private Vector2? DisplacedPosition = null;
+		protected Vector2? DisplacedPosition = null;
 
 
 		////////////////
 
-		private Vector2 Position;
-		private Vector2 Dimensions;
+		protected Vector2 CustomPosition;
+		protected Vector2 CustomDimensions;
 
 
 		////////////////
@@ -35,10 +35,8 @@ namespace HUDElementsLib {
 
 		public HUDElement( string name, Vector2 position, Vector2 dimensions ) : base() {
 			this.Name = name;
-			this.Position = position;
-			this.Dimensions = dimensions;
-
-			this.UpdateHUDPosition();
+			this.CustomPosition = position;
+			this.CustomDimensions = dimensions;
 		}
 
 

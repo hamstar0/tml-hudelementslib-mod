@@ -1,67 +1,77 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using HUDElementsLib.Libraries.Helpers.HUD;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using Terraria;
 
 
 namespace HUDElementsLib {
 	public partial class VanillaHUDElement : HUDElement {
 		static VanillaHUDElement() {
-			var dict = new Dictionary<string, (Func<bool> context, Rectangle area)> {
-				{
-					"Inventory Hotbar",
-					(
-						() => true,
-						new Rectangle( 20, 18, 472, 48 )
-					)
-				},
-				{
-					"Inventory",
-					(
-						() => Main.playerInventory,
-						new Rectangle( 20, 66, 472, 192 )
-					)
-				},
-				{
-					"Inventory Chest",
-					(
-						() => Main.playerInventory && Main.LocalPlayer.chest != -1,
-						new Rectangle( 16, 48+320, 320, 32 )
-					)
-				},
-				{
-					"Life Bar",
-					(
-						() => true,
-						new Rectangle( -302, 4, 256, 76 )
-					)
-				},
-				{
-					"Armor And Accessories",
-					(
-						() => Main.playerInventory,
-						new Rectangle( -184, 132, 144, 416 )
-					)
-				},
-				{
-					"Map Buttons",
-					(
-						() => Main.playerInventory,
-						new Rectangle( -440, 40, 126, 32 )
-					)
-				},
-				{
-					"Mini Map",
-					(
-						() => Main.mapStyle == 1,
-						new Rectangle( -314, 136, 224, 224 )
-					)
-				}
+			VanillaHUDElement.VanillaHUDInfo = new VanillaHUDElementDefinition[] {
+				new VanillaHUDElementDefinition(
+					name: "Inventory Hotbar",
+					context: () => true,
+					position: () => new Vector2( 20, 18 ),
+					dimensions: () => new Vector2( 472, 48 )
+				),
+				new VanillaHUDElementDefinition(
+					name: "Inventory",
+					context: () => true,
+					position: () => new Vector2( 20, 66 ),
+					dimensions: () => new Vector2( 472, 190 )
+				),
+				new VanillaHUDElementDefinition(
+					name: "Inventory Chest",
+					context: () => Main.playerInventory && Main.LocalPlayer.chest != -1,
+					position: () => new Vector2( 20, 156 ),
+					dimensions: () => new Vector2( 472, 190 )
+				),
+				new VanillaHUDElementDefinition(
+					name: "Life Bar",
+					context: () => true,
+					position: () => new Vector2( -302, 4 ),
+					dimensions: () => new Vector2( 260, 78 )
+				),
+				new VanillaHUDElementDefinition(
+					name: "Armor And Accessories",
+					context: () => Main.playerInventory,
+					position: () => {
+						Vector2 topLeft = HUDElementHelpers.GetVanillaAccessorySlotScreenPosition(0);
+						return new Vector2( -188, topLeft.Y-178 );
+					},
+					dimensions: () => {
+						if( Main.LocalPlayer.extraAccessory ) {
+							return new Vector2( 144, 418+48 );
+						}
+						return new Vector2( 144, 418 );
+					}
+				),
+				new VanillaHUDElementDefinition(
+					name: "Map Buttons",
+					context: () => Main.playerInventory,
+					position: () => {
+						if( Main.screenWidth < 940 ) {
+							return new Vector2( -40, -192 );
+						}
+						return new Vector2( -440, 38 );
+					},
+					dimensions: () => {
+						if( Main.screenWidth < 940 ) {
+							return new Vector2( 36, 130 );
+						}
+						return new Vector2( 130, 36 );
+					}
+				),
+				new VanillaHUDElementDefinition(
+					name: "Mini Map",
+					context: () => Main.mapStyle == 1,
+					position: () => new Vector2( -298, 84 ),
+					dimensions: () => new Vector2( 252, 252 )
+				)
+				// TODO add trash slot
+				// TODO add ammo slot
+				// TODO add info acc buttons (855 min screen width for info accessory buttons under life bar)
 			};
-			VanillaHUDElement.VanillaHUDInfo = new ReadOnlyDictionary<string, (Func<bool> context, Rectangle area)>( dict );
 		}
 
 
@@ -69,8 +79,8 @@ namespace HUDElementsLib {
 		////////////////
 		
 		internal static void LoadVanillaElements() {
-			foreach( KeyValuePair<string, (Func<bool> context, Rectangle area)> kv in VanillaHUDElement.VanillaHUDInfo ) {
-				var elem = new VanillaHUDElement( kv.Key, kv.Value.context, kv.Value.area );
+			foreach( VanillaHUDElementDefinition def in VanillaHUDElement.VanillaHUDInfo ) {
+				var elem = new VanillaHUDElement( def );
 
 				HUDElementsLibAPI.AddWidget( elem );
 			}
