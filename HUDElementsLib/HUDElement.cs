@@ -9,7 +9,7 @@ namespace HUDElementsLib {
 		private Vector2? DesiredDragPosition = null;
 		private Vector2 PreviousDragMousePos = default;
 
-		private Vector2? PreDisplacementPos = null;
+		private Vector2? DisplacedPosition = null;
 
 
 		////////////////
@@ -45,17 +45,16 @@ namespace HUDElementsLib {
 		////////////////
 
 		public virtual Vector2 GetDisplacementDirection() {
-			Vector2 scrPos = this.GetPositionOnHUD( false );
-			Vector2 baseScrDim = this.GetDimensionsOnHUD();
-			float x = scrPos.X + baseScrDim.X;
-			float y = scrPos.Y + baseScrDim.Y;
+			Vector2 pos = this.GetPositionOnHUD( true );
+			Vector2 dim = this.GetDimensionsOnHUD();
+			Vector2 posMid = pos + (dim * 0.5f);
 			float midX = Main.screenWidth / 2;
 			float midY = Main.screenHeight / 2;
 
-			x -= midX;
-			y -= midY;
+			posMid.X = midX - posMid.X;
+			posMid.Y = midY - posMid.Y;
 
-			return Vector2.Normalize( new Vector2(x, y) );
+			return Vector2.Normalize( posMid );
 		}
 
 

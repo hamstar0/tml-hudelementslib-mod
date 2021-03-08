@@ -13,19 +13,11 @@ namespace HUDElementsLib {
 		////////////////
 
 		internal void SetDisplacedPosition( Vector2 pos ) {
-			this.PreDisplacementPos = this.Position;
-			this.SetBasePosition( pos );
+			this.DisplacedPosition = pos;
 		}
 
-		////
-
 		internal void RevertDisplacedPosition() {
-			if( !this.PreDisplacementPos.HasValue ) {
-				return;
-			}
-			this.SetBasePosition( this.PreDisplacementPos.Value );
-
-			this.PreDisplacementPos = null;
+			this.DisplacedPosition = null;
 		}
 
 
@@ -34,9 +26,9 @@ namespace HUDElementsLib {
 		public Vector2 GetPositionOnHUD( bool withoutDisplacement ) {
 			Vector2 pos;
 
-			if( !withoutDisplacement && this.PreDisplacementPos.HasValue ) {
-				pos.X = (int)this.PreDisplacementPos.Value.X;
-				pos.Y = (int)this.PreDisplacementPos.Value.Y;
+			if( !withoutDisplacement && this.DisplacedPosition.HasValue ) {
+				pos.X = (int)this.DisplacedPosition.Value.X;
+				pos.Y = (int)this.DisplacedPosition.Value.Y;
 			} else {
 				pos = new Vector2(
 					this.Position.X < 0

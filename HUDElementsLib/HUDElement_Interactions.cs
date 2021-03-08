@@ -6,7 +6,7 @@ using Terraria.UI;
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		private bool UpdateInteractionsIf( out bool isHovering ) {
-			Rectangle area = this.GetAreaOnHUD( false );
+			Rectangle area = this.GetAreaOnHUD( true );	// Original spot only
 
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
 

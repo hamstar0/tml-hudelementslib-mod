@@ -19,30 +19,25 @@ namespace HUDElementsLib {
 
 				if( isAlt ) {
 					Rectangle area = this.GetAreaOnHUD( false );
-					float tint = (float)Main.mouseTextColor / 255f;
-					float dragTint = tint * (this.IsDragging ? 0.75f : 0.35f);
+					Color baseColor = this.IsLocked()
+						? Color.Red
+						: Color.White;
+					float pulse = (float)Main.mouseTextColor / 255f;
+					float tint = this.IsDragging ? 1f : 0.5f;
 
-					if( this.IsLocked() ) {
-						sb.Draw(
-							texture: Main.magicPixel,
-							destinationRectangle: area,
-							color: Color.Red * 0.15f
-						);
-					} else {
-						sb.Draw(
-							texture: Main.magicPixel,
-							destinationRectangle: area,
-							color: Color.White * dragTint * 0.5f
-						);
-					}
+					sb.Draw(
+						texture: Main.magicPixel,
+						destinationRectangle: area,
+						color: baseColor * pulse * tint * 0.25f
+					);
 
 					Utils.DrawRectangle(
-						sb,
-						area.TopLeft() + Main.screenPosition,
-						area.BottomRight() + Main.screenPosition,
-						Color.White * dragTint,
-						Color.White * dragTint,
-						this.IsDragging ? 3 : 2
+						sb: sb,
+						start: area.TopLeft() + Main.screenPosition,
+						end: area.BottomRight() + Main.screenPosition,
+						colorStart: baseColor * pulse * tint * 0.5f,
+						colorEnd: baseColor * pulse * tint * 0.5f,
+						width: 2
 					);
 				}
 			}

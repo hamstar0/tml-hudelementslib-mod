@@ -70,29 +70,47 @@ namespace HUDElementsLib {
 				return false;
 			}
 
+			bool isNowDisplaced = false;
 			bool isDisplaced = false;
 			Rectangle currentArea = element.GetAreaOnHUD( true );
 
-			foreach( string elemName in this.Elements.Keys ) {
-				HUDElement elem = this.Elements[elemName];
-				if( elem == element ) {
-					continue;
+			do {
+				isNowDisplaced = false;
+
+				foreach( string elemName in this.Elements.Keys ) {
+					HUDElement elem = this.Elements[elemName];
+					if( elem == element ) {
+						continue;
+					}
+					if( !elem.IsEnabled() ) {
+						continue;
+					}
+					if( elem.IgnoresCollisions() ) {
+						continue;
+					}
+
+					Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, elem );
+					if( !displacedPos.HasValue ) {
+						continue;
+					}
+
+					element.SetDisplacedPosition( displacedPos.Value );
+					currentArea = element.GetAreaOnHUD( false );
+
+					isNowDisplaced = true;
+					isDisplaced = true;
+					break;
 				}
-
-				Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, elem );
-				if( !displacedPos.HasValue ) {
-					continue;
-				}
-
-				element.SetDisplacedPosition( displacedPos.Value );
-				currentArea = element.GetAreaOnHUD( false );
-
-				isDisplaced = true;
-			}
+			} while( isNowDisplaced );
 
 			if( !isDisplaced ) {
 				element.RevertDisplacedPosition();
 			}
+//if( element.Name == "PKE Meter" || element.Name == "PKEMeter" ) {
+//ModContent.GetInstance<HUDElementsLibMod>().Logger.Info( element.Name+" displaced? "+isDisplaced
+//	+" basepos: "+element.GetPositionOnHUD(true)
+//	+" displacepos: "+element.GetPositionOnHUD(false) );
+//}
 
 			return isDisplaced;
 		}
