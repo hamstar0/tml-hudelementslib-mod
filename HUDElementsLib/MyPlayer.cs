@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,17 +30,18 @@ namespace HUDElementsLib {
 		public override TagCompound Save() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 			HUDManager hudMngr = mymod.HUDManager;
+			IEnumerable<HUDElement> elements = hudMngr.Elements
+				.Where( kv => !kv.Value.SkipSave() )
+				.Select( kv => kv.Value );
 
 			var tag = new TagCompound {
-				{ "hud_element_count", hudMngr.Elements.Count + hudMngr.SavedElementInfo.Count }
+				{ "hud_element_count", elements.Count() + hudMngr.SavedElementInfo.Count }
 			};
 
 			int i = 0;
 
-			foreach( string name in hudMngr.Elements.Keys ) {
-				HUDElement elem = hudMngr.Elements[ name ];
-
-				tag[ "hud_element_"+i ] = name;
+			foreach( HUDElement elem in elements ) {
+				tag[ "hud_element_"+i ] = elem.Name;
 				tag[ "hud_element_x_"+i ] = (float)elem.GetPositionOnHUD( true ).X;
 				tag[ "hud_element_y_"+i ] = (float)elem.GetPositionOnHUD( true ).Y;
 				i++;

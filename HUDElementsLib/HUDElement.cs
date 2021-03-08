@@ -61,6 +61,10 @@ namespace HUDElementsLib {
 
 		////////////////
 
+		public virtual bool SkipSave() {
+			return false;
+		}
+		
 		public virtual bool IsEnabled() {
 			return true;
 		}

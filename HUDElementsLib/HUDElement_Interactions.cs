@@ -14,7 +14,7 @@ namespace HUDElementsLib {
 				return false;
 			}
 
-			return this.UpdateDrag( isHovering );
+			return this.UpdateDragIf( isHovering );
 		}
 	}
 }

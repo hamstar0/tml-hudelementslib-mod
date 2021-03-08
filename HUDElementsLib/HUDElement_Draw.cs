@@ -14,21 +14,37 @@ namespace HUDElementsLib {
 
 			base.Draw( sb );
 
-			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
+			if( Main.playerInventory ) {
+				bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
 
-			if( isAlt ) {
-				Rectangle area = this.GetAreaOnHUD( false );
-				float tint = (float)Main.mouseTextColor / 255f;
-				tint *= this.IsDragging ? 0.75f : 0.5f;
+				if( isAlt ) {
+					Rectangle area = this.GetAreaOnHUD( false );
+					float tint = (float)Main.mouseTextColor / 255f;
+					float dragTint = tint * (this.IsDragging ? 0.75f : 0.35f);
 
-				Utils.DrawRectangle(
-					sb,
-					area.TopLeft() + Main.screenPosition,
-					area.BottomRight() + Main.screenPosition,
-					Color.White * tint,
-					Color.White * tint,
-					this.IsDragging ? 3 : 2
-				);
+					if( this.IsLocked() ) {
+						sb.Draw(
+							texture: Main.magicPixel,
+							destinationRectangle: area,
+							color: Color.Red * 0.15f
+						);
+					} else {
+						sb.Draw(
+							texture: Main.magicPixel,
+							destinationRectangle: area,
+							color: Color.White * dragTint * 0.5f
+						);
+					}
+
+					Utils.DrawRectangle(
+						sb,
+						area.TopLeft() + Main.screenPosition,
+						area.BottomRight() + Main.screenPosition,
+						Color.White * dragTint,
+						Color.White * dragTint,
+						this.IsDragging ? 3 : 2
+					);
+				}
 			}
 
 			if( !this.IsLocked() && this.IsHovering && !this.IsDragging ) {

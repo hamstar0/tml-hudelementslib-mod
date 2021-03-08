@@ -24,6 +24,10 @@ namespace HUDElementsLib {
 		}
 
 
+		////////////////
+
+		public override bool SkipSave() => true;
+
 		public override bool IsAnchored() => true;
 
 		public override bool IsLocked() => true;

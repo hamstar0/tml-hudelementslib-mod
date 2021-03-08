@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private bool UpdateDrag( bool isHovering ) {
+		private bool UpdateDragIf( bool isHovering ) {
 			HUDElement currDrag = HUDElementsLibAPI.GetDraggingElement();
 			if( currDrag != null && currDrag != this ) {
 				return false;

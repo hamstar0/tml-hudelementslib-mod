@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using Terraria;
 
 
@@ -13,14 +15,14 @@ namespace HUDElementsLib {
 					"Inventory Hotbar",
 					(
 						() => true,
-						new Rectangle( 16, 16, 320, 32 )
+						new Rectangle( 20, 18, 472, 48 )
 					)
 				},
 				{
 					"Inventory",
 					(
 						() => Main.playerInventory,
-						new Rectangle( 16, 48, 320, 160 )
+						new Rectangle( 20, 66, 472, 192 )
 					)
 				},
 				{
@@ -34,28 +36,28 @@ namespace HUDElementsLib {
 					"Life Bar",
 					(
 						() => true,
-						new Rectangle( -256, 16, 256, 48 )
+						new Rectangle( -302, 4, 256, 76 )
 					)
 				},
 				{
 					"Armor And Accessories",
 					(
 						() => Main.playerInventory,
-						new Rectangle( -128, -312, 128, 312 )
+						new Rectangle( -184, 132, 144, 416 )
 					)
 				},
 				{
 					"Map Buttons",
 					(
 						() => Main.playerInventory,
-						new Rectangle( -368, 16, 128, 32 )
+						new Rectangle( -440, 40, 126, 32 )
 					)
 				},
 				{
 					"Mini Map",
 					(
 						() => Main.mapStyle == 1,
-						new Rectangle( -192, 16, 192, 192 )
+						new Rectangle( -314, 136, 224, 224 )
 					)
 				}
 			};
@@ -70,8 +72,20 @@ namespace HUDElementsLib {
 			foreach( KeyValuePair<string, (Func<bool> context, Rectangle area)> kv in VanillaHUDElement.VanillaHUDInfo ) {
 				var elem = new VanillaHUDElement( kv.Key, kv.Value.context, kv.Value.area );
 
-//				HUDElementsLibAPI.AddWidget( elem );
+				HUDElementsLibAPI.AddWidget( elem );
 			}
 		}
+
+
+		/*public override void Draw( SpriteBatch sb ) {
+			base.Draw( sb );
+
+			sb.DrawString(
+				spriteFont: Main.fontMouseText,
+				text: this.GetAreaOnHUD( false ).ToString(),
+				position: this.GetPositionOnHUD( false ) + new Vector2( 4 ),
+				color: Color.White
+			);
+		}*/
 	}
 }

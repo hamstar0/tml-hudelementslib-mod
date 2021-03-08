@@ -21,13 +21,13 @@ namespace HUDElementsLib {
 			Vector2 pos = desiredPosition;
 
 			if( currentArea.Bottom <= obstacleArea.Top ) {
-				pos.Y = obstacleArea.Top - currentArea.Height;
+				pos.Y = obstacleArea.Top - (currentArea.Height + 2);
 			} else if( currentArea.Top >= obstacleArea.Bottom ) {
-				pos.Y = obstacleArea.Bottom;
+				pos.Y = obstacleArea.Bottom + 2;
 			} else if( currentArea.Right <= obstacleArea.Left ) {
-				pos.X = obstacleArea.Left - (currentArea.Width + 2);
+				pos.X = obstacleArea.Left - (currentArea.Width + 3);
 			} else if( currentArea.Left >= obstacleArea.Right ) {
-				pos.X = obstacleArea.Right + 2;
+				pos.X = obstacleArea.Right + 3;
 			}
 
 			return pos;
@@ -36,13 +36,13 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		public static Vector2? FindDisplacedPositionIf( Rectangle currentArea, HUDElement element ) {
-			Rectangle obstacleArea = element.GetAreaOnHUD(false);
+		public static Vector2? FindDisplacedPositionIf( Rectangle currentArea, HUDElement obstacle ) {
+			Rectangle obstacleArea = obstacle.GetAreaOnHUD(false);
 			if( !currentArea.Intersects(obstacleArea) ) {
 				return null;
 			}
 
-			Vector2 dir = element.GetDisplacementDirection() * 2f;
+			Vector2 dir = obstacle.GetDisplacementDirection() * 2f;
 
 			//
 
