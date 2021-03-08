@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public virtual bool IgnoresCollisions() => false;
+		public virtual bool IsIgnoringCollisions() => false;
 
 
 		////////////////

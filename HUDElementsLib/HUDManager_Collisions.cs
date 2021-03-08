@@ -6,7 +6,7 @@ using Terraria;
 namespace HUDElementsLib {
 	partial class HUDManager {
 		public Vector2 FindNonCollidingPosition( HUDElement element, Vector2 desiredPosition ) {
-			if( element.IgnoresCollisions() ) {
+			if( element.IsIgnoringCollisions() ) {
 				return desiredPosition;
 			}
 
@@ -84,7 +84,7 @@ namespace HUDElementsLib {
 					if( !elem.IsEnabled() ) {
 						continue;
 					}
-					if( elem.IgnoresCollisions() ) {
+					if( elem.IsIgnoringCollisions() ) {
 						continue;
 					}
 

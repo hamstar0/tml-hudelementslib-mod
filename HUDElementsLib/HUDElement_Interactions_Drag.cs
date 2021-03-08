@@ -52,6 +52,16 @@ namespace HUDElementsLib {
 			}
 
 			this.DesiredDragPosition += movedSince;
+			if( this.DesiredDragPosition.Value.X <= 0 ) {
+				this.DesiredDragPosition = new Vector2( 1, this.DesiredDragPosition.Value.Y );
+			} else if( this.DesiredDragPosition.Value.X >= (Main.screenWidth - 1) ) {
+				this.DesiredDragPosition = new Vector2( (Main.screenWidth - 2), this.DesiredDragPosition.Value.Y );
+			}
+			if( this.DesiredDragPosition.Value.Y <= 0 ) {
+				this.DesiredDragPosition = new Vector2( this.DesiredDragPosition.Value.Y, 1 );
+			} else if( this.DesiredDragPosition.Value.Y >= (Main.screenHeight - 1) ) {
+				this.DesiredDragPosition = new Vector2( this.DesiredDragPosition.Value.X, (Main.screenHeight - 2) );
+			}
 
 			Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
 
