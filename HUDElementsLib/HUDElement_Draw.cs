@@ -45,33 +45,35 @@ namespace HUDElementsLib {
 				: Color.White;
 			float tint = this.IsDragging ? 1f : 0.5f;
 
-			HUDElement.DrawBox(
+			HUDElement.DrawFullBox(
 				sb: sb,
 				area: area,
 				baseColor: baseColor,
-				tint: tint,
-				collisionToggler: this.IsHovering// && this.CanToggleCollisions()
-					? !this.IsIgnoringCollisions()
+				brightness: tint,
+				collisionToggler: this.IsHovering && this.CanToggleCollisions()
+					? this.IsIgnoringCollisions()
 					: (bool?)null,
 				anchorRightButton: this.IsHovering && !this.IsLocked()
 					? this.IsRightAnchored()
 					: (bool?)null,
 				anchorBottomButton: this.IsHovering && !this.IsLocked()
 					? this.IsBottomAnchored()
-					: (bool?)null
+					: (bool?)null,
+				hoverPoint: Main.MouseScreen
 			);
-
+			
 			if( this.DisplacedPosition.HasValue ) {
 				Rectangle displacedArea = this.GetAreaOnHUD( false );
 
-				HUDElement.DrawBox(
+				HUDElement.DrawFullBox(
 					sb: sb,
 					area: displacedArea,
 					baseColor: Color.Yellow,
-					tint: tint * 0.5f,
+					brightness: tint * 0.5f,
 					collisionToggler: (bool?)null,
 					anchorRightButton: (bool?)null,
-					anchorBottomButton: (bool?)null
+					anchorBottomButton: (bool?)null,
+					hoverPoint: Main.MouseScreen
 				);
 			}
 		}

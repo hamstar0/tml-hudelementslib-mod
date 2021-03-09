@@ -22,8 +22,9 @@ namespace HUDElementsLib {
 
 		public string Name { get; private set; }
 
-		public bool IsHovering { get; private set; } = false;
+		public bool IsPressingControl { get; private set; } = false;
 
+		public bool IsHovering { get; private set; } = false;
 
 		////////////////
 
@@ -70,11 +71,22 @@ namespace HUDElementsLib {
 			return false;
 		}
 
+		public virtual bool CanToggleCollisions() {
+			return this.IsEnabled() && !this.IsLocked();
+		}
+
 		////
 
 		public virtual bool ConsumesCursor() {
 			return this.IsDragging;
 		}
+
+
+		////////////////
+
+		public bool IsRightAnchored() => this.CustomPosition.X < 0f;
+
+		public bool IsBottomAnchored() => this.CustomPosition.Y < 0f;
 
 
 		////////////////

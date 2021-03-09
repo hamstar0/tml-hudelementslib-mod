@@ -7,69 +7,123 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
+		public static void DrawFullBox(
+					SpriteBatch sb,
+					Rectangle area,
+					Color baseColor,
+					float brightness,
+					bool? collisionToggler,
+					bool? anchorRightButton,
+					bool? anchorBottomButton,
+					Vector2 hoverPoint ) {
+			HUDElement.DrawBox( sb, area, baseColor, brightness );
+
+			if( collisionToggler.HasValue ) {
+				HUDElement.DrawBoxCollisionToggler( sb, area, brightness, collisionToggler.Value, hoverPoint );
+			}
+
+			if( anchorRightButton.HasValue && anchorBottomButton.HasValue ) {
+				HUDElement.DrawBoxAnchorButtons(
+					sb,
+					area,
+					brightness,
+					anchorRightButton.Value,
+					anchorBottomButton.Value,
+					hoverPoint
+				);
+			}
+		}
+
+
+		////////////////
+
 		public static void DrawBox(
 					SpriteBatch sb,
 					Rectangle area,
 					Color baseColor,
-					float tint,
-					bool? collisionToggler,
-					bool? anchorRightButton,
-					bool? anchorBottomButton ) {
+					float brightness ) {
 			float pulse = (float)Main.mouseTextColor / 255f;
 
 			sb.Draw(
 				texture: Main.magicPixel,
 				destinationRectangle: area,
-				color: baseColor * pulse * tint * 0.25f
+				color: baseColor * pulse * brightness * 0.25f
 			);
 
 			Utils.DrawRectangle(
 				sb: sb,
 				start: area.TopLeft() + Main.screenPosition,
 				end: area.BottomRight() + Main.screenPosition,
-				colorStart: baseColor * pulse * tint * 0.5f,
-				colorEnd: baseColor * pulse * tint * 0.5f,
+				colorStart: baseColor * pulse * brightness * 0.5f,
+				colorEnd: baseColor * pulse * brightness * 0.5f,
 				width: 2
 			);
+		}
 
-			if( collisionToggler.HasValue ) {
-				var buttonArea = new Rectangle( area.Right - 16, 0, 16, 16 );
-				Color iconColor = collisionToggler.Value
-					? Color.White
-					: Color.Red;
 
-				if( !buttonArea.Contains( Main.MouseScreen.ToPoint() ) ) {
-					iconColor *= 0.75f;
-				}
+		////////////////
 
-				sb.Draw(
-					texture: Main.itemTexture[ItemID.Actuator],
-					destinationRectangle: buttonArea,
-					color: iconColor * tint
-				);
-			}
+		public static void DrawBoxCollisionToggler(
+					SpriteBatch sb,
+					Rectangle area,
+					float brightness,
+					bool on,
+					Vector2 hoverPoint ) {
+			var buttonArea = HUDElement.GetCollisionTogglerForBox( area );
 
-			if( anchorRightButton.HasValue || anchorBottomButton.HasValue ) {
-				var buttonArea = new Rectangle( area.Right - 16, area.Bottom - 16, 16, 16 );
+			Color iconColor = on
+				? Color.White
+				: Color.Lerp( Color.Red, Color.White, 0.25f );
+			iconColor *= buttonArea.Contains(hoverPoint.ToPoint())
+				? 1f
+				: 0.75f;
 
-				sb.Draw(
-					texture: Main.itemTexture[ItemID.WallAnchor],
-					destinationRectangle: buttonArea,
-					color: Color.White * tint * 0.5f
-				);
+			sb.Draw(
+				texture: Main.itemTexture[ItemID.Actuator],
+				destinationRectangle: buttonArea,
+				color: iconColor * brightness
+			);
+		}
 
-				if( anchorRightButton.HasValue ) {
-					Color iconColor = anchorRightButton.Value
-						? Color.White
-						: Color.White * 0.5f;
 
-					sb.Draw(
-						texture: Main.magicPixel,
-						destinationRectangle: new Rectangle( area.Left, area.Bottom - 16, area.Width, 16 ),
-						color: iconColor * tint
-					);
-				}
-			}
+		public static void DrawBoxAnchorButtons(
+					SpriteBatch sb,
+					Rectangle area,
+					float brightness,
+					bool onRight,
+					bool onBottom,
+					Vector2 hoverPoint ) {
+			Rectangle rArea = HUDElement.GetRightAnchorButtonForBox( area );
+			Rectangle bArea = HUDElement.GetBottomAnchorButtonForBox( area );
+			Rectangle iconArea = HUDElement.GetAnchorButtonIconForBox( area );
+			bool rHover = rArea.Contains( hoverPoint.ToPoint() );
+			bool bHover = bArea.Contains( hoverPoint.ToPoint() );
+
+			Color rColor = onRight
+				? Color.White
+				: Color.White * (rHover ? 0.75f : 0.5f);
+			Color bColor = onBottom
+				? Color.White
+				: Color.White * (bHover ? 0.75f : 0.5f);
+
+			sb.Draw(
+				texture: Main.itemTexture[ ItemID.WallAnchor ],
+				destinationRectangle: iconArea,
+				color: Color.White * brightness
+			);
+
+			//
+
+			sb.Draw(
+				texture: Main.magicPixel,
+				destinationRectangle: rArea,
+				color: rColor * brightness
+			);
+			sb.Draw(
+				texture: Main.magicPixel,
+				destinationRectangle: bArea,
+				color: bColor * brightness
+			);
 		}
 	}
 }

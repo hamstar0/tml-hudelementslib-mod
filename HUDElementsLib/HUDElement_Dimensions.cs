@@ -5,6 +5,26 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
+		public static Rectangle GetCollisionTogglerForBox( Rectangle area ) {
+			return new Rectangle( area.Left, area.Top, 16, 16 );
+		}
+		
+		public static Rectangle GetAnchorButtonIconForBox( Rectangle area ) {
+			return new Rectangle( area.Right - 24, area.Bottom - 24, 24, 24 );
+		}
+
+		public static Rectangle GetRightAnchorButtonForBox( Rectangle area ) {
+			return new Rectangle( area.Right - 16, area.Top, 16, area.Height - 16 );
+		}
+
+		public static Rectangle GetBottomAnchorButtonForBox( Rectangle area ) {
+			return new Rectangle( area.Left, area.Bottom - 16, area.Width - 16, 16 );
+		}
+
+
+
+		////////////////
+
 		public virtual Vector2 GetPositionOnHUD( bool withoutDisplacement ) {
 			Vector2 pos;
 
