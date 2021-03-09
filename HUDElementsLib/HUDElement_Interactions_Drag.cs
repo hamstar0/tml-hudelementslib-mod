@@ -40,7 +40,7 @@ namespace HUDElementsLib {
 			Main.LocalPlayer.mouseInterface = true;
 
 			if( !this.DesiredDragPosition.HasValue ) {
-				this.DesiredDragPosition = this.GetPositionOnHUD( true );
+				this.DesiredDragPosition = this.GetCustomPositionOnHUD( true );
 				this.PreviousDragMousePos = Main.MouseScreen;
 
 				return;
@@ -56,20 +56,22 @@ namespace HUDElementsLib {
 			}
 
 			this.DesiredDragPosition += movedSince;
+
 			if( this.DesiredDragPosition.Value.X <= 0 ) {
 				this.DesiredDragPosition = new Vector2( 1, this.DesiredDragPosition.Value.Y );
 			} else if( this.DesiredDragPosition.Value.X >= (Main.screenWidth - 1) ) {
 				this.DesiredDragPosition = new Vector2( (Main.screenWidth - 2), this.DesiredDragPosition.Value.Y );
 			}
 			if( this.DesiredDragPosition.Value.Y <= 0 ) {
-				this.DesiredDragPosition = new Vector2( this.DesiredDragPosition.Value.Y, 1 );
+				this.DesiredDragPosition = new Vector2( this.DesiredDragPosition.Value.X, 1 );
 			} else if( this.DesiredDragPosition.Value.Y >= (Main.screenHeight - 1) ) {
 				this.DesiredDragPosition = new Vector2( this.DesiredDragPosition.Value.X, (Main.screenHeight - 2) );
 			}
 
-			Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
+			//Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
+			Vector2 validPos = this.DesiredDragPosition.Value;
 
-			this.SetBasePosition( validPos );
+			this.SetCustomPosition( validPos, true );
 		}
 	}
 }

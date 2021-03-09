@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 
@@ -14,7 +13,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		protected Vector2 CustomPosition;
+		protected Vector2 CustomPositionWithAnchors;
 		protected Vector2 CustomDimensions;
 
 
@@ -26,9 +25,14 @@ namespace HUDElementsLib {
 
 		public bool IsHovering { get; private set; } = false;
 
-		////////////////
+		////
 
 		public bool IsDragging => this.DesiredDragPosition.HasValue;
+
+
+		////////////////
+
+		public virtual bool IsIgnoringCollisions { get; protected set; }
 
 
 
@@ -36,7 +40,7 @@ namespace HUDElementsLib {
 
 		public HUDElement( string name, Vector2 position, Vector2 dimensions ) : base() {
 			this.Name = name;
-			this.CustomPosition = position;
+			this.CustomPositionWithAnchors = position;
 			this.CustomDimensions = dimensions;
 		}
 
@@ -44,8 +48,8 @@ namespace HUDElementsLib {
 		////////////////
 
 		public virtual Vector2 GetDisplacementDirection() {
-			Vector2 pos = this.GetPositionOnHUD( true );
-			Vector2 dim = this.GetDimensionsOnHUD();
+			Vector2 pos = this.GetCustomPositionOnHUD( true );
+			Vector2 dim = this.GetCustomDimensionsOnHUD();
 			Vector2 posMid = pos + (dim * 0.5f);
 			float midX = Main.screenWidth / 2;
 			float midY = Main.screenHeight / 2;
@@ -71,10 +75,6 @@ namespace HUDElementsLib {
 			return false;
 		}
 
-		public virtual bool CanToggleCollisions() {
-			return this.IsEnabled() && !this.IsLocked();
-		}
-
 		////
 
 		public virtual bool ConsumesCursor() {
@@ -84,44 +84,8 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public bool IsRightAnchored() => this.CustomPosition.X < 0f;
+		public bool IsRightAnchored() => this.CustomPositionWithAnchors.X < 0f;
 
-		public bool IsBottomAnchored() => this.CustomPosition.Y < 0f;
-
-
-		////////////////
-
-		public override void Update( GameTime gameTime ) {
-			if( !this.IsEnabled() ) {
-				return;
-			}
-
-			ModContent.GetInstance<HUDElementsLibMod>()
-				.HUDManager
-				.ApplyDisplacementsIf( this );
-
-			if( Main.playerInventory ) {
-				this.UpdateInteractionsIf( out bool isHovering );
-				this.IsHovering = isHovering;
-			} else {
-				this.IsHovering = false;
-
-				this.DesiredDragPosition = null;
-			}
-
-			this.UpdateHUDPosition();
-		}
-
-		////
-
-		private void UpdateHUDPosition() {
-			Vector2 pos = this.GetPositionOnHUD( false );
-			Vector2 dim = this.GetDimensionsOnHUD();
-
-			this.Left.Pixels = pos.X;
-			this.Top.Pixels = pos.Y;
-			this.Width.Pixels = dim.X;
-			this.Height.Pixels = dim.Y;
-		}
+		public bool IsBottomAnchored() => this.CustomPositionWithAnchors.Y < 0f;
 	}
 }

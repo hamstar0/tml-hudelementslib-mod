@@ -6,11 +6,6 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public virtual bool IsIgnoringCollisions() => false;
-
-
-		////////////////
-
 		public static Vector2 FindClosestNonCollidingPosition(
 					Rectangle currentArea,
 					Vector2 desiredPosition,
@@ -64,6 +59,18 @@ namespace HUDElementsLib {
 			}
 
 			return new Vector2( testArea.X, testArea.Y );
+		}
+
+
+
+		////////////////
+
+		public virtual bool CanToggleCollisions() {
+			return this.IsEnabled() && !this.IsLocked();
+		}
+
+		protected void ToggleCollisions() {
+			this.IsIgnoringCollisions = !this.IsIgnoringCollisions;
 		}
 	}
 }

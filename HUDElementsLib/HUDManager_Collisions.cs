@@ -6,11 +6,11 @@ using Terraria;
 namespace HUDElementsLib {
 	partial class HUDManager {
 		public Vector2 FindNonCollidingPosition( HUDElement element, Vector2 desiredPosition ) {
-			if( element.IsIgnoringCollisions() ) {
+			if( element.IsIgnoringCollisions ) {
 				return desiredPosition;
 			}
 
-			Vector2 ogPosition = element.GetPositionOnHUD( true );
+			Vector2 ogPosition = element.GetCustomPositionOnHUD( true );
 			Vector2 bestPosition = desiredPosition;
 
 			for( int i = 0; i < 10; i++ ) { // <- lazy
@@ -69,6 +69,9 @@ namespace HUDElementsLib {
 			if( element.IsLocked() ) {
 				return false;
 			}
+			if( element.IsIgnoringCollisions ) {
+				return false;
+			}
 
 			Rectangle currentArea = element.GetAreaOnHUD( true );
 			bool isDisplaced = false;
@@ -84,7 +87,7 @@ namespace HUDElementsLib {
 					if( !elem.IsEnabled() ) {
 						continue;
 					}
-					if( elem.IsIgnoringCollisions() ) {
+					if( elem.IsIgnoringCollisions ) {
 						continue;
 					}
 

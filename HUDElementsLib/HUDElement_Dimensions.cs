@@ -25,7 +25,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual Vector2 GetPositionOnHUD( bool withoutDisplacement ) {
+		public virtual Vector2 GetCustomPositionOnHUD( bool withoutDisplacement ) {
 			Vector2 pos;
 
 			if( !withoutDisplacement && this.DisplacedPosition.HasValue ) {
@@ -33,12 +33,12 @@ namespace HUDElementsLib {
 				pos.Y = (int)this.DisplacedPosition.Value.Y;
 			} else {
 				pos = new Vector2(
-					this.CustomPosition.X < 0
-						? Main.screenWidth + this.CustomPosition.X
-						: this.CustomPosition.X,
-					this.CustomPosition.Y < 0
-						? Main.screenHeight + this.CustomPosition.Y
-						: this.CustomPosition.Y
+					this.CustomPositionWithAnchors.X < 0
+						? Main.screenWidth + this.CustomPositionWithAnchors.X
+						: this.CustomPositionWithAnchors.X,
+					this.CustomPositionWithAnchors.Y < 0
+						? Main.screenHeight + this.CustomPositionWithAnchors.Y
+						: this.CustomPositionWithAnchors.Y
 				);
 			}
 
@@ -47,7 +47,7 @@ namespace HUDElementsLib {
 
 		////
 
-		public virtual Vector2 GetDimensionsOnHUD() {
+		public virtual Vector2 GetCustomDimensionsOnHUD() {
 			return new Vector2( this.CustomDimensions.X, this.CustomDimensions.Y );
 		}
 
@@ -55,8 +55,8 @@ namespace HUDElementsLib {
 		////////////////
 
 		public Rectangle GetAreaOnHUD( bool withoutDisplacement ) {
-			Vector2 pos = this.GetPositionOnHUD( withoutDisplacement );
-			Vector2 dim = this.GetDimensionsOnHUD();
+			Vector2 pos = this.GetCustomPositionOnHUD( withoutDisplacement );
+			Vector2 dim = this.GetCustomDimensionsOnHUD();
 
 			return new Rectangle(
 				(int)pos.X,
@@ -69,8 +69,41 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public void SetBasePosition( Vector2 pos ) {
-			this.CustomPosition = pos;
+		public void SetCustomPosition( Vector2 pos, bool preserveExistingAnchors ) {
+			if( preserveExistingAnchors ) {
+				if( this.CustomPositionWithAnchors.X < 0 && pos.X >= 0 ) {
+					pos.X -= Main.screenWidth;
+				}
+				if( this.CustomPositionWithAnchors.Y < 0 && pos.Y >= 0 ) {
+					pos.Y -= Main.screenHeight;
+				}
+			}
+			this.CustomPositionWithAnchors = pos;
+		}
+
+
+		////////////////
+		
+		public void ToggleRightAnchor() {
+			Vector2 pos = this.GetCustomPositionOnHUD( true );
+			pos.Y = this.CustomPositionWithAnchors.Y;
+
+			if( this.CustomPositionWithAnchors.X >= 0 ) {
+				pos.X -= Main.screenWidth;
+			}
+
+			this.SetCustomPosition( pos, false );
+		}
+
+		public void ToggleBottomAnchor() {
+			Vector2 pos = this.GetCustomPositionOnHUD( true );
+			pos.X = this.CustomPositionWithAnchors.X;
+
+			if( this.CustomPositionWithAnchors.Y >= 0 ) {
+				pos.Y -= Main.screenHeight;
+			}
+
+			this.SetCustomPosition( pos, false );
 		}
 
 

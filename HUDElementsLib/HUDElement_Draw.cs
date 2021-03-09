@@ -51,7 +51,7 @@ namespace HUDElementsLib {
 				baseColor: baseColor,
 				brightness: tint,
 				collisionToggler: this.IsHovering && this.CanToggleCollisions()
-					? this.IsIgnoringCollisions()
+					? this.IsIgnoringCollisions
 					: (bool?)null,
 				anchorRightButton: this.IsHovering && !this.IsLocked()
 					? this.IsRightAnchored()

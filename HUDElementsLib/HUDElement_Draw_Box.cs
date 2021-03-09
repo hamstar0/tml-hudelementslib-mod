@@ -101,10 +101,10 @@ namespace HUDElementsLib {
 
 			Color rColor = onRight
 				? Color.White
-				: Color.White * (rHover ? 0.75f : 0.5f);
+				: Color.White * (rHover ? 0.6f : 0.4f) * brightness;
 			Color bColor = onBottom
 				? Color.White
-				: Color.White * (bHover ? 0.75f : 0.5f);
+				: Color.White * (bHover ? 0.6f : 0.4f) * brightness;
 
 			sb.Draw(
 				texture: Main.itemTexture[ ItemID.WallAnchor ],
@@ -117,12 +117,12 @@ namespace HUDElementsLib {
 			sb.Draw(
 				texture: Main.magicPixel,
 				destinationRectangle: rArea,
-				color: rColor * brightness
+				color: rColor
 			);
 			sb.Draw(
 				texture: Main.magicPixel,
 				destinationRectangle: bArea,
-				color: bColor * brightness
+				color: bColor
 			);
 		}
 	}

@@ -28,7 +28,7 @@ namespace HUDElementsLib {
 			var pos = new Vector2( x, y );
 
 			if( this.Elements.ContainsKey(name) ) {
-				this.Elements[name].SetBasePosition( pos );
+				this.Elements[name].SetCustomPosition( pos, false );
 				this.Elements[name].Recalculate();
 			} else {
 				this.SavedElementInfo[name] = pos;
@@ -43,7 +43,7 @@ namespace HUDElementsLib {
 
 				this.SavedElementInfo.Remove( element.Name );
 
-				element.SetBasePosition( elemInfo );
+				element.SetCustomPosition( elemInfo, false );
 				element.Recalculate();
 			}
 		}
