@@ -49,7 +49,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual Vector2 GetDisplacementDirection() {
+		public virtual Vector2 GetDisplacementDirection( HUDElement against ) {
 			Vector2 pos = this.GetHudComputedPosition( true );
 			Vector2 dim = this.GetHudComputedDimensions();
 			Vector2 posMid = pos + (dim * 0.5f);
@@ -59,7 +59,7 @@ namespace HUDElementsLib {
 			posMid.X = midX - posMid.X;
 			posMid.Y = midY - posMid.Y;
 
-			return Vector2.Normalize( posMid );
+			return Vector2.Normalize( posMid );	// by default, aim to screen center
 		}
 
 

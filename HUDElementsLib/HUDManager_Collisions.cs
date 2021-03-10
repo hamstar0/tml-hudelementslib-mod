@@ -94,17 +94,16 @@ namespace HUDElementsLib {
 						continue;
 					}
 
-					Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, elem );
-					if( !displacedPos.HasValue ) {
-						continue;
+					Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, element, elem );
+
+					if( displacedPos.HasValue ) {
+						element.SetDisplacedPosition( displacedPos.Value );
+						currentArea = element.GetHudComputedArea( false );
+
+						isNowDisplaced = true;
+						isDisplaced = true;
+						break;
 					}
-
-					element.SetDisplacedPosition( displacedPos.Value );
-					currentArea = element.GetHudComputedArea( false );
-
-					isNowDisplaced = true;
-					isDisplaced = true;
-					break;
 				}
 
 				if( !isNowDisplaced ) {

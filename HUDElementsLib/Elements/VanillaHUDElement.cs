@@ -76,11 +76,11 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public override Vector2 GetDisplacementDirection() {
+		public override Vector2 GetDisplacementDirection( HUDElement against ) {
 			if( this.DisplacementOverride != null ) {
 				return this.DisplacementOverride();
 			}
-			return base.GetDisplacementDirection();
+			return base.GetDisplacementDirection( against );
 		}
 	}
 }
