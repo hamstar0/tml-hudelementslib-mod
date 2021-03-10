@@ -30,8 +30,11 @@ namespace HUDElementsLib {
 				return true;
 			};
 
-			var invOverLayer = new LegacyGameInterfaceLayer( "HUDElementsLib: Widgets", widgetsUI, InterfaceScaleType.UI );
-			layers.Add( invOverLayer );
+			int mouseTextIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Mouse Text" ) );
+			if( mouseTextIdx >= 0 ) {
+				var invOverLayer = new LegacyGameInterfaceLayer( "HUDElementsLib: Widgets", widgetsUI, InterfaceScaleType.UI );
+				layers.Insert( mouseTextIdx, invOverLayer );
+			}
 
 			//
 
