@@ -5,7 +5,7 @@ using Terraria;
 
 namespace HUDElementsLib {
 	partial class HUDManager {
-		/*public Vector2 FindNonCollidingPosition( HUDElement element, Vector2 desiredPosition ) {
+		public Vector2 FindNonCollidingPosition( HUDElement element, Vector2 desiredPosition ) {
 			if( element.IsIgnoringCollisions ) {
 				return desiredPosition;
 			}
@@ -31,7 +31,7 @@ namespace HUDElementsLib {
 
 
 		private Vector2? FindFirstCollisionSolvedPosition( HUDElement element, Vector2 desiredPosition ) {
-			Rectangle currentArea = element.GetAnchoredArea( true );
+			Rectangle currentArea = element.GetHudComputedArea( true );
 			Rectangle desiredArea = currentArea;
 			desiredArea.X = (int)desiredPosition.X - 1;
 			desiredArea.Y = (int)desiredPosition.Y - 1;
@@ -46,8 +46,11 @@ namespace HUDElementsLib {
 				if( !elem.IsEnabled() ) {
 					continue;
 				}
+				if( elem.IsIgnoringCollisions ) {
+					continue;
+				}
 
-				Rectangle obstacleArea = elem.GetAnchoredArea( false );
+				Rectangle obstacleArea = elem.GetHudComputedArea( false );
 
 				if( desiredArea.Intersects(obstacleArea) ) {
 					return HUDElement.FindClosestNonCollidingPosition(
@@ -60,7 +63,7 @@ namespace HUDElementsLib {
 			}
 
 			return null;
-		}*/
+		}
 
 
 		////////////////

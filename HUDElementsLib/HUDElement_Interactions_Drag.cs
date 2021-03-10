@@ -71,8 +71,8 @@ namespace HUDElementsLib {
 				this.DesiredDragPosition = new Vector2( this.DesiredDragPosition.Value.X, (Main.screenHeight - 2) );
 			}
 
-			//Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
-			Vector2 validPos = this.DesiredDragPosition.Value;
+			Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
+			//Vector2 validPos = this.DesiredDragPosition.Value;
 
 			this.SetUncomputedPosition( validPos, true );
 		}
