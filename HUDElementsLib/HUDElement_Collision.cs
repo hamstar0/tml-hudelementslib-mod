@@ -65,9 +65,11 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual bool CanToggleCollisions() {
-			return this.IsEnabled() && !this.IsLocked();
+		public virtual bool CanToggleCollisionsViaControl() {
+			return this.IsEnabled() && this.CanToggleCollisions;// && !this.IsLocked();
 		}
+
+		////
 
 		protected void ToggleCollisions() {
 			this.IsIgnoringCollisions = !this.IsIgnoringCollisions;

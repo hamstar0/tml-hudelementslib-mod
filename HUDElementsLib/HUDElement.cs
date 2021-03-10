@@ -32,7 +32,9 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual bool IsIgnoringCollisions { get; protected set; }
+		public virtual bool IsIgnoringCollisions { get; protected set; } = false;
+
+		public virtual bool CanToggleCollisions { get; protected set; } = true;
 
 
 

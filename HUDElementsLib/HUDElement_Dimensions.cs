@@ -6,19 +6,27 @@ using Terraria.UI;
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		public static Rectangle GetCollisionTogglerForBox( Rectangle area ) {
-			return new Rectangle( area.Left, area.Top, 16, 16 );
+			return new Rectangle( area.Left, area.Top, 24, 24 );
+		}
+
+		public static Rectangle GetCollisionTogglerIconForBox( Rectangle area ) {
+			return new Rectangle( area.Left+2, area.Top+2, 20, 20 );
 		}
 		
 		public static Rectangle GetAnchorButtonIconForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 24, area.Bottom - 24, 24, 24 );
+			return new Rectangle( area.Right - 18, area.Bottom - 18, 16, 16 );
+		}
+		
+		public static Rectangle GetAnchorButtonIconBgForBox( Rectangle area ) {
+			return new Rectangle( area.Right - 20, area.Bottom - 20, 20, 20 );
 		}
 
 		public static Rectangle GetRightAnchorButtonForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 16, area.Top, 16, area.Height - 16 );
+			return new Rectangle( area.Right - 16, area.Top, 16, area.Height - 20 );
 		}
 
 		public static Rectangle GetBottomAnchorButtonForBox( Rectangle area ) {
-			return new Rectangle( area.Left, area.Bottom - 16, area.Width - 16, 16 );
+			return new Rectangle( area.Left, area.Bottom - 16, area.Width - 20, 16 );
 		}
 
 

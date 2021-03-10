@@ -14,31 +14,32 @@ namespace HUDElementsLib {
 
 			base.Draw( sb );
 
+			if( this.IsHovering ) {
+				this.DrawOverlays( sb );
+			}
+		}
+
+		private void DrawOverlays( SpriteBatch sb ) {
+			string hoverText = this.IsLocked()
+				? ""
+				: "Alt+Click to drag";
+
 			if( Main.playerInventory ) {
 				bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
 				if( isAlt ) {
-					this.DrawBoxes( sb );
+					this.DrawBoxes( sb, ref hoverText );
 				}
 			}
 
-			if( !this.IsLocked() && this.IsHovering && !this.IsDragging ) {
-				Utils.DrawBorderStringFourWay(
-					sb: sb,
-					font: Main.fontMouseText,
-					text: "Alt+Click to drag",
-					x: Main.MouseScreen.X + 12,
-					y: Main.MouseScreen.Y + 16,
-					textColor: new Color( Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor ),
-					borderColor: Color.Black,
-					origin: default
-				);
+			if( !string.IsNullOrEmpty(hoverText) && !this.IsDragging && !this.IsPressingControl ) {
+				this.DrawHoverText( sb, hoverText );
 			}
 		}
 
 
 		////
 
-		private void DrawBoxes( SpriteBatch sb ) {
+		private void DrawBoxes( SpriteBatch sb, ref string hoverText ) {
 			Rectangle area = this.GetAreaOnHUD( true );
 			Color baseColor = this.IsLocked()
 				? Color.Red
@@ -50,8 +51,8 @@ namespace HUDElementsLib {
 				area: area,
 				baseColor: baseColor,
 				brightness: tint,
-				collisionToggler: this.IsHovering && this.CanToggleCollisions()
-					? this.IsIgnoringCollisions
+				collisionToggler: this.IsHovering && this.CanToggleCollisionsViaControl()
+					? !this.IsIgnoringCollisions
 					: (bool?)null,
 				anchorRightButton: this.IsHovering && !this.IsLocked()
 					? this.IsRightAnchored()
@@ -59,23 +60,31 @@ namespace HUDElementsLib {
 				anchorBottomButton: this.IsHovering && !this.IsLocked()
 					? this.IsBottomAnchored()
 					: (bool?)null,
-				hoverPoint: Main.MouseScreen
+				hoverPoint: Main.MouseScreen,
+				hoverText: ref hoverText
 			);
 			
 			if( this.DisplacedPosition.HasValue ) {
 				Rectangle displacedArea = this.GetAreaOnHUD( false );
 
-				HUDElement.DrawFullBox(
-					sb: sb,
-					area: displacedArea,
-					baseColor: Color.Yellow,
-					brightness: tint * 0.5f,
-					collisionToggler: (bool?)null,
-					anchorRightButton: (bool?)null,
-					anchorBottomButton: (bool?)null,
-					hoverPoint: Main.MouseScreen
-				);
+				HUDElement.DrawBox( sb, displacedArea, Color.Yellow, tint * 0.5f );
 			}
+		}
+
+
+		////////////////
+
+		private void DrawHoverText( SpriteBatch sb, string text ) {
+			Utils.DrawBorderStringFourWay(
+				sb: sb,
+				font: Main.fontMouseText,
+				text: text,
+				x: Main.MouseScreen.X + 12,
+				y: Main.MouseScreen.Y + 16,
+				textColor: new Color( Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor ),
+				borderColor: Color.Black,
+				origin: default
+			);
 		}
 	}
 }
