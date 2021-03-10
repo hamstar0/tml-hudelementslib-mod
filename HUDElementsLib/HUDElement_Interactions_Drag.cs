@@ -12,6 +12,9 @@ namespace HUDElementsLib {
 			if( this.IsPressingControl ) {
 				return false;
 			}
+			if( this.IsLocked() ) {
+				return false;
+			}
 
 			HUDElement currDrag = HUDElementsLibAPI.GetDraggingElement();
 			if( currDrag != null && currDrag != this ) {

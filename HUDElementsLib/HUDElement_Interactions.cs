@@ -10,10 +10,6 @@ namespace HUDElementsLib {
 
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
 
-			if( this.IsLocked() ) {
-				return;
-			}
-
 			this.UpdateControlsIf( isHovering );
 			this.UpdateDragIf( isHovering );
 		}

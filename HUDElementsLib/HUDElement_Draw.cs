@@ -14,9 +14,7 @@ namespace HUDElementsLib {
 
 			base.Draw( sb );
 
-			if( this.IsHovering ) {
-				this.DrawOverlays( sb );
-			}
+			this.DrawOverlays( sb );
 		}
 
 		private void DrawOverlays( SpriteBatch sb ) {
@@ -31,8 +29,8 @@ namespace HUDElementsLib {
 				}
 			}
 
-			if( !string.IsNullOrEmpty(hoverText) && !this.IsDragging && !this.IsPressingControl ) {
-				this.DrawHoverText( sb, hoverText );
+			if( !string.IsNullOrEmpty(hoverText) ) {
+				this.DrawHoverTextIf( sb, hoverText );
 			}
 		}
 
@@ -74,7 +72,17 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void DrawHoverText( SpriteBatch sb, string text ) {
+		private void DrawHoverTextIf( SpriteBatch sb, string text ) {
+			if( !this.IsHovering ) {
+				return;
+			}
+			if( this.IsDragging ) {
+				return;
+			}
+			if( this.IsPressingControl ) {
+				return;
+			}
+
 			Utils.DrawBorderStringFourWay(
 				sb: sb,
 				font: Main.fontMouseText,

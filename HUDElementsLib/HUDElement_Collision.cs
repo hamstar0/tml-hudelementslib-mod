@@ -72,6 +72,9 @@ namespace HUDElementsLib {
 		////
 
 		protected void ToggleCollisions() {
+			if( !this.CanToggleCollisions ) {
+				throw new Exception( "Invalid attempt to toggle collisions for " + this.Name );
+			}
 			this.IsIgnoringCollisions = !this.IsIgnoringCollisions;
 		}
 	}

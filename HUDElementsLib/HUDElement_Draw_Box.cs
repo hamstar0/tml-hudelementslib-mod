@@ -19,27 +19,29 @@ namespace HUDElementsLib {
 					ref string hoverText ) {
 			HUDElement.DrawBox( sb, area, baseColor, brightness );
 
-			if( collisionToggler.HasValue ) {
-				HUDElement.DrawBoxCollisionToggler(
-					sb: sb,
-					area: area,
-					brightness: brightness,
-					on: collisionToggler.Value,
-					hoverPoint: hoverPoint,
-					hoverText: ref hoverText
-				);
-			}
+			if( area.Contains(hoverPoint.ToPoint()) ) {
+				if( collisionToggler.HasValue ) {
+					HUDElement.DrawBoxCollisionToggler(
+						sb: sb,
+						area: area,
+						brightness: brightness,
+						on: collisionToggler.Value,
+						hoverPoint: hoverPoint,
+						hoverText: ref hoverText
+					);
+				}
 
-			if( anchorRightButton.HasValue && anchorBottomButton.HasValue ) {
-				HUDElement.DrawBoxAnchorButtons(
-					sb: sb,
-					area: area,
-					brightness: brightness,
-					onRight: anchorRightButton.Value,
-					onBottom: anchorBottomButton.Value,
-					hoverPoint: hoverPoint,
-					ref hoverText
-				);
+				if( anchorRightButton.HasValue && anchorBottomButton.HasValue ) {
+					HUDElement.DrawBoxAnchorButtons(
+						sb: sb,
+						area: area,
+						brightness: brightness,
+						onRight: anchorRightButton.Value,
+						onBottom: anchorBottomButton.Value,
+						hoverPoint: hoverPoint,
+						ref hoverText
+					);
+				}
 			}
 		}
 

@@ -13,6 +13,8 @@ namespace HUDElementsLib {
 				return;
 			}
 			if( this.IsPressingControl ) {
+				Main.LocalPlayer.mouseInterface = true;
+
 				return;
 			}
 			if( !isHovering ) {
@@ -34,15 +36,21 @@ namespace HUDElementsLib {
 			Rectangle anchorR = HUDElement.GetRightAnchorButtonForBox( area );
 			Rectangle anchorB = HUDElement.GetBottomAnchorButtonForBox( area );
 
-			if( toggler.Contains(mouse) ) {
+			if( toggler.Contains(mouse) && this.CanToggleCollisionsViaControl() ) {
 				this.IsPressingControl = true;
 				this.ToggleCollisions();
-			} else if( anchorR.Contains(mouse) ) {
-				this.IsPressingControl = true;
-				this.ToggleRightAnchor();
-			} else if( anchorB.Contains(mouse) ) {
-				this.IsPressingControl = true;
-				this.ToggleBottomAnchor();
+			} else if( !this.IsLocked() ) {
+				if( anchorR.Contains(mouse) ) {
+					this.IsPressingControl = true;
+					this.ToggleRightAnchor();
+				} else if( anchorB.Contains(mouse) ) {
+					this.IsPressingControl = true;
+					this.ToggleBottomAnchor();
+				}
+			}
+
+			if( this.IsPressingControl ) {
+				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
 	}
