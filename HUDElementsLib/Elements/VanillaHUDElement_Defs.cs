@@ -12,25 +12,29 @@ namespace HUDElementsLib {
 					name: "Inventory Hotbar",
 					context: () => true,
 					position: () => new Vector2( 20, 18 ),
-					dimensions: () => new Vector2( 472, 48 )
+					dimensions: () => new Vector2( 472, 48 ),
+					displacement: () => new Vector2( 1, 0 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Inventory",
 					context: () => true,
 					position: () => new Vector2( 20, 66 ),
-					dimensions: () => new Vector2( 472, 190 )
+					dimensions: () => new Vector2( 472, 190 ),
+					displacement: () => new Vector2( 0, 1 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Inventory Chest",
 					context: () => Main.playerInventory && Main.LocalPlayer.chest != -1,
 					position: () => new Vector2( 20, 156 ),
-					dimensions: () => new Vector2( 472, 190 )
+					dimensions: () => new Vector2( 472, 190 ),
+					displacement: () => new Vector2( 0, 1 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Life Bar",
 					context: () => true,
 					position: () => new Vector2( -302, 4 ),
-					dimensions: () => new Vector2( 260, 78 )
+					dimensions: () => new Vector2( 260, 78 ),
+					displacement: () => new Vector2( -1, 0 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Armor And Accessories",
@@ -60,7 +64,8 @@ namespace HUDElementsLib {
 							return new Vector2( 36, 130 );
 						}
 						return new Vector2( 130, 36 );
-					}
+					},
+					displacement: () => new Vector2( -1, 0 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Mini Map",

@@ -22,10 +22,6 @@ namespace HUDElementsLib {
 		public static void AddWidget( HUDElement element ) {    //string layerName = "Vanilla: Mouse Text"
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 
-			//if( !mymod.Elements.ContainsKey(layerName) ) {
-			//	mymod.Elements[ layerName ] = new HashSet<HUDElement>();
-			//}
-
 			mymod.HUDManager.LoadHUDElement( element );
 
 			mymod.MyUI?.Append( element );

@@ -9,12 +9,19 @@ namespace HUDElementsLib {
 		public Func<bool> Context;
 		public Func<Vector2> PositionWithAnchors;
 		public Func<Vector2> Dimensions;
+		public Func<Vector2> Displacement;
 
-		public VanillaHUDElementDefinition( string name, Func<bool> context, Func<Vector2> position, Func<Vector2> dimensions ) {
+		public VanillaHUDElementDefinition(
+					string name,
+					Func<bool> context,
+					Func<Vector2> position,
+					Func<Vector2> dimensions,
+					Func<Vector2> displacement = null ) {
 			this.Name = name;
 			this.Context = context;
 			this.PositionWithAnchors = position;
 			this.Dimensions = dimensions;
+			this.Displacement = displacement;
 		}
 	}
 
@@ -31,6 +38,7 @@ namespace HUDElementsLib {
 		public Func<bool> EnablingCondition { get; private set; }
 		private Func<Vector2> DynamicCustomPositionAndAnchors;
 		private Func<Vector2> DynamicCustomDimensions;
+		private Func<Vector2> DisplacementOverride;
 
 
 
@@ -40,6 +48,7 @@ namespace HUDElementsLib {
 			this.EnablingCondition = def.Context;
 			this.DynamicCustomPositionAndAnchors = def.PositionWithAnchors;
 			this.DynamicCustomDimensions = def.Dimensions;
+			this.DisplacementOverride = def.Displacement;
 		}
 
 
@@ -53,7 +62,7 @@ namespace HUDElementsLib {
 
 
 		////////////////
-
+		
 		public override Vector2 GetHudComputedPosition( bool withoutDisplacement ) {
 			this.CustomPositionWithAnchor = this.DynamicCustomPositionAndAnchors();
 			return base.GetHudComputedPosition( withoutDisplacement );
@@ -62,6 +71,16 @@ namespace HUDElementsLib {
 		public override Vector2 GetHudComputedDimensions() {
 			this.CustomDimensions = this.DynamicCustomDimensions();
 			return base.GetHudComputedDimensions();
+		}
+
+
+		////////////////
+
+		public override Vector2 GetDisplacementDirection() {
+			if( this.DisplacementOverride != null ) {
+				return this.DisplacementOverride();
+			}
+			return base.GetDisplacementDirection();
 		}
 	}
 }
