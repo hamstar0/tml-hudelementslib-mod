@@ -13,7 +13,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		protected Vector2 CustomPositionWithAnchors;
+		protected Vector2 CustomPositionWithAnchor;
 		protected Vector2 CustomDimensions;
 
 
@@ -42,7 +42,7 @@ namespace HUDElementsLib {
 
 		public HUDElement( string name, Vector2 position, Vector2 dimensions ) : base() {
 			this.Name = name;
-			this.CustomPositionWithAnchors = position;
+			this.CustomPositionWithAnchor = position;
 			this.CustomDimensions = dimensions;
 		}
 
@@ -50,8 +50,8 @@ namespace HUDElementsLib {
 		////////////////
 
 		public virtual Vector2 GetDisplacementDirection() {
-			Vector2 pos = this.GetCustomPositionOnHUD( true );
-			Vector2 dim = this.GetCustomDimensionsOnHUD();
+			Vector2 pos = this.GetHudComputedPosition( true );
+			Vector2 dim = this.GetHudComputedDimensions();
 			Vector2 posMid = pos + (dim * 0.5f);
 			float midX = Main.screenWidth / 2;
 			float midY = Main.screenHeight / 2;
@@ -82,12 +82,5 @@ namespace HUDElementsLib {
 		public virtual bool ConsumesCursor() {
 			return this.IsDragging;
 		}
-
-
-		////////////////
-
-		public bool IsRightAnchored() => this.CustomPositionWithAnchors.X < 0f;
-
-		public bool IsBottomAnchored() => this.CustomPositionWithAnchors.Y < 0f;
 	}
 }

@@ -42,8 +42,8 @@ namespace HUDElementsLib {
 
 			foreach( HUDElement elem in elements ) {
 				tag[ "hud_element_"+i ] = elem.Name;
-				tag[ "hud_element_x_"+i ] = (float)elem.GetCustomPositionOnHUD( true ).X;
-				tag[ "hud_element_y_"+i ] = (float)elem.GetCustomPositionOnHUD( true ).Y;
+				tag[ "hud_element_x_"+i ] = (float)elem.GetPositionAndAnchors().X;
+				tag[ "hud_element_y_"+i ] = (float)elem.GetPositionAndAnchors().Y;
 				i++;
 			}
 

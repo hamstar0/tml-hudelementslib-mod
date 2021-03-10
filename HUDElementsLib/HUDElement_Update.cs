@@ -30,8 +30,8 @@ namespace HUDElementsLib {
 		////
 
 		private void UpdateHUDPosition() {
-			Vector2 pos = this.GetCustomPositionOnHUD( false );
-			Vector2 dim = this.GetCustomDimensionsOnHUD();
+			Vector2 pos = this.GetHudComputedPosition( false );
+			Vector2 dim = this.GetHudComputedDimensions();
 
 			this.Left.Pixels = pos.X;
 			this.Top.Pixels = pos.Y;

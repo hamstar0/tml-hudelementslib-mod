@@ -5,12 +5,12 @@ using Terraria;
 
 namespace HUDElementsLib {
 	partial class HUDManager {
-		public Vector2 FindNonCollidingPosition( HUDElement element, Vector2 desiredPosition ) {
+		/*public Vector2 FindNonCollidingPosition( HUDElement element, Vector2 desiredPosition ) {
 			if( element.IsIgnoringCollisions ) {
 				return desiredPosition;
 			}
 
-			Vector2 ogPosition = element.GetCustomPositionOnHUD( true );
+			Vector2 ogPosition = element.GetHudComputedPosition( true );
 			Vector2 bestPosition = desiredPosition;
 
 			for( int i = 0; i < 10; i++ ) { // <- lazy
@@ -31,7 +31,7 @@ namespace HUDElementsLib {
 
 
 		private Vector2? FindFirstCollisionSolvedPosition( HUDElement element, Vector2 desiredPosition ) {
-			Rectangle currentArea = element.GetAreaOnHUD( true );
+			Rectangle currentArea = element.GetAnchoredArea( true );
 			Rectangle desiredArea = currentArea;
 			desiredArea.X = (int)desiredPosition.X - 1;
 			desiredArea.Y = (int)desiredPosition.Y - 1;
@@ -47,7 +47,7 @@ namespace HUDElementsLib {
 					continue;
 				}
 
-				Rectangle obstacleArea = elem.GetAreaOnHUD( false );
+				Rectangle obstacleArea = elem.GetAnchoredArea( false );
 
 				if( desiredArea.Intersects(obstacleArea) ) {
 					return HUDElement.FindClosestNonCollidingPosition(
@@ -60,7 +60,7 @@ namespace HUDElementsLib {
 			}
 
 			return null;
-		}
+		}*/
 
 
 		////////////////
@@ -73,7 +73,7 @@ namespace HUDElementsLib {
 				return false;
 			}
 
-			Rectangle currentArea = element.GetAreaOnHUD( true );
+			Rectangle currentArea = element.GetHudComputedArea( true );
 			bool isDisplaced = false;
 
 			for( int i=0; i<10; i++ ) {
@@ -97,7 +97,7 @@ namespace HUDElementsLib {
 					}
 
 					element.SetDisplacedPosition( displacedPos.Value );
-					currentArea = element.GetAreaOnHUD( false );
+					currentArea = element.GetHudComputedArea( false );
 
 					isNowDisplaced = true;
 					isDisplaced = true;

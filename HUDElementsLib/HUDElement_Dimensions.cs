@@ -33,38 +33,48 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual Vector2 GetCustomPositionOnHUD( bool withoutDisplacement ) {
-			Vector2 pos;
+		public bool IsRightAnchored() => this.CustomPositionWithAnchor.X < 0f;
 
+		public bool IsBottomAnchored() => this.CustomPositionWithAnchor.Y < 0f;
+
+
+		////////////////
+
+		public virtual Vector2 GetPositionAndAnchors() {
+			return this.CustomPositionWithAnchor;
+		}
+
+		public virtual Vector2 GetAnchorComputedPosition() {
+			return new Vector2(
+				this.CustomPositionWithAnchor.X < 0
+					? Main.screenWidth + this.CustomPositionWithAnchor.X
+					: this.CustomPositionWithAnchor.X,
+				this.CustomPositionWithAnchor.Y < 0
+					? Main.screenHeight + this.CustomPositionWithAnchor.Y
+					: this.CustomPositionWithAnchor.Y
+			);
+		}
+
+		public virtual Vector2 GetHudComputedPosition( bool withoutDisplacement ) {
 			if( !withoutDisplacement && this.DisplacedPosition.HasValue ) {
-				pos.X = (int)this.DisplacedPosition.Value.X;
-				pos.Y = (int)this.DisplacedPosition.Value.Y;
+				return this.DisplacedPosition.Value;
 			} else {
-				pos = new Vector2(
-					this.CustomPositionWithAnchors.X < 0
-						? Main.screenWidth + this.CustomPositionWithAnchors.X
-						: this.CustomPositionWithAnchors.X,
-					this.CustomPositionWithAnchors.Y < 0
-						? Main.screenHeight + this.CustomPositionWithAnchors.Y
-						: this.CustomPositionWithAnchors.Y
-				);
+				return this.GetAnchorComputedPosition();
 			}
-
-			return pos;
 		}
 
 		////
 
-		public virtual Vector2 GetCustomDimensionsOnHUD() {
-			return new Vector2( this.CustomDimensions.X, this.CustomDimensions.Y );
+		public virtual Vector2 GetHudComputedDimensions() {
+			return this.CustomDimensions;
 		}
 
 
 		////////////////
 
-		public Rectangle GetAreaOnHUD( bool withoutDisplacement ) {
-			Vector2 pos = this.GetCustomPositionOnHUD( withoutDisplacement );
-			Vector2 dim = this.GetCustomDimensionsOnHUD();
+		public Rectangle GetHudComputedArea( bool withoutDisplacement ) {
+			Vector2 pos = this.GetHudComputedPosition( withoutDisplacement );
+			Vector2 dim = this.GetHudComputedDimensions();
 
 			return new Rectangle(
 				(int)pos.X,
@@ -77,41 +87,41 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public void SetCustomPosition( Vector2 pos, bool preserveExistingAnchors ) {
-			if( preserveExistingAnchors ) {
-				if( this.CustomPositionWithAnchors.X < 0 && pos.X >= 0 ) {
+		public void SetUncomputedPosition( Vector2 pos, bool conveyAnyExistingAnchors ) {
+			if( conveyAnyExistingAnchors ) {
+				if( this.CustomPositionWithAnchor.X < 0 && pos.X >= 0 ) {
 					pos.X -= Main.screenWidth;
 				}
-				if( this.CustomPositionWithAnchors.Y < 0 && pos.Y >= 0 ) {
+				if( this.CustomPositionWithAnchor.Y < 0 && pos.Y >= 0 ) {
 					pos.Y -= Main.screenHeight;
 				}
 			}
-			this.CustomPositionWithAnchors = pos;
+			this.CustomPositionWithAnchor = pos;
 		}
 
 
 		////////////////
 		
 		public void ToggleRightAnchor() {
-			Vector2 pos = this.GetCustomPositionOnHUD( true );
-			pos.Y = this.CustomPositionWithAnchors.Y;
+			Vector2 pos = this.GetHudComputedPosition( true );  // flips anchors if negative
+			pos.Y = this.CustomPositionWithAnchor.Y;
 
-			if( this.CustomPositionWithAnchors.X >= 0 ) {
+			if( this.CustomPositionWithAnchor.X >= 0 ) {	// flips X anchor if positive
 				pos.X -= Main.screenWidth;
 			}
 
-			this.SetCustomPosition( pos, false );
+			this.SetUncomputedPosition( pos, false );
 		}
 
 		public void ToggleBottomAnchor() {
-			Vector2 pos = this.GetCustomPositionOnHUD( true );
-			pos.X = this.CustomPositionWithAnchors.X;
+			Vector2 pos = this.GetHudComputedPosition( true );  // flips anchors if negative
+			pos.X = this.CustomPositionWithAnchor.X;
 
-			if( this.CustomPositionWithAnchors.Y >= 0 ) {
+			if( this.CustomPositionWithAnchor.Y >= 0 ) {    // flips Y anchor if positive
 				pos.Y -= Main.screenHeight;
 			}
 
-			this.SetCustomPosition( pos, false );
+			this.SetUncomputedPosition( pos, false );
 		}
 
 

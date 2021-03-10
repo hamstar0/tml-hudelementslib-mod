@@ -43,7 +43,7 @@ namespace HUDElementsLib {
 			Main.LocalPlayer.mouseInterface = true;
 
 			if( !this.DesiredDragPosition.HasValue ) {
-				this.DesiredDragPosition = this.GetCustomPositionOnHUD( true );
+				this.DesiredDragPosition = this.GetHudComputedPosition( true );
 				this.PreviousDragMousePos = Main.MouseScreen;
 
 				return;
@@ -74,7 +74,7 @@ namespace HUDElementsLib {
 			//Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
 			Vector2 validPos = this.DesiredDragPosition.Value;
 
-			this.SetCustomPosition( validPos, true );
+			this.SetUncomputedPosition( validPos, true );
 		}
 	}
 }
