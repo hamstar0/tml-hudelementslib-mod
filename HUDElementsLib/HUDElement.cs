@@ -82,5 +82,31 @@ namespace HUDElementsLib {
 		public virtual bool ConsumesCursor() {
 			return this.IsDragging;
 		}
+
+
+		////////////////
+
+		public virtual string GetHoverText(
+					bool isCollisionToggleButton,
+					bool isAnchorRightToggle,
+					bool isAnchorBottomToggle ) {
+			if( !this.IsHovering ) {
+				return "";
+			}
+
+			if( isCollisionToggleButton ) {
+				return "Toggle collisions";
+			}
+			if( isAnchorRightToggle ) {
+				return "Anchor to right edge of screen";
+			}
+			if( isAnchorBottomToggle ) {
+				return "Anchor to bottom edge of screen";
+			}
+			if( !this.IsLocked() ) {
+				return "Alt+Click to drag";
+			}
+			return "";
+		}
 	}
 }

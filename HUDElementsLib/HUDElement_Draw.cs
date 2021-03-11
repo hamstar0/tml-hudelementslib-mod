@@ -14,21 +14,22 @@ namespace HUDElementsLib {
 
 			base.Draw( sb );
 
-			this.DrawOverlays( sb );
+			this.DrawOverlaysIf( sb );
 		}
 
-		private void DrawOverlays( SpriteBatch sb ) {
-			string hoverText = this.IsLocked()
-				? ""
-				: "Alt+Click to drag";
+		private void DrawOverlaysIf( SpriteBatch sb ) {
+			bool isHoverCollision = false;
+			bool isHoverAnchorRight = false;
+			bool isHoverAnchorBottom = false;
 
 			if( Main.playerInventory ) {
 				bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
 				if( isAlt ) {
-					this.DrawBoxes( sb, ref hoverText );
+					this.DrawOverlays( sb, ref isHoverCollision, ref isHoverAnchorRight, ref isHoverAnchorBottom );
 				}
 			}
 
+			string hoverText = this.GetHoverText( isHoverCollision, isHoverAnchorRight, isHoverAnchorBottom );
 			if( !string.IsNullOrEmpty(hoverText) ) {
 				this.DrawHoverTextIf( sb, hoverText );
 			}
@@ -37,35 +38,44 @@ namespace HUDElementsLib {
 
 		////
 
-		private void DrawBoxes( SpriteBatch sb, ref string hoverText ) {
+		private void DrawOverlays( SpriteBatch sb, ref bool isHoverCollision, ref bool isHoverAnchorRight, ref bool isHoverAnchorBottom ) {
+			isHoverCollision = this.IsHovering && this.CanToggleCollisionsViaControl();
+			isHoverAnchorRight = this.IsHovering && !this.IsLocked();
+			isHoverAnchorBottom = this.IsHovering && !this.IsLocked();
+
+			//
+
 			Rectangle area = this.GetHUDComputedArea( false );
 			Color baseColor = this.IsLocked()
 				? Color.Red
 				: Color.White;
-			float tint = this.IsDragging ? 1f : 0.5f;
+			float brightness = this.IsDragging ? 1f : 0.5f;
 
-			HUDElement.DrawFullBox(
+			//
+
+			HUDElement.DrawBox( sb, area, baseColor, brightness );
+
+			HUDElement.DrawOverlayControlsIf(
 				sb: sb,
 				area: area,
 				baseColor: baseColor,
-				brightness: tint,
-				collisionToggler: this.IsHovering && this.CanToggleCollisionsViaControl()
+				brightness: brightness,
+				collisionToggler: isHoverCollision
 					? !this.IsIgnoringCollisions
 					: (bool?)null,
-				anchorRightButton: this.IsHovering && !this.IsLocked()
+				anchorRightButton: isHoverAnchorRight
 					? this.IsRightAnchored()
 					: (bool?)null,
-				anchorBottomButton: this.IsHovering && !this.IsLocked()
+				anchorBottomButton: isHoverAnchorBottom
 					? this.IsBottomAnchored()
 					: (bool?)null,
-				hoverPoint: Main.MouseScreen,
-				hoverText: ref hoverText
+				hoverPoint: Main.MouseScreen
 			);
 			
 			if( this.DisplacedPosition.HasValue ) {
 				Rectangle displacedArea = this.GetHUDComputedArea( true );
 
-				HUDElement.DrawBox( sb, displacedArea, Color.Yellow, tint * 0.5f );
+				HUDElement.DrawBox( sb, displacedArea, Color.Yellow, brightness * 0.5f );
 			}
 		}
 

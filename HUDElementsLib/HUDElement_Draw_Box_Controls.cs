@@ -7,13 +7,50 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
+		public static void DrawOverlayControlsIf(
+					SpriteBatch sb,
+					Rectangle area,
+					Color baseColor,
+					float brightness,
+					bool? collisionToggler,
+					bool? anchorRightButton,
+					bool? anchorBottomButton,
+					Vector2 hoverPoint ) {
+			if( !area.Contains( hoverPoint.ToPoint() ) ) {
+				return;
+			}
+
+			if( collisionToggler.HasValue ) {
+				HUDElement.DrawBoxCollisionToggler(
+					sb: sb,
+					area: area,
+					brightness: brightness,
+					on: collisionToggler.Value,
+					hoverPoint: hoverPoint
+				);
+			}
+
+			if( anchorRightButton.HasValue && anchorBottomButton.HasValue ) {
+				HUDElement.DrawBoxAnchorButtons(
+					sb: sb,
+					area: area,
+					brightness: brightness,
+					onRight: anchorRightButton.Value,
+					onBottom: anchorBottomButton.Value,
+					hoverPoint: hoverPoint
+				);
+			}
+		}
+
+
+		////////////////
+
 		public static void DrawBoxCollisionToggler(
 					SpriteBatch sb,
 					Rectangle area,
 					float brightness,
 					bool on,
-					Vector2 hoverPoint,
-					ref string hoverText ) {
+					Vector2 hoverPoint ) {
 			var buttonArea = HUDElement.GetCollisionTogglerForBox( area );
 			var buttonIconArea = HUDElement.GetCollisionTogglerIconForBox( area );
 			bool isHovering = buttonArea.Contains( hoverPoint.ToPoint() );
@@ -38,10 +75,6 @@ namespace HUDElementsLib {
 				destinationRectangle: buttonIconArea,
 				color: iconColor
 			);
-
-			if( isHovering ) {
-				hoverText = "Toggle collisions";
-			}
 		}
 
 
@@ -51,8 +84,7 @@ namespace HUDElementsLib {
 					float brightness,
 					bool onRight,
 					bool onBottom,
-					Vector2 hoverPoint,
-					ref string hoverText ) {
+					Vector2 hoverPoint ) {
 			Rectangle rArea = HUDElement.GetRightAnchorButtonForBox( area );
 			Rectangle bArea = HUDElement.GetBottomAnchorButtonForBox( area );
 			Rectangle iconBgArea = HUDElement.GetAnchorButtonIconBgForBox( area );
@@ -90,12 +122,6 @@ namespace HUDElementsLib {
 				destinationRectangle: bArea,
 				color: bColor
 			);
-
-			if( rHover ) {
-				hoverText = "Anchor to right edge of screen";
-			} else if( bHover ) {
-				hoverText = "Anchor to bottom edge of screen";
-			}
 		}
 	}
 }

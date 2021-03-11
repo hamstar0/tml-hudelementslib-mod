@@ -6,47 +6,6 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public static void DrawFullBox(
-					SpriteBatch sb,
-					Rectangle area,
-					Color baseColor,
-					float brightness,
-					bool? collisionToggler,
-					bool? anchorRightButton,
-					bool? anchorBottomButton,
-					Vector2 hoverPoint,
-					ref string hoverText ) {
-			HUDElement.DrawBox( sb, area, baseColor, brightness );
-
-			if( area.Contains(hoverPoint.ToPoint()) ) {
-				if( collisionToggler.HasValue ) {
-					HUDElement.DrawBoxCollisionToggler(
-						sb: sb,
-						area: area,
-						brightness: brightness,
-						on: collisionToggler.Value,
-						hoverPoint: hoverPoint,
-						hoverText: ref hoverText
-					);
-				}
-
-				if( anchorRightButton.HasValue && anchorBottomButton.HasValue ) {
-					HUDElement.DrawBoxAnchorButtons(
-						sb: sb,
-						area: area,
-						brightness: brightness,
-						onRight: anchorRightButton.Value,
-						onBottom: anchorBottomButton.Value,
-						hoverPoint: hoverPoint,
-						ref hoverText
-					);
-				}
-			}
-		}
-
-
-		////////////////
-
 		public static void DrawBox(
 					SpriteBatch sb,
 					Rectangle area,
