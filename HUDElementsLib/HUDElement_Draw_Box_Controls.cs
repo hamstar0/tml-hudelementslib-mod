@@ -15,7 +15,10 @@ namespace HUDElementsLib {
 					bool? collisionToggler,
 					bool? anchorRightButton,
 					bool? anchorBottomButton,
-					Vector2 hoverPoint ) {
+					Vector2 hoverPoint,
+					ref bool isHoverCollisionToggle,
+					ref bool isHoverAnchorRightToggle,
+					ref bool isHoverAnchorBottomToggle ) {
 			if( !area.Contains( hoverPoint.ToPoint() ) ) {
 				return;
 			}
@@ -26,7 +29,8 @@ namespace HUDElementsLib {
 					area: area,
 					brightness: brightness,
 					on: collisionToggler.Value,
-					hoverPoint: hoverPoint
+					hoverPoint: hoverPoint,
+					isHovering: ref isHoverCollisionToggle
 				);
 			}
 
@@ -37,7 +41,9 @@ namespace HUDElementsLib {
 					brightness: brightness,
 					onRight: anchorRightButton.Value,
 					onBottom: anchorBottomButton.Value,
-					hoverPoint: hoverPoint
+					hoverPoint: hoverPoint,
+					isHoverRight: ref isHoverAnchorRightToggle,
+					isHoverBottom: ref isHoverAnchorBottomToggle
 				);
 			}
 		}
@@ -50,10 +56,12 @@ namespace HUDElementsLib {
 					Rectangle area,
 					float brightness,
 					bool on,
-					Vector2 hoverPoint ) {
+					Vector2 hoverPoint,
+					ref bool isHovering ) {
 			var buttonArea = HUDElement.GetCollisionTogglerForBox( area );
 			var buttonIconArea = HUDElement.GetCollisionTogglerIconForBox( area );
-			bool isHovering = buttonArea.Contains( hoverPoint.ToPoint() );
+
+			isHovering = buttonArea.Contains( hoverPoint.ToPoint() );
 
 			Color bgColor = on
 				? Color.White
@@ -84,20 +92,23 @@ namespace HUDElementsLib {
 					float brightness,
 					bool onRight,
 					bool onBottom,
-					Vector2 hoverPoint ) {
+					Vector2 hoverPoint,
+					ref bool isHoverRight,
+					ref bool isHoverBottom ) {
 			Rectangle rArea = HUDElement.GetRightAnchorButtonForBox( area );
 			Rectangle bArea = HUDElement.GetBottomAnchorButtonForBox( area );
 			Rectangle iconBgArea = HUDElement.GetAnchorButtonIconBgForBox( area );
 			Rectangle iconArea = HUDElement.GetAnchorButtonIconForBox( area );
-			bool rHover = rArea.Contains( hoverPoint.ToPoint() );
-			bool bHover = bArea.Contains( hoverPoint.ToPoint() );
+
+			isHoverRight = rArea.Contains( hoverPoint.ToPoint() );
+			isHoverBottom = bArea.Contains( hoverPoint.ToPoint() );
 
 			Color rColor = onRight
 				? Color.White
-				: Color.White * (rHover ? 0.6f : 0.4f) * brightness;
+				: Color.White * (isHoverRight ? 0.6f : 0.4f) * brightness;
 			Color bColor = onBottom
 				? Color.White
-				: Color.White * (bHover ? 0.6f : 0.4f) * brightness;
+				: Color.White * (isHoverBottom ? 0.6f : 0.4f) * brightness;
 
 			sb.Draw(
 				texture: Main.magicPixel,

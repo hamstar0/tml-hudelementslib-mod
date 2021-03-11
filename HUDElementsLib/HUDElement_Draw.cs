@@ -30,7 +30,7 @@ namespace HUDElementsLib {
 			}
 
 			string hoverText = this.GetHoverText( isHoverCollision, isHoverAnchorRight, isHoverAnchorBottom );
-			if( !string.IsNullOrEmpty(hoverText) ) {
+			if( !string.IsNullOrEmpty(hoverText) && !this.DisplacedPosition.HasValue ) {
 				this.DrawHoverTextIf( sb, hoverText );
 			}
 		}
@@ -69,7 +69,10 @@ namespace HUDElementsLib {
 				anchorBottomButton: isHoverAnchorBottom
 					? this.IsBottomAnchored()
 					: (bool?)null,
-				hoverPoint: Main.MouseScreen
+				hoverPoint: Main.MouseScreen,
+				isHoverCollisionToggle: ref isHoverCollision,
+				isHoverAnchorRightToggle: ref isHoverAnchorRight,
+				isHoverAnchorBottomToggle: ref isHoverAnchorBottom
 			);
 			
 			if( this.DisplacedPosition.HasValue ) {
