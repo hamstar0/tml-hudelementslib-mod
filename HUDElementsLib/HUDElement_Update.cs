@@ -16,6 +16,7 @@ namespace HUDElementsLib {
 
 			if( Main.playerInventory ) {
 				this.UpdateInteractionsIf( out bool isHovering );
+
 				this.IsHovering = isHovering;
 			} else {
 				this.IsHovering = false;

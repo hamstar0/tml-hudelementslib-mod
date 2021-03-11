@@ -30,7 +30,7 @@ namespace HUDElementsLib {
 			}
 
 			string hoverText = this.GetHoverText( isHoverCollision, isHoverAnchorRight, isHoverAnchorBottom );
-			if( !string.IsNullOrEmpty(hoverText) && !this.DisplacedPosition.HasValue ) {
+			if( !string.IsNullOrEmpty(hoverText) ) {
 				this.DrawHoverTextIf( sb, hoverText );
 			}
 		}
@@ -49,6 +49,7 @@ namespace HUDElementsLib {
 			Color baseColor = this.IsLocked()
 				? Color.Red
 				: Color.White;
+			baseColor *= this.IsHovering ? 1f : 0.8f;
 			float brightness = this.IsDragging ? 1f : 0.5f;
 
 			//
@@ -76,9 +77,12 @@ namespace HUDElementsLib {
 			);
 			
 			if( this.DisplacedPosition.HasValue ) {
+				Color displacedColor = Color.Yellow;
+				displacedColor *= this.IsHovering ? 1f : 0.8f;
+
 				Rectangle displacedArea = this.GetHUDComputedArea( true );
 
-				HUDElement.DrawBox( sb, displacedArea, Color.Yellow, brightness * 0.5f );
+				HUDElement.DrawBox( sb, displacedArea, displacedColor, brightness * 0.5f );
 			}
 		}
 

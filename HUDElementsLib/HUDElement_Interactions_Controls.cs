@@ -13,7 +13,7 @@ namespace HUDElementsLib {
 				return;
 			}
 			if( this.IsPressingControl ) {
-				Main.LocalPlayer.mouseInterface = true;
+				Main.LocalPlayer.mouseInterface = true;	// Locks control for this element
 
 				return;
 			}
