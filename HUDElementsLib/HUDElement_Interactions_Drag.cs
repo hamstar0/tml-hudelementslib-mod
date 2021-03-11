@@ -43,7 +43,7 @@ namespace HUDElementsLib {
 			Main.LocalPlayer.mouseInterface = true;
 
 			if( !this.DesiredDragPosition.HasValue ) {
-				this.DesiredDragPosition = this.GetHudComputedPosition( true );
+				this.DesiredDragPosition = this.GetHUDComputedPosition( false );
 				this.PreviousDragMousePos = Main.MouseScreen;
 
 				return;

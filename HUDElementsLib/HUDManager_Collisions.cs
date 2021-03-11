@@ -10,7 +10,7 @@ namespace HUDElementsLib {
 				return desiredPosition;
 			}
 
-			Vector2 ogPosition = element.GetHudComputedPosition( true );
+			Vector2 ogPosition = element.GetHUDComputedPosition( false );
 			Vector2 bestPosition = desiredPosition;
 
 			for( int i = 0; i < 10; i++ ) { // <- lazy
@@ -31,7 +31,7 @@ namespace HUDElementsLib {
 
 
 		private Vector2? FindFirstCollisionSolvedPosition( HUDElement element, Vector2 desiredPosition ) {
-			Rectangle currentArea = element.GetHudComputedArea( true );
+			Rectangle currentArea = element.GetHUDComputedArea( false );
 			Rectangle desiredArea = currentArea;
 			desiredArea.X = (int)desiredPosition.X - 1;
 			desiredArea.Y = (int)desiredPosition.Y - 1;
@@ -50,7 +50,7 @@ namespace HUDElementsLib {
 					continue;
 				}
 
-				Rectangle obstacleArea = elem.GetHudComputedArea( false );
+				Rectangle obstacleArea = elem.GetHUDComputedArea( true );
 
 				if( desiredArea.Intersects(obstacleArea) ) {
 					return HUDElement.FindClosestNonCollidingPosition(
@@ -68,6 +68,39 @@ namespace HUDElementsLib {
 
 		////////////////
 
+		public HUDElement FindFirstCollision( HUDElement element ) {
+			if( element.IsLocked() ) {
+				return null;
+			}
+			if( element.IsIgnoringCollisions ) {
+				return null;
+			}
+
+			Rectangle currentArea = element.GetHUDComputedArea( false );
+
+			foreach( HUDElement obstacle in this.Elements.Values ) {
+				if( obstacle == element ) {
+					continue;
+				}
+				if( !obstacle.IsEnabled() ) {
+					continue;
+				}
+				if( obstacle.IsIgnoringCollisions ) {
+					continue;
+				}
+
+				Rectangle obstacleArea = obstacle.GetHUDComputedArea( true );
+				if( currentArea.Intersects(obstacleArea) ) {
+					return obstacle;
+				}
+			}
+
+			return null;
+		}
+
+
+		////////////////
+
 		public bool ApplyDisplacementsIf( HUDElement element ) {
 			if( element.IsLocked() ) {
 				return false;
@@ -76,39 +109,22 @@ namespace HUDElementsLib {
 				return false;
 			}
 
-			Rectangle currentArea = element.GetHudComputedArea( true );
 			bool isDisplaced = false;
+			Rectangle currentArea = element.GetHUDComputedArea( false );
 
-			for( int i=0; i<10; i++ ) {
-				bool isNowDisplaced = false;
-
-				foreach( string elemName in this.Elements.Keys ) {
-					HUDElement elem = this.Elements[elemName];
-					if( elem == element ) {
-						continue;
-					}
-					if( !elem.IsEnabled() ) {
-						continue;
-					}
-					if( elem.IsIgnoringCollisions ) {
-						continue;
-					}
-
-					Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, element, elem );
-
-					if( displacedPos.HasValue ) {
-						element.SetDisplacedPosition( displacedPos.Value );
-						currentArea = element.GetHudComputedArea( false );
-
-						isNowDisplaced = true;
-						isDisplaced = true;
-						break;
-					}
-				}
-
-				if( !isNowDisplaced ) {
+			for( int i=0; i<250; i++ ) {
+				HUDElement obstacle = this.FindFirstCollision( element );
+				if( obstacle == null ) {
 					break;
 				}
+
+				Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, element, obstacle );
+				if( !displacedPos.HasValue ) {
+					break;
+				}
+
+				isDisplaced = true;
+				element.SetDisplacedPosition( displacedPos.Value );
 			}
 
 			if( !isDisplaced ) {

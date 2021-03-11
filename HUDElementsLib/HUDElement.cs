@@ -50,8 +50,8 @@ namespace HUDElementsLib {
 		////////////////
 
 		public virtual Vector2 GetDisplacementDirection( HUDElement against ) {
-			Vector2 pos = this.GetHudComputedPosition( true );
-			Vector2 dim = this.GetHudComputedDimensions();
+			Vector2 pos = this.GetHUDComputedPosition( false );
+			Vector2 dim = this.GetHUDComputedDimensions();
 			Vector2 posMid = pos + (dim * 0.5f);
 			float midX = Main.screenWidth / 2;
 			float midY = Main.screenHeight / 2;

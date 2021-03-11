@@ -25,6 +25,7 @@ namespace HUDElementsLib {
 			Color iconColor = on
 				? Color.White
 				: Color.Red;
+			iconColor *= 0.8f;
 			iconColor *= isHovering ? 1f : 0.85f;
 
 			sb.Draw(

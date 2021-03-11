@@ -63,14 +63,14 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		public override Vector2 GetHudComputedPosition( bool withoutDisplacement ) {
+		public override Vector2 GetHUDComputedPosition( bool applyDisplacement ) {
 			this.CustomPositionWithAnchor = this.DynamicCustomPositionAndAnchors();
-			return base.GetHudComputedPosition( withoutDisplacement );
+			return base.GetHUDComputedPosition( applyDisplacement );
 		}
 
-		public override Vector2 GetHudComputedDimensions() {
+		public override Vector2 GetHUDComputedDimensions() {
 			this.CustomDimensions = this.DynamicCustomDimensions();
-			return base.GetHudComputedDimensions();
+			return base.GetHUDComputedDimensions();
 		}
 
 

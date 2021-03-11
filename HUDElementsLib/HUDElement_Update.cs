@@ -11,9 +11,8 @@ namespace HUDElementsLib {
 				return;
 			}
 
-			ModContent.GetInstance<HUDElementsLibMod>()
-				.HUDManager
-				.ApplyDisplacementsIf( this );
+			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
+			mymod.HUDManager.ApplyDisplacementsIf( this );
 
 			if( Main.playerInventory ) {
 				this.UpdateInteractionsIf( out bool isHovering );
@@ -30,8 +29,8 @@ namespace HUDElementsLib {
 		////
 
 		private void UpdateHUDPosition() {
-			Vector2 pos = this.GetHudComputedPosition( false );
-			Vector2 dim = this.GetHudComputedDimensions();
+			Vector2 pos = this.GetHUDComputedPosition( true );
+			Vector2 dim = this.GetHUDComputedDimensions();
 
 			this.Left.Pixels = pos.X;
 			this.Top.Pixels = pos.Y;

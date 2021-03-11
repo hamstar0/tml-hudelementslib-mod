@@ -38,7 +38,7 @@ namespace HUDElementsLib {
 		////
 
 		private void DrawBoxes( SpriteBatch sb, ref string hoverText ) {
-			Rectangle area = this.GetHudComputedArea( true );
+			Rectangle area = this.GetHUDComputedArea( false );
 			Color baseColor = this.IsLocked()
 				? Color.Red
 				: Color.White;
@@ -63,7 +63,7 @@ namespace HUDElementsLib {
 			);
 			
 			if( this.DisplacedPosition.HasValue ) {
-				Rectangle displacedArea = this.GetHudComputedArea( false );
+				Rectangle displacedArea = this.GetHUDComputedArea( true );
 
 				HUDElement.DrawBox( sb, displacedArea, Color.Yellow, tint * 0.5f );
 			}

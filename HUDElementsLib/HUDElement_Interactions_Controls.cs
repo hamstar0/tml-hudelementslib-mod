@@ -30,7 +30,7 @@ namespace HUDElementsLib {
 			}
 
 			Point mouse = Main.MouseScreen.ToPoint();
-			Rectangle area = this.GetHudComputedArea( true );
+			Rectangle area = this.GetHUDComputedArea( false );
 
 			Rectangle toggler = HUDElement.GetCollisionTogglerForBox( area );
 			Rectangle anchorR = HUDElement.GetRightAnchorButtonForBox( area );

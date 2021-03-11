@@ -6,27 +6,27 @@ using Terraria.UI;
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		public static Rectangle GetCollisionTogglerForBox( Rectangle area ) {
-			return new Rectangle( area.Left, area.Top, 24, 24 );
+			return new Rectangle( area.Left, area.Top, 20, 20 );
 		}
 
 		public static Rectangle GetCollisionTogglerIconForBox( Rectangle area ) {
-			return new Rectangle( area.Left+2, area.Top+2, 20, 20 );
+			return new Rectangle( area.Left+1, area.Top+1, 18, 18 );
 		}
 		
 		public static Rectangle GetAnchorButtonIconForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 18, area.Bottom - 18, 16, 16 );
+			return new Rectangle( area.Right - 15, area.Bottom - 15, 14, 14 );
 		}
 		
 		public static Rectangle GetAnchorButtonIconBgForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 20, area.Bottom - 20, 20, 20 );
+			return new Rectangle( area.Right - 16, area.Bottom - 16, 16, 16 );
 		}
 
 		public static Rectangle GetRightAnchorButtonForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 16, area.Top, 16, area.Height - 20 );
+			return new Rectangle( area.Right - 8, area.Top, 8, area.Height - 16 );
 		}
 
 		public static Rectangle GetBottomAnchorButtonForBox( Rectangle area ) {
-			return new Rectangle( area.Left, area.Bottom - 16, area.Width - 20, 16 );
+			return new Rectangle( area.Left, area.Bottom - 8, area.Width - 16, 8 );
 		}
 
 
@@ -55,8 +55,8 @@ namespace HUDElementsLib {
 			);
 		}
 
-		public virtual Vector2 GetHudComputedPosition( bool withoutDisplacement ) {
-			if( !withoutDisplacement && this.DisplacedPosition.HasValue ) {
+		public virtual Vector2 GetHUDComputedPosition( bool applyDisplacement ) {
+			if( applyDisplacement && this.DisplacedPosition.HasValue ) {
 				return this.DisplacedPosition.Value;
 			} else {
 				return this.GetAnchorComputedPosition();
@@ -65,16 +65,16 @@ namespace HUDElementsLib {
 
 		////
 
-		public virtual Vector2 GetHudComputedDimensions() {
+		public virtual Vector2 GetHUDComputedDimensions() {
 			return this.CustomDimensions;
 		}
 
 
 		////////////////
 
-		public Rectangle GetHudComputedArea( bool withoutDisplacement ) {
-			Vector2 pos = this.GetHudComputedPosition( withoutDisplacement );
-			Vector2 dim = this.GetHudComputedDimensions();
+		public Rectangle GetHUDComputedArea( bool applyDisplacement ) {
+			Vector2 pos = this.GetHUDComputedPosition( applyDisplacement );
+			Vector2 dim = this.GetHUDComputedDimensions();
 
 			return new Rectangle(
 				(int)pos.X,
@@ -103,7 +103,7 @@ namespace HUDElementsLib {
 		////////////////
 		
 		public void ToggleRightAnchor() {
-			Vector2 pos = this.GetHudComputedPosition( true );  // flips anchors if negative
+			Vector2 pos = this.GetHUDComputedPosition( false );  // flips anchors if negative
 			pos.Y = this.CustomPositionWithAnchor.Y;
 
 			if( this.CustomPositionWithAnchor.X >= 0 ) {	// flips X anchor if positive
@@ -114,7 +114,7 @@ namespace HUDElementsLib {
 		}
 
 		public void ToggleBottomAnchor() {
-			Vector2 pos = this.GetHudComputedPosition( true );  // flips anchors if negative
+			Vector2 pos = this.GetHUDComputedPosition( false );  // flips anchors if negative
 			pos.X = this.CustomPositionWithAnchor.X;
 
 			if( this.CustomPositionWithAnchor.Y >= 0 ) {    // flips Y anchor if positive
