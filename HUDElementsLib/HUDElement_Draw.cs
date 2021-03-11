@@ -78,7 +78,7 @@ namespace HUDElementsLib {
 			
 			if( this.DisplacedPosition.HasValue ) {
 				Color displacedColor = Color.Yellow;
-				displacedColor *= this.IsHovering ? 1f : 0.8f;
+				displacedColor *= this.IsHovering ? 1f : 0.65f;
 
 				Rectangle displacedArea = this.GetHUDComputedArea( true );
 
