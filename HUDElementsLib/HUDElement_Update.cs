@@ -38,7 +38,7 @@ namespace HUDElementsLib {
 		}
 
 		////
-
+		
 		private void UpdateHUDPosition() {
 			Vector2 pos = this.GetHUDComputedPosition( true );
 			Vector2 dim = this.GetHUDComputedDimensions();

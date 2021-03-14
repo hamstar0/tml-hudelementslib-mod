@@ -58,5 +58,21 @@ namespace HUDElementsLib {
 
 			return tag;
 		}
+
+
+		////////////////
+
+		public override void PreUpdate() {
+			if( this.player.whoAmI == Main.myPlayer ) {
+				this.PreUpdateLocal();
+			}
+		}
+
+		////
+
+		private void PreUpdateLocal() {
+			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
+			mymod.HUDManager?.PreUpdateForInteractions();  //:blobshrug:
+		}
 	}
 }

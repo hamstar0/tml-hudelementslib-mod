@@ -47,5 +47,17 @@ namespace HUDElementsLib {
 				element.Recalculate();
 			}
 		}
+
+
+		////////////////
+		
+		internal bool PreUpdateForInteractions() {
+			foreach( HUDElement elem in this.Elements.Values ) {
+				if( elem.PreUpdateForInteractions() ) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 }
