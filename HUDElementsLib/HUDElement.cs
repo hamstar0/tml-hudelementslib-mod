@@ -72,6 +72,10 @@ namespace HUDElementsLib {
 		public virtual bool IsEnabled() {
 			return true;
 		}
+		
+		public virtual bool IsInteractive() {
+			return true;
+		}
 
 		public virtual bool IsLocked() {
 			return false;

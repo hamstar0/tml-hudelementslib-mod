@@ -21,7 +21,7 @@ namespace HUDElementsLib {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 			mymod.HUDManager.ApplyDisplacementsIf( this );
 
-			if( Main.playerInventory ) {
+			if( Main.playerInventory && this.IsInteractive() ) {
 				this.UpdateInteractionsIf( out bool isHovering );
 
 				this.IsHovering = isHovering;

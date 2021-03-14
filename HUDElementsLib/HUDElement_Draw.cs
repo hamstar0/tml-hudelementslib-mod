@@ -14,7 +14,9 @@ namespace HUDElementsLib {
 
 			base.Draw( sb );
 
-			this.DrawOverlaysIf( sb );
+			if( this.IsInteractive() ) {
+				this.DrawOverlaysIf( sb );
+			}
 		}
 
 		private void DrawOverlaysIf( SpriteBatch sb ) {
