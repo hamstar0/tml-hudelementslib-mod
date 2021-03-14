@@ -26,6 +26,7 @@ namespace HUDElementsLib {
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			GameInterfaceDrawMethod widgetsUI = delegate {
+				this.MyUI?.Update( Main._drawInterfaceGameTime );  //:blobshrug:
 				this.MyUI?.Draw( Main.spriteBatch );
 				return true;
 			};

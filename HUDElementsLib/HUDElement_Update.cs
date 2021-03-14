@@ -11,6 +11,13 @@ namespace HUDElementsLib {
 				return;
 			}
 
+			base.Update( gameTime );
+
+			//int oldMouseX = Main.mouseX;
+			//int oldMouseY = Main.mouseY;
+			//Main.mouseX = (int)( (float)Main.mouseX * (Main.GameZoomTarget * Main.UIScale) );
+			//Main.mouseY = (int)( (float)Main.mouseY * (Main.GameZoomTarget * Main.UIScale) );
+
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 			mymod.HUDManager.ApplyDisplacementsIf( this );
 
@@ -25,6 +32,9 @@ namespace HUDElementsLib {
 			}
 
 			this.UpdateHUDPosition();
+
+			//Main.mouseX = oldMouseX;
+			//Main.mouseY = oldMouseY;
 		}
 
 		////
