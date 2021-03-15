@@ -10,9 +10,8 @@ namespace HUDElementsLib {
 			//Rectangle area = this.GetHUDComputedArea( false );	<- Incorrect rectangle when game or ui zooms
 			//this.IsMouseHovering_Custom = area.Contains( Main.MouseScreen.ToPoint() );
 
-			bool isInteracting = Main.playerInventory
-				&& Main.mouseLeft
-				&& this.IsMouseHovering_Custom;
+			//bool isInteracting = Main.playerInventory && Main.mouseLeft && this.IsMouseHovering_Custom;
+			bool isInteracting = Main.mouseLeft && this.IsMouseHovering_Custom;
 
 			if( isInteracting ) {
 				Main.LocalPlayer.mouseInterface = true; // Locks control for this element

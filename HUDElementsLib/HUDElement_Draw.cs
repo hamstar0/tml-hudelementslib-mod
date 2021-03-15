@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI;
@@ -25,20 +24,28 @@ namespace HUDElementsLib {
 			bool isHoverAnchorRight = false;
 			bool isHoverAnchorBottom = false;
 
-			if( Main.playerInventory ) {
-				bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
-					|| Main.keyState.IsKeyDown( Keys.RightAlt );
+			//if( Main.playerInventory ) {
+			//bool mode = Main.keyState.IsKeyDown( Keys.LeftAlt )
+			//	|| Main.keyState.IsKeyDown( Keys.RightAlt );
+			bool editMode = HUDElementsLibMod.Instance.HUDEditMode.Current;
 
-				if( isAlt ) {
-					this.DrawOverlayTitle( sb );
-					this.DrawOverlayOfBoxes( sb );
-					this.DrawOverlayOfControls( sb, out isHoverCollision, out isHoverAnchorRight, out isHoverAnchorBottom );
-				}
+			if( editMode ) {
+				this.DrawOverlayTitle( sb );
+				this.DrawOverlayOfBoxes( sb );
+				this.DrawOverlayOfControls( sb, out isHoverCollision, out isHoverAnchorRight, out isHoverAnchorBottom );
 			}
 
-			string hoverText = this.GetHoverText( isHoverCollision, isHoverAnchorRight, isHoverAnchorBottom );
-			if( !string.IsNullOrEmpty(hoverText) ) {
-				this.DrawHoverTextIf( sb, hoverText );
+			(string text, int duration) hoverInfo = this.GetHoverText(
+				editMode,
+				isHoverCollision,
+				isHoverAnchorRight,
+				isHoverAnchorBottom
+			);
+
+			if( !string.IsNullOrEmpty(hoverInfo.text ) ) {
+				this.DrawHoverTextIf( sb, hoverInfo.text, hoverInfo.duration );
+			} else {
+				this.ClearHoverText();
 			}
 		}
 
@@ -64,7 +71,11 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void DrawHoverTextIf( SpriteBatch sb, string text ) {
+		private string _CurrentHoverText;
+		private int _HoverTextDuration = -1;
+		private int _HoverTextMaxDuration = -1;
+
+		private void DrawHoverTextIf( SpriteBatch sb, string text, int duration ) {
 			if( !this.IsMouseHovering_Custom ) {
 				return;
 			}
@@ -72,16 +83,50 @@ namespace HUDElementsLib {
 				return;
 			}
 
+			float percent = 1f;
+			Color textColor = new Color( Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor );
+
+			if( this._CurrentHoverText != text ) {
+				this._CurrentHoverText = text;
+				this._HoverTextDuration = duration;
+				this._HoverTextMaxDuration = duration;
+			}
+
+			if( this._HoverTextDuration > 0 ) {
+				percent = (float)this._HoverTextDuration / (float)this._HoverTextMaxDuration;
+				textColor = Color.White * percent;
+
+				this._HoverTextDuration--;
+			} else if( this._HoverTextDuration == 0 ) {
+				return;
+			}
+
+			Vector2 dim = Main.fontMouseText.MeasureString( text );
+			float x = Main.MouseScreen.X + 12;
+			float y = Main.MouseScreen.Y + 16;
+
+			if( (x+dim.X) >= Main.screenWidth ) {
+				x = Main.screenWidth - dim.X;
+			}
+			if( (y+dim.Y) >= Main.screenHeight ) {
+				y = Main.screenHeight - dim.Y;
+			}
+
 			Utils.DrawBorderStringFourWay(
 				sb: sb,
 				font: Main.fontMouseText,
 				text: text,
-				x: Main.MouseScreen.X + 12,
-				y: Main.MouseScreen.Y + 16,
-				textColor: new Color( Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor ),
-				borderColor: Color.Black,
+				x: x,
+				y: y,
+				textColor: textColor,
+				borderColor: Color.Black * percent,
 				origin: default
 			);
+		}
+
+
+		private void ClearHoverText() {
+			this._CurrentHoverText = "";
 		}
 	}
 }

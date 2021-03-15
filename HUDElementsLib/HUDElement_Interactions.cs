@@ -7,16 +7,17 @@ using Terraria.UI;
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
 		private bool UpdateInteractionsIf() {
-			if( !Main.playerInventory || !this.IsEnabled() ) {
+			if( !this.IsEnabled() ) {
 				return false;
 			}
 
 			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
-			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
-				|| Main.keyState.IsKeyDown( Keys.RightAlt );
+			//bool editMode = Main.keyState.IsKeyDown( Keys.LeftAlt )
+			//	|| Main.keyState.IsKeyDown( Keys.RightAlt );
+			bool editMode = HUDElementsLibMod.Instance.HUDEditMode.Current;
 
-			this.UpdateInteractionsForControlsIf( isAlt, mouseLeft );
-			this.UpdateInteractionsForDragIf( isAlt, mouseLeft );
+			this.UpdateInteractionsForControlsIf( editMode, mouseLeft );
+			this.UpdateInteractionsForDragIf( editMode, mouseLeft );
 
 			return true;
 		}

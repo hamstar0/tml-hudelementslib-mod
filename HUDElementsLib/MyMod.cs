@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
 
@@ -23,12 +24,20 @@ namespace HUDElementsLib {
 		private UserInterface MyUIMngr;
 		internal UIState MyUI;
 
+		////////////////
+
+		internal ModHotKey HUDEditMode = null;
+		internal ModHotKey HUDReset = null;
+
 
 
 		////////////////
 
 		public override void Load() {
-			if( !Main.dedServ ) {
+			this.HUDEditMode = this.RegisterHotKey( "Edit Mode", "O" );
+			this.HUDReset = this.RegisterHotKey( "Reset Elements", "P" );
+
+			if( !Main.dedServ && Main.netMode != NetmodeID.Server ) {
 				this.MyUIMngr = new UserInterface();
 				this.MyUI = new UIState();
 				this.MyUIMngr.SetState( this.MyUI );
