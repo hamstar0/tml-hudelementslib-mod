@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI;
 
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public override void Draw( SpriteBatch sb ) {
+		public sealed override void Draw( SpriteBatch sb ) {
 			if( !this.IsEnabled() ) {
 				return;
 			}
@@ -16,6 +17,8 @@ namespace HUDElementsLib {
 
 			this.DrawOverlaysIf( sb );
 		}
+
+		////
 
 		private void DrawOverlaysIf( SpriteBatch sb ) {
 			bool isHoverCollision = false;
@@ -27,6 +30,7 @@ namespace HUDElementsLib {
 					|| Main.keyState.IsKeyDown( Keys.RightAlt );
 
 				if( isAlt ) {
+					this.DrawOverlayTitle( sb );
 					this.DrawOverlayOfBoxes( sb );
 					this.DrawOverlayOfControls( sb, out isHoverCollision, out isHoverAnchorRight, out isHoverAnchorBottom );
 				}
@@ -36,6 +40,25 @@ namespace HUDElementsLib {
 			if( !string.IsNullOrEmpty(hoverText) ) {
 				this.DrawHoverTextIf( sb, hoverText );
 			}
+		}
+
+
+		////////////////
+		
+		private void DrawOverlayTitle( SpriteBatch sb ) {
+			Rectangle area = this.GetHUDComputedArea( false );
+
+			sb.DrawString(
+				spriteFont: Main.fontMouseText,
+				text: this.Name,
+				position: new Vector2( area.X+4, area.Y+8 ),
+				color: Color.White,
+				rotation: 0f,
+				origin: default,
+				scale: 0.75f,
+				effects: SpriteEffects.None,
+				layerDepth: 0
+			);
 		}
 
 

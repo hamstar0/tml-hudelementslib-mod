@@ -83,7 +83,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public void UpdateDisplacements( HUDElement element ) {
+		public void FindAndApplyDisplacements( HUDElement element ) {
 			if( !this.FindAndApplyDisplacementsIf(element) ) {
 				element.RevertDisplacedPosition();
 			}

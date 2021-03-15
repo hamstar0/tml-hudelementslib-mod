@@ -22,7 +22,7 @@ namespace HUDElementsLib {
 		}
 
 
-		////
+		////////////////
 
 		public override void Update( GameTime gameTime ) {
 			if( !this.IsEnabled() ) {
@@ -39,7 +39,7 @@ namespace HUDElementsLib {
 
 		private void UpdateHUD() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
-			mymod.HUDManager.UpdateDisplacements( this );
+			mymod.HUDManager.FindAndApplyDisplacements( this );
 
 			if( !this.UpdateInteractionsIf() ) {
 				this.ResetInteractions();

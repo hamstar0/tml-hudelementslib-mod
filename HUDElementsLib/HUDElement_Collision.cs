@@ -52,7 +52,16 @@ namespace HUDElementsLib {
 
 			Rectangle testArea;
 			for( testArea = currentArea; testArea.Intersects(obstacleArea); inc(ref testArea) ) {	// Efficient!
-				if( testArea.Right <= 0 || testArea.Bottom <= 0 || testArea.Top >= Main.screenHeight || testArea.Left >= Main.screenWidth ) {
+				if( testArea.Right <= 0 ) {
+					return null;
+				}
+				if( testArea.Bottom <= 0 ) {
+					return null;
+				}
+				if( testArea.Top >= (Main.screenHeight-1) ) {
+					return null;
+				}
+				if( testArea.Left >= (Main.screenWidth-1) ) {
 					return null;
 				}
 			}

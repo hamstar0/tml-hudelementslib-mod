@@ -103,7 +103,19 @@ namespace HUDElementsLib {
 					pos.Y -= Main.screenHeight;
 				}
 			}
+
 			this.CustomPositionWithAnchor = pos;
+
+			if( this.AutoAnchors() ) {
+				Vector2 hudPos = this.GetAnchorComputedPosition();
+
+				if( hudPos.X >= (Main.screenWidth/2) ) {
+					this.CustomPositionWithAnchor.X = hudPos.X - Main.screenWidth;
+				}
+				if( hudPos.Y >= (Main.screenHeight/2) ) {
+					this.CustomPositionWithAnchor.Y = hudPos.Y - Main.screenHeight;
+				}
+			}
 		}
 
 
