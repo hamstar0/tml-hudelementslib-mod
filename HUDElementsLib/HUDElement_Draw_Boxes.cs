@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private void DrawOverlayBoxes( SpriteBatch sb ) {
+		private void DrawOverlayOfBoxes( SpriteBatch sb ) {
 			Rectangle area = this.GetHUDComputedArea( false );
 			Color baseColor = this.IsDragLocked()
 				? Color.Red

@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private void DrawOverlayControls(
+		private void DrawOverlayOfControls(
 					SpriteBatch sb,
 					out bool isHoverCollision,
 					out bool isHoverAnchorRight,
@@ -45,7 +45,7 @@ namespace HUDElementsLib {
 		}
 
 
-		////////////////
+		////
 
 		public static void DrawControlsIf(
 					SpriteBatch sb,

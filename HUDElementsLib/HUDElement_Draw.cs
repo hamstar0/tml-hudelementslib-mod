@@ -27,8 +27,8 @@ namespace HUDElementsLib {
 					|| Main.keyState.IsKeyDown( Keys.RightAlt );
 
 				if( isAlt ) {
-					this.DrawOverlayBoxes( sb );
-					this.DrawOverlayControls( sb, out isHoverCollision, out isHoverAnchorRight, out isHoverAnchorBottom );
+					this.DrawOverlayOfBoxes( sb );
+					this.DrawOverlayOfControls( sb, out isHoverCollision, out isHoverAnchorRight, out isHoverAnchorBottom );
 				}
 			}
 
