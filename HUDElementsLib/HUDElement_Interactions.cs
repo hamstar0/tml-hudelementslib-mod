@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.UI;
@@ -14,7 +13,7 @@ namespace HUDElementsLib {
 			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
 			//bool editMode = Main.keyState.IsKeyDown( Keys.LeftAlt )
 			//	|| Main.keyState.IsKeyDown( Keys.RightAlt );
-			bool editMode = HUDElementsLibMod.Instance.HUDEditMode.Current;
+			bool editMode = HUDElementsLibAPI.IsEditModeActive();
 
 			this.UpdateInteractionsForControlsIf( editMode, mouseLeft );
 			this.UpdateInteractionsForDragIf( editMode, mouseLeft );

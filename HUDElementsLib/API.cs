@@ -4,6 +4,13 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public static class HUDElementsLibAPI {
+		public static bool IsEditModeActive() {
+			return HUDElementsLibMod.Instance.HUDEditMode.Current;
+		}
+
+
+		////////////////
+		
 		public static HUDElement GetDraggingElement() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 
