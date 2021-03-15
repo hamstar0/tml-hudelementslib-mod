@@ -39,7 +39,7 @@ namespace HUDElementsLib {
 
 		private void UpdateHUD() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
-			mymod.HUDManager.ApplyDisplacementsIf( this );
+			mymod.HUDManager.UpdateDisplacements( this );
 
 			if( Main.playerInventory && this.IsInteractive() ) {
 				this.UpdateInteractions();

@@ -91,9 +91,19 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public bool ApplyDisplacementsIf( HUDElement element ) {
-			//if( element.IsAnchorLocked() ) { return false; }
-			if( element.IsIgnoringCollisions ) { return false; }
+		public void UpdateDisplacements( HUDElement element ) {
+			if( !this.FindAndApplyDisplacementsIf(element) ) {
+				element.RevertDisplacedPosition();
+			}
+		}
+
+		private bool FindAndApplyDisplacementsIf( HUDElement element ) {
+			//if( element.IsAnchorLocked() ) {
+			//	return false;
+			//}
+			if( element.IsIgnoringCollisions ) {
+				return false;
+			}
 
 			bool isDisplaced = false;
 			Rectangle currentArea = element.GetHUDComputedArea( false );
@@ -109,9 +119,6 @@ namespace HUDElementsLib {
 				element.SetDisplacedPosition( displacedPos.Value );
 			}
 
-			if( !isDisplaced ) {
-				element.RevertDisplacedPosition();
-			}
 //if( element.Name == "PKE Meter" || element.Name == "PKEMeter" ) {
 //ModContent.GetInstance<HUDElementsLibMod>().Logger.Info( element.Name+" displaced? "+isDisplaced
 //	+" basepos: "+element.GetPositionOnHUD(true)
