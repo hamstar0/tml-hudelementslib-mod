@@ -29,7 +29,7 @@ namespace HUDElementsLib {
 			if( !isAlt ) { return; }
 			if( !mouseLeft ) { return; }
 			if( !this.IsMouseHovering_Custom ) { return; }
-			if( this.IsDraggingSinceLastTick ) { return; }
+			if( HUDElementsLibAPI.GetDraggingElement() != null ) { return; }
 
 			Point mouse = Main.MouseScreen.ToPoint();
 			Rectangle area = this.GetHUDComputedArea( false );

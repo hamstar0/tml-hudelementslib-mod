@@ -17,7 +17,7 @@ namespace HUDElementsLib {
 				),
 				new VanillaHUDElementDefinition(
 					name: "Inventory",
-					context: () => true,
+					context: () => Main.playerInventory,
 					position: () => new Vector2( 20, 66 ),
 					dimensions: () => new Vector2( 472, 190 ),
 					displacement: () => new Vector2( 0, 1 )

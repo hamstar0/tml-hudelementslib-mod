@@ -6,10 +6,37 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public partial class HUDElementsLibMod : Mod {
+		public static readonly string[] LayerNames = new string[] {
+			"Vanilla: Tile Grid Option",
+			"Vanilla: Town NPC House Banners",
+			"Vanilla: Hide UI Toggle",
+			"Vanilla: Wire Selection",
+			"Vanilla: Ingame Options",
+			"Vanilla: Fancy UI",
+			"Vanilla: Achievement Complete Popups",
+			"Vanilla: Invasion Progress Bars",
+			"Vanilla: Map / Minimap",
+			"Vanilla: Hair Window",
+			"Vanilla: Dresser Window",
+			"Vanilla: NPC / Sign Dialog",
+			"Vanilla: Resource Bars",
+			"Vanilla: Inventory",
+			"Vanilla: Info Accessories Bar",
+			"Vanilla: Settings Button",
+			"Vanilla: Hotbar",
+			"Vanilla: Builder Accessories Bar",
+			"Vanilla: Radial Hotbars",
+			"Vanilla: Player Chat",
+		};
+
+
+
+		////////////////
+
 		/*public override void UpdateUI( GameTime gameTime ) {
-//bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
-//bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
-//this.Logger.Info( "lclick:"+mouseLeft+" ("+Main.mouseLeft+"), alt:"+isAlt+", gameTime:"+gameTime.ElapsedGameTime.Ticks );
+			//bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
+			//bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt ) || Main.keyState.IsKeyDown( Keys.RightAlt );
+			//this.Logger.Info( "lclick:"+mouseLeft+" ("+Main.mouseLeft+"), alt:"+isAlt+", gameTime:"+gameTime.ElapsedGameTime.Ticks );
 			//this.MyUI?.Update( gameTime );
 
 			foreach( HUDElement elem in this.HUDManager.Elements.Values ) {
@@ -47,6 +74,24 @@ namespace HUDElementsLib {
 						break;
 					}
 				}
+			}
+
+			if( HUDElementsLibAPI.IsEditModeActive() ) {
+				this.DisableHUDInterfaceLayers( layers );
+			}
+		}
+
+
+		////
+
+		private void DisableHUDInterfaceLayers( List<GameInterfaceLayer> layers ) {
+			foreach( string layerName in HUDElementsLibMod.LayerNames ) {
+				int idx = layers.FindIndex( layer => layer.Name.Equals(layerName) );
+				if( idx <= -1 ) {
+					continue;
+				}
+
+				layers.RemoveAt( idx );
 			}
 		}
 	}
