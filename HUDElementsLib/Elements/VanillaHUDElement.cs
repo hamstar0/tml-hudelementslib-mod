@@ -44,7 +44,8 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		internal VanillaHUDElement( VanillaHUDElementDefinition def ) : base( def.Name, def.PositionWithAnchors(), def.Dimensions() ) {
+		internal VanillaHUDElement( VanillaHUDElementDefinition def )
+					: base( def.Name, def.PositionWithAnchors(), def.Dimensions() ) {
 			this.EnablingCondition = def.Context;
 			this.DynamicCustomPositionAndAnchors = def.PositionWithAnchors;
 			this.DynamicCustomDimensions = def.Dimensions;
@@ -56,9 +57,13 @@ namespace HUDElementsLib {
 
 		public override bool SkipSave() => true;
 
-		public override bool IsLocked() => true;
-
 		public override bool IsEnabled() => this.EnablingCondition.Invoke();
+
+		public override bool IsDragLocked() => true;
+
+		public override bool IsAnchorLocked() => true;
+
+		public override bool AutoAnchors() => false;
 
 
 		////////////////

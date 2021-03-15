@@ -8,7 +8,7 @@ namespace HUDElementsLib {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 
 			foreach( HUDElement elem in mymod.HUDManager.Elements.Values ) {
-				if( elem.IsDragging ) {
+				if( elem.IsDraggingSinceLastTick ) {
 					return elem;
 				}
 			}

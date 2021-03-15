@@ -40,28 +40,35 @@ namespace HUDElementsLib {
 
 		////
 
-		private void DrawOverlays( SpriteBatch sb, ref bool isHoverCollision, ref bool isHoverAnchorRight, ref bool isHoverAnchorBottom ) {
-			isHoverCollision = this.IsHovering && this.CanToggleCollisionsViaControl();
-			isHoverAnchorRight = this.IsHovering && !this.IsLocked();
-			isHoverAnchorBottom = this.IsHovering && !this.IsLocked();
+		private void DrawOverlays(
+					SpriteBatch sb,
+					ref bool isHoverCollision,
+					ref bool isHoverAnchorRight,
+					ref bool isHoverAnchorBottom ) {
+			isHoverCollision = this.IsMouseHovering_Custom && this.CanToggleCollisionsViaControl();
+			isHoverAnchorRight = this.IsMouseHovering_Custom && !this.IsAnchorLocked();
+			isHoverAnchorBottom = this.IsMouseHovering_Custom && !this.IsAnchorLocked();
 
 			//
 
 			Rectangle area = this.GetHUDComputedArea( false );
-			Color baseColor = this.IsLocked()
+			Color baseColor = this.IsDragLocked()
 				? Color.Red
 				: Color.White;
-			baseColor *= this.IsHovering ? 1f : 0.8f;
-			float brightness = this.IsDragging ? 1f : 0.5f;
+			baseColor *= this.IsMouseHovering_Custom
+				? 1f
+				: 0.8f;
+			float brightness = this.IsDraggingSinceLastTick
+				? 1f
+				: 0.5f;
 
 			//
 
-			HUDElement.DrawBox( sb, area, baseColor, brightness );
+			HUDElement.DrawBox( sb, area, baseColor * brightness, !this.IsMouseHovering_Custom );
 
 			HUDElement.DrawOverlayControlsIf(
 				sb: sb,
 				area: area,
-				baseColor: baseColor,
 				brightness: brightness,
 				collisionToggler: isHoverCollision
 					? !this.IsIgnoringCollisions
@@ -79,12 +86,14 @@ namespace HUDElementsLib {
 			);
 			
 			if( this.DisplacedPosition.HasValue ) {
-				Color displacedColor = Color.Yellow;
-				displacedColor *= this.IsHovering ? 1f : 0.65f;
+				Color displacedColor = Color.Yellow * 0.5f;
+				displacedColor *= this.IsMouseHovering_Custom
+					? 1f
+					: 0.65f;
 
 				Rectangle displacedArea = this.GetHUDComputedArea( true );
 
-				HUDElement.DrawBox( sb, displacedArea, displacedColor, brightness * 0.5f );
+				HUDElement.DrawBox( sb, displacedArea, displacedColor, !this.IsMouseHovering_Custom );
 			}
 		}
 
@@ -92,13 +101,10 @@ namespace HUDElementsLib {
 		////////////////
 
 		private void DrawHoverTextIf( SpriteBatch sb, string text ) {
-			if( !this.IsHovering ) {
+			if( !this.IsMouseHovering_Custom ) {
 				return;
 			}
-			if( this.IsDragging ) {
-				return;
-			}
-			if( this.IsPressingControl ) {
+			if( this.IsInteractingAny ) {
 				return;
 			}
 

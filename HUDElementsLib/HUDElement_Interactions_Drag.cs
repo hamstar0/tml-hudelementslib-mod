@@ -1,39 +1,27 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.UI;
-using Terraria.GameInput;
 using Terraria.ModLoader;
 
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private bool UpdateDragIf( bool isHovering ) {
-			if( this.IsPressingControl ) {
-				return false;
-			}
-			if( this.IsLocked() ) {
-				return false;
-			}
+		private void UpdateInteractionsForDragIf( bool isAlt, bool mouseLeft ) {
+			if( this.IsInteractingWithControls ) { return; }
+			if( this.IsDragLocked() ) { return; }
 
 			HUDElement currDrag = HUDElementsLibAPI.GetDraggingElement();
-			if( currDrag != null && currDrag != this ) {
-				return false;
-			}
+			if( currDrag != null && currDrag != this ) { return; }
 
-			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
-			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
-				|| Main.keyState.IsKeyDown( Keys.RightAlt );
+			bool isInteracting = mouseLeft && isAlt;
 
-			if( mouseLeft && isAlt ) {
-				if( this.IsDragging || isHovering ) {
+			if( isInteracting ) {
+				if( this.IsDraggingSinceLastTick || this.IsMouseHovering_Custom ) {
 					this.ApplyDrag();
 				}
 			} else {
 				this.DesiredDragPosition = null;
 			}
-
-			return this.DesiredDragPosition.HasValue;
 		}
 
 
@@ -42,7 +30,8 @@ namespace HUDElementsLib {
 		private void ApplyDrag() {
 			Main.LocalPlayer.mouseInterface = true;
 
-			if( !this.DesiredDragPosition.HasValue ) {
+			// Initialize drag state
+			if( !this.IsDraggingSinceLastTick ) {
 				this.DesiredDragPosition = this.GetHUDComputedPosition( false );
 				this.PreviousDragMousePos = Main.MouseScreen;
 

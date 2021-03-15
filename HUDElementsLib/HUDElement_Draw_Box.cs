@@ -10,21 +10,25 @@ namespace HUDElementsLib {
 					SpriteBatch sb,
 					Rectangle area,
 					Color baseColor,
-					float brightness ) {
-			float pulse = (float)Main.mouseTextColor / 255f;
+					bool pulses ) {
+			float brightness = 1f;
+
+			if( pulses ) {
+				brightness *= (float)Main.mouseTextColor / 255f;
+			}
 
 			sb.Draw(
 				texture: Main.magicPixel,
 				destinationRectangle: area,
-				color: baseColor * pulse * brightness * 0.25f
+				color: baseColor * brightness * 0.5f
 			);
 
 			Utils.DrawRectangle(
 				sb: sb,
 				start: area.TopLeft() + Main.screenPosition,
 				end: area.BottomRight() + Main.screenPosition,
-				colorStart: baseColor * pulse * brightness * 0.5f,
-				colorEnd: baseColor * pulse * brightness * 0.5f,
+				colorStart: baseColor * brightness * 1f,
+				colorEnd: baseColor * brightness * 1f,
 				width: 2
 			);
 		}

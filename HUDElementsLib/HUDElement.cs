@@ -10,6 +10,8 @@ namespace HUDElementsLib {
 
 		protected Vector2? DisplacedPosition = null;
 
+		private bool IsMouseHovering_Custom = false;
+
 
 		////////////////
 
@@ -21,13 +23,13 @@ namespace HUDElementsLib {
 
 		public string Name { get; private set; }
 
-		public bool IsPressingControl { get; private set; } = false;
-
-		public bool IsHovering { get; private set; } = false;
+		public bool IsInteractingWithControls { get; private set; } = false;
 
 		////
 
-		public bool IsDragging => this.DesiredDragPosition.HasValue;
+		public bool IsDraggingSinceLastTick => this.DesiredDragPosition.HasValue;
+
+		public bool IsInteractingAny => this.IsInteractingWithControls || this.IsDraggingSinceLastTick;
 
 
 		////////////////
@@ -77,14 +79,22 @@ namespace HUDElementsLib {
 			return true;
 		}
 
-		public virtual bool IsLocked() {
+		public virtual bool IsDragLocked() {
 			return false;
+		}
+
+		public virtual bool IsAnchorLocked() {
+			return this.AutoAnchors();
+		}
+
+		public virtual bool AutoAnchors() {
+			return true;
 		}
 
 		////
 
 		public virtual bool ConsumesCursor() {
-			return this.IsDragging;
+			return this.IsDraggingSinceLastTick;
 		}
 
 
@@ -94,22 +104,26 @@ namespace HUDElementsLib {
 					bool isCollisionToggleButton,
 					bool isAnchorRightToggle,
 					bool isAnchorBottomToggle ) {
-			if( !this.IsHovering ) {
+			if( !this.IsMouseHovering_Custom ) {
 				return "";
 			}
 
 			if( isCollisionToggleButton ) {
 				return "Toggle collisions";
 			}
-			if( isAnchorRightToggle ) {
-				return "Anchor to right edge of screen";
+			if( !this.IsAnchorLocked() ) {
+				if( isAnchorRightToggle ) {
+					return "Anchor to right edge of screen";
+				}
+				if( isAnchorBottomToggle ) {
+					return "Anchor to bottom edge of screen";
+				}
 			}
-			if( isAnchorBottomToggle ) {
-				return "Anchor to bottom edge of screen";
-			}
-			if( !this.IsLocked() ) {
+
+			if( !this.IsDragLocked() ) {
 				return "Alt+Click to drag";
 			}
+
 			return "";
 		}
 	}

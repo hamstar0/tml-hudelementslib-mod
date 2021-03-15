@@ -51,13 +51,12 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		internal bool PreUpdateForInteractions() {
+		internal void PreUpdateForInteractions() {
 			foreach( HUDElement elem in this.Elements.Values ) {
 				if( elem.PreUpdateForInteractions() ) {
-					return true;
+					break;
 				}
 			}
-			return false;
 		}
 	}
 }

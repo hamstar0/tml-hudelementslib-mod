@@ -25,8 +25,8 @@ namespace HUDElementsLib {
 				new VanillaHUDElementDefinition(
 					name: "Inventory Chest",
 					context: () => Main.playerInventory && Main.LocalPlayer.chest != -1,
-					position: () => new Vector2( 20, 156 ),
-					dimensions: () => new Vector2( 472, 190 ),
+					position: () => new Vector2( 68, 256 ),
+					dimensions: () => new Vector2( 424, 170 ),
 					displacement: () => new Vector2( 0, 1 )
 				),
 				new VanillaHUDElementDefinition(

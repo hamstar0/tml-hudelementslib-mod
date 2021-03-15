@@ -5,6 +5,12 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public partial class HUDElementsLibMod : Mod {
+		public static HUDElementsLibMod Instance => ModContent.GetInstance<HUDElementsLibMod>();
+
+
+
+		////////////////
+
 		public static string GithubUserName => "hamstar0";
 		public static string GithubProjectName => "tml-hudelementslib-mod";
 

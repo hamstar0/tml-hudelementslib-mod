@@ -1,33 +1,24 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.UI;
 
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private void UpdateControlsIf( bool isHovering ) {
-			if( !Main.mouseLeft ) {
-				this.IsPressingControl = false;
+		private void UpdateInteractionsForControlsIf( bool isAlt, bool mouseLeft ) {
+			if( this.IsInteractingWithControls ) {
+				bool isInteracting = mouseLeft && isAlt;	//&& this.IsMouseHovering_Custom;
 
-				return;
-			}
-			if( this.IsPressingControl ) {
-				Main.LocalPlayer.mouseInterface = true;	// Locks control for this element
+				this.IsInteractingWithControls = isInteracting;
+				Main.LocalPlayer.mouseInterface |= isInteracting;	// Repeatably locks control for this element, if needed
 
-				return;
+				return;	// Only the first tick of interaction matters
 			}
-			if( !isHovering ) {
-				return;
-			}
-			if( this.IsDragging ) {
-				return;
-			}
-			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
-				|| Main.keyState.IsKeyDown( Keys.RightAlt );
-			if( !isAlt ) {
-				return;
-			}
+
+			if( !isAlt ) { return; }
+			if( !mouseLeft ) { return; }
+			if( !this.IsMouseHovering_Custom ) { return; }
+			if( this.IsDraggingSinceLastTick ) { return; }
 
 			Point mouse = Main.MouseScreen.ToPoint();
 			Rectangle area = this.GetHUDComputedArea( false );
@@ -35,23 +26,63 @@ namespace HUDElementsLib {
 			Rectangle toggler = HUDElement.GetCollisionTogglerForBox( area );
 			Rectangle anchorR = HUDElement.GetRightAnchorButtonForBox( area );
 			Rectangle anchorB = HUDElement.GetBottomAnchorButtonForBox( area );
+			bool pressed = false;
 
 			if( toggler.Contains(mouse) && this.CanToggleCollisionsViaControl() ) {
-				this.IsPressingControl = true;
-				this.ToggleCollisions();
-			} else if( !this.IsLocked() ) {
+				pressed = this.ApplyCollisionsToggleControlPressIf();
+			} else if( !this.IsAnchorLocked() ) {
 				if( anchorR.Contains(mouse) ) {
-					this.IsPressingControl = true;
-					this.ToggleRightAnchor();
+					pressed = this.ApplyRightAnchorToggleControlPressIf();
 				} else if( anchorB.Contains(mouse) ) {
-					this.IsPressingControl = true;
-					this.ToggleBottomAnchor();
+					pressed = this.ApplyBottomAnchorToggleControlPressIf();
 				}
 			}
 
-			if( this.IsPressingControl ) {
-				Main.LocalPlayer.mouseInterface = true;
+			this.IsInteractingWithControls = pressed;
+			Main.LocalPlayer.mouseInterface |= pressed;
+		}
+
+
+		////////////////
+
+		private void ResetInteractionsForControls() {
+			this.IsInteractingWithControls = false;
+		}
+
+
+		////////////////
+
+		private bool ApplyCollisionsToggleControlPressIf() {
+			if( !HUDElementsLibConfig.Instance.EnableCollisionsToggleControl ) {
+				return false;
 			}
+
+			this.IsInteractingWithControls = true;
+			this.ToggleCollisions();
+
+			return true;
+		}
+
+		private bool ApplyRightAnchorToggleControlPressIf() {
+			if( !HUDElementsLibConfig.Instance.EnableAnchorsToggleControl ) {
+				return false;
+			}
+
+			this.IsInteractingWithControls = true;
+			this.ToggleRightAnchor();
+
+			return true;
+		}
+
+		private bool ApplyBottomAnchorToggleControlPressIf() {
+			if( !HUDElementsLibConfig.Instance.EnableAnchorsToggleControl ) {
+				return false;
+			}
+
+			this.IsInteractingWithControls = true;
+			this.ToggleBottomAnchor();
+
+			return true;
 		}
 	}
 }

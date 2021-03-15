@@ -10,7 +10,6 @@ namespace HUDElementsLib {
 		public static void DrawOverlayControlsIf(
 					SpriteBatch sb,
 					Rectangle area,
-					Color baseColor,
 					float brightness,
 					bool? collisionToggler,
 					bool? anchorRightButton,
@@ -24,7 +23,7 @@ namespace HUDElementsLib {
 			}
 
 			if( collisionToggler.HasValue ) {
-				HUDElement.DrawBoxCollisionToggler(
+				HUDElement.DrawBoxCollisionTogglerIf(
 					sb: sb,
 					area: area,
 					brightness: brightness,
@@ -35,7 +34,7 @@ namespace HUDElementsLib {
 			}
 
 			if( anchorRightButton.HasValue && anchorBottomButton.HasValue ) {
-				HUDElement.DrawBoxAnchorButtons(
+				HUDElement.DrawBoxAnchorButtonsIf(
 					sb: sb,
 					area: area,
 					brightness: brightness,
@@ -51,13 +50,17 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public static void DrawBoxCollisionToggler(
+		public static void DrawBoxCollisionTogglerIf(
 					SpriteBatch sb,
 					Rectangle area,
 					float brightness,
 					bool on,
 					Vector2 hoverPoint,
 					ref bool isHovering ) {
+			if( !HUDElementsLibConfig.Instance.EnableCollisionsToggleControl ) {
+				return;
+			}
+
 			var buttonArea = HUDElement.GetCollisionTogglerForBox( area );
 			var buttonIconArea = HUDElement.GetCollisionTogglerIconForBox( area );
 
@@ -86,7 +89,7 @@ namespace HUDElementsLib {
 		}
 
 
-		public static void DrawBoxAnchorButtons(
+		public static void DrawBoxAnchorButtonsIf(
 					SpriteBatch sb,
 					Rectangle area,
 					float brightness,
@@ -95,6 +98,10 @@ namespace HUDElementsLib {
 					Vector2 hoverPoint,
 					ref bool isHoverRight,
 					ref bool isHoverBottom ) {
+			if( !HUDElementsLibConfig.Instance.EnableAnchorsToggleControl ) {
+				return;
+			}
+
 			Rectangle rArea = HUDElement.GetRightAnchorButtonForBox( area );
 			Rectangle bArea = HUDElement.GetBottomAnchorButtonForBox( area );
 			Rectangle iconBgArea = HUDElement.GetAnchorButtonIconBgForBox( area );
