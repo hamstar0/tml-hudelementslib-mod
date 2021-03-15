@@ -34,13 +34,17 @@ namespace HUDElementsLib {
 			Point mouse = Main.MouseScreen.ToPoint();
 			Rectangle area = this.GetHUDComputedArea( false );
 
-			Rectangle toggler = HUDElement.GetCollisionTogglerForBox( area );
-			Rectangle anchorR = HUDElement.GetRightAnchorButtonForBox( area );
-			Rectangle anchorB = HUDElement.GetBottomAnchorButtonForBox( area );
+			Rectangle toggler = HUDElement.GetCollisionTogglerArea( area );
+			Rectangle reset = HUDElement.GetResetButtonArea( area );
+			Rectangle anchorR = HUDElement.GetRightAnchorButtonArea( area );
+			Rectangle anchorB = HUDElement.GetBottomAnchorButtonArea( area );
 			bool pressed = false;
 
 			if( toggler.Contains(mouse) && this.IsCollisionToggleable() ) {
 				pressed = this.ApplyCollisionsToggleControlPressIf();
+			} else if( reset.Contains(mouse) && !this.IsDragLocked() ) {
+				pressed = true;
+				this.ResetPositionToDefault();
 			} else if( this.IsAnchorsToggleable() ) {
 				if( anchorR.Contains(mouse) ) {
 					pressed = this.ApplyRightAnchorToggleControlPressIf();

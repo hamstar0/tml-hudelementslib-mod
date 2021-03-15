@@ -20,10 +20,10 @@ namespace HUDElementsLib {
 				return;
 			}
 
-			Rectangle rArea = HUDElement.GetRightAnchorButtonForBox( area );
-			Rectangle bArea = HUDElement.GetBottomAnchorButtonForBox( area );
-			Rectangle iconBgArea = HUDElement.GetAnchorButtonIconBgForBox( area );
-			Rectangle iconArea = HUDElement.GetAnchorButtonIconForBox( area );
+			Rectangle rArea = HUDElement.GetRightAnchorButtonArea( area );
+			Rectangle bArea = HUDElement.GetBottomAnchorButtonArea( area );
+			Rectangle iconBgArea = HUDElement.GetAnchorButtonIconBgArea( area );
+			Rectangle iconArea = HUDElement.GetAnchorButtonIconArea( area );
 
 			isHoverRight = rArea.Contains( hoverPoint.ToPoint() );
 			isHoverBottom = bArea.Contains( hoverPoint.ToPoint() );

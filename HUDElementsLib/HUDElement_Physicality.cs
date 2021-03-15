@@ -5,34 +5,6 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public static Rectangle GetCollisionTogglerForBox( Rectangle area ) {
-			return new Rectangle( area.Left, area.Top, 20, 20 );
-		}
-
-		public static Rectangle GetCollisionTogglerIconForBox( Rectangle area ) {
-			return new Rectangle( area.Left+1, area.Top+1, 18, 18 );
-		}
-		
-		public static Rectangle GetAnchorButtonIconForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 15, area.Bottom - 15, 14, 14 );
-		}
-		
-		public static Rectangle GetAnchorButtonIconBgForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 16, area.Bottom - 16, 16, 16 );
-		}
-
-		public static Rectangle GetRightAnchorButtonForBox( Rectangle area ) {
-			return new Rectangle( area.Right - 8, area.Top, 8, area.Height - 16 );
-		}
-
-		public static Rectangle GetBottomAnchorButtonForBox( Rectangle area ) {
-			return new Rectangle( area.Left, area.Bottom - 8, area.Width - 16, 8 );
-		}
-
-
-
-		////////////////
-
 		public bool IsRightAnchored() => this.CustomPositionWithAnchor.X < 0f;
 
 		public bool IsBottomAnchored() => this.CustomPositionWithAnchor.Y < 0f;

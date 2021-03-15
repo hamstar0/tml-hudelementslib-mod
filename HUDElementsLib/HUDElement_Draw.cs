@@ -21,6 +21,7 @@ namespace HUDElementsLib {
 			bool isHoverCollision = false;
 			bool isHoverAnchorRight = false;
 			bool isHoverAnchorBottom = false;
+			bool isHoverReset = false;
 
 			//if( Main.playerInventory ) {
 			//bool mode = Main.keyState.IsKeyDown( Keys.LeftAlt )
@@ -30,12 +31,19 @@ namespace HUDElementsLib {
 			if( editMode ) {
 				this.DrawOverlayTitle( sb );
 				this.DrawOverlayOfBoxes( sb );
-				this.DrawOverlayOfControls( sb, out isHoverCollision, out isHoverAnchorRight, out isHoverAnchorBottom );
+				this.DrawOverlayOfControls(
+					sb,
+					out isHoverCollision,
+					out isHoverReset,
+					out isHoverAnchorRight,
+					out isHoverAnchorBottom
+				);
 			}
 
 			(string text, int duration) hoverInfo = this.GetHoverText(
 				editMode,
 				isHoverCollision,
+				isHoverReset,
 				isHoverAnchorRight,
 				isHoverAnchorBottom
 			);

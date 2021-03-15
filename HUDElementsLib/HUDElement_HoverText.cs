@@ -7,6 +7,7 @@ namespace HUDElementsLib {
 		public virtual (string text, int duration) GetHoverText(
 					bool editMode,
 					bool isCollisionToggleButton,
+					bool isResetButton,
 					bool isAnchorRightToggle,
 					bool isAnchorBottomToggle ) {
 			if( !this.IsMouseHovering_Custom ) {
@@ -17,6 +18,12 @@ namespace HUDElementsLib {
 				if( this.IsCollisionToggleable() ) {
 					if( isCollisionToggleButton ) {
 						return ("Toggle collisions", -1);
+					}
+				}
+				
+				if( !this.IsDragLocked() ) {
+					if( isResetButton ) {
+						return ("Reset position", -1);
 					}
 				}
 

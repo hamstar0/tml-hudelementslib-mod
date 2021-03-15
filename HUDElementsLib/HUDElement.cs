@@ -15,6 +15,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
+		protected Vector2 DefaultPositionWithAnchor;
 		protected Vector2 CustomPositionWithAnchor;
 		protected Vector2 CustomDimensions;
 
@@ -42,6 +43,7 @@ namespace HUDElementsLib {
 
 		public HUDElement( string name, Vector2 position, Vector2 dimensions ) : base() {
 			this.Name = name;
+			this.DefaultPositionWithAnchor = position;
 			this.CustomPositionWithAnchor = position;
 			this.CustomDimensions = dimensions;
 		}
@@ -79,6 +81,13 @@ namespace HUDElementsLib {
 
 		public virtual bool ConsumesCursor() {
 			return this.IsDraggingSinceLastTick;
+		}
+
+
+		////////////////
+
+		public void ResetPositionToDefault() {
+			this.CustomPositionWithAnchor = this.DefaultPositionWithAnchor;
 		}
 	}
 }

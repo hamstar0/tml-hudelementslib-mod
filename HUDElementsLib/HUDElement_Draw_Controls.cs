@@ -9,9 +9,11 @@ namespace HUDElementsLib {
 		private void DrawOverlayOfControls(
 					SpriteBatch sb,
 					out bool isHoverCollision,
+					out bool isHoverReset,
 					out bool isHoverAnchorRight,
 					out bool isHoverAnchorBottom ) {
 			isHoverCollision = this.IsMouseHovering_Custom && this.IsCollisionToggleable();
+			isHoverReset = this.IsMouseHovering_Custom && !this.IsDragLocked();
 			isHoverAnchorRight = this.IsMouseHovering_Custom && this.IsAnchorsToggleable();
 			isHoverAnchorBottom = this.IsMouseHovering_Custom && this.IsAnchorsToggleable();
 
@@ -31,6 +33,9 @@ namespace HUDElementsLib {
 				collisionToggler: isHoverCollision
 					? !this.IsIgnoringCollisions
 					: (bool?)null,
+				resetButton: isHoverReset
+					? !this.IsDragLocked()
+					: (bool?)null,
 				anchorRightButton: isHoverAnchorRight
 					? this.IsRightAnchored()
 					: (bool?)null,
@@ -39,6 +44,7 @@ namespace HUDElementsLib {
 					: (bool?)null,
 				hoverPoint: Main.MouseScreen,
 				isHoverCollisionToggle: ref isHoverCollision,
+				isHoverResetButton: ref isHoverReset,
 				isHoverAnchorRightToggle: ref isHoverAnchorRight,
 				isHoverAnchorBottomToggle: ref isHoverAnchorBottom
 			);
@@ -52,10 +58,12 @@ namespace HUDElementsLib {
 					Rectangle area,
 					float brightness,
 					bool? collisionToggler,
+					bool? resetButton,
 					bool? anchorRightButton,
 					bool? anchorBottomButton,
 					Vector2 hoverPoint,
 					ref bool isHoverCollisionToggle,
+					ref bool isHoverResetButton,
 					ref bool isHoverAnchorRightToggle,
 					ref bool isHoverAnchorBottomToggle ) {
 			if( !area.Contains( hoverPoint.ToPoint() ) ) {
@@ -70,6 +78,17 @@ namespace HUDElementsLib {
 					on: collisionToggler.Value,
 					hoverPoint: hoverPoint,
 					isHovering: ref isHoverCollisionToggle
+				);
+			}
+
+			if( resetButton.HasValue ) {
+				HUDElement.DrawControlsResetButtonIf(
+					sb: sb,
+					area: area,
+					brightness: brightness,
+					on: resetButton.Value,
+					hoverPoint: hoverPoint,
+					isHovering: ref isHoverResetButton
 				);
 			}
 

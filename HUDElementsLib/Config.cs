@@ -20,6 +20,9 @@ namespace HUDElementsLib {
 		
 		[DefaultValue( true )]
 		public bool EnableCollisionsToggleControl { get; set; } = true;
+		
+		[DefaultValue( true )]
+		public bool EnableResetButtonControl { get; set; } = true;
 
 
 		[DefaultValue( false )]
