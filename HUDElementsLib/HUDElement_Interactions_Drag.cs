@@ -6,6 +6,13 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
+		public virtual bool IsDragLocked() {
+			return false;
+		}
+		
+
+		////////////////
+
 		private void UpdateInteractionsForDragIf( bool isAlt, bool mouseLeft ) {
 			if( this.IsInteractingWithControls ) { return; }
 			if( this.IsDragLocked() ) { return; }

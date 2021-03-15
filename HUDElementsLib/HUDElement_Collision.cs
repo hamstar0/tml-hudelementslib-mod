@@ -9,7 +9,6 @@ namespace HUDElementsLib {
 		public static Vector2 FindClosestNonCollidingPosition(
 					Rectangle currentArea,
 					Vector2 desiredPosition,
-					string obstacleName,
 					Rectangle obstacleArea ) {
 			Vector2 pos = desiredPosition;
 
@@ -65,14 +64,8 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual bool CanToggleCollisionsViaControl() {
-			return this.IsEnabled() && this.CanToggleCollisions;// && !this.IsLocked();
-		}
-
-		////
-
 		protected void ToggleCollisions() {
-			if( !this.CanToggleCollisions ) {
+			if( !this.IsCollisionToggleable() ) {
 				throw new Exception( "Invalid attempt to toggle collisions for " + this.Name );
 			}
 			this.IsIgnoringCollisions = !this.IsIgnoringCollisions;

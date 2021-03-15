@@ -6,15 +6,23 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private void UpdateInteractions() {
+		private bool UpdateInteractionsIf() {
+			if( !Main.playerInventory || !this.IsEnabled() ) {
+				return false;
+			}
+
 			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
 			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
 				|| Main.keyState.IsKeyDown( Keys.RightAlt );
 
 			this.UpdateInteractionsForControlsIf( isAlt, mouseLeft );
 			this.UpdateInteractionsForDragIf( isAlt, mouseLeft );
+
+			return true;
 		}
 
+
+		////
 
 		private void ResetInteractions() {
 			this.DesiredDragPosition = null;

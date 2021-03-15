@@ -38,6 +38,13 @@ namespace HUDElementsLib {
 		public bool IsBottomAnchored() => this.CustomPositionWithAnchor.Y < 0f;
 
 
+		////
+
+		public virtual bool AutoAnchors() {
+			return true;
+		}
+
+
 		////////////////
 
 		public virtual Vector2 GetPositionAndAnchors() {

@@ -23,20 +23,18 @@ namespace HUDElementsLib {
 
 		public string Name { get; private set; }
 
-		public bool IsInteractingWithControls { get; private set; } = false;
-
-		////
-
-		public bool IsDraggingSinceLastTick => this.DesiredDragPosition.HasValue;
-
-		public bool IsInteractingAny => this.IsInteractingWithControls || this.IsDraggingSinceLastTick;
-
-
 		////////////////
 
 		public virtual bool IsIgnoringCollisions { get; protected set; } = false;
 
-		public virtual bool CanToggleCollisions { get; protected set; } = true;
+
+		////////////////
+
+		public bool IsInteractingWithControls { get; private set; } = false;
+
+		public bool IsDraggingSinceLastTick => this.DesiredDragPosition.HasValue;
+
+		public bool IsInteractingAny => this.IsInteractingWithControls || this.IsDraggingSinceLastTick;
 
 
 
@@ -71,23 +69,9 @@ namespace HUDElementsLib {
 			return false;
 		}
 		
+		////
+
 		public virtual bool IsEnabled() {
-			return true;
-		}
-		
-		public virtual bool IsInteractive() {
-			return true;
-		}
-
-		public virtual bool IsDragLocked() {
-			return false;
-		}
-
-		public virtual bool IsAnchorLocked() {
-			return this.AutoAnchors();
-		}
-
-		public virtual bool AutoAnchors() {
 			return true;
 		}
 
@@ -111,7 +95,7 @@ namespace HUDElementsLib {
 			if( isCollisionToggleButton ) {
 				return "Toggle collisions";
 			}
-			if( !this.IsAnchorLocked() ) {
+			if( this.IsAnchorsToggleable() ) {
 				if( isAnchorRightToggle ) {
 					return "Anchor to right edge of screen";
 				}

@@ -61,7 +61,7 @@ namespace HUDElementsLib {
 
 		public override bool IsDragLocked() => true;
 
-		public override bool IsAnchorLocked() => true;
+		public override bool IsAnchorsToggleable() => false;
 
 		public override bool AutoAnchors() => false;
 

@@ -38,17 +38,10 @@ namespace HUDElementsLib {
 			desiredArea.Width += 2;
 			desiredArea.Height += 2;
 
-			foreach( string elemName in this.Elements.Keys ) {
-				HUDElement elem = this.Elements[ elemName ];
-				if( elem == element ) {
-					continue;
-				}
-				if( !elem.IsEnabled() ) {
-					continue;
-				}
-				if( elem.IsIgnoringCollisions ) {
-					continue;
-				}
+			foreach( HUDElement elem in this.Elements.Values ) {
+				if( elem == element ) { continue; }
+				if( !elem.IsEnabled() ) { continue; }
+				if( elem.IsIgnoringCollisions ) { continue; }
 
 				Rectangle obstacleArea = elem.GetHUDComputedArea( true );
 
@@ -56,7 +49,6 @@ namespace HUDElementsLib {
 					return HUDElement.FindClosestNonCollidingPosition(
 						currentArea: currentArea,
 						desiredPosition: desiredPosition,
-						obstacleName: elemName,
 						obstacleArea: obstacleArea
 					);
 				}
@@ -98,12 +90,7 @@ namespace HUDElementsLib {
 		}
 
 		private bool FindAndApplyDisplacementsIf( HUDElement element ) {
-			//if( element.IsAnchorLocked() ) {
-			//	return false;
-			//}
-			if( element.IsIgnoringCollisions ) {
-				return false;
-			}
+			if( element.IsIgnoringCollisions ) { return false; }
 
 			bool isDisplaced = false;
 			Rectangle currentArea = element.GetHUDComputedArea( false );

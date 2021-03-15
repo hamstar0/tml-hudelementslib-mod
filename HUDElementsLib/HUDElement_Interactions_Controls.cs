@@ -5,6 +5,17 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
+		public virtual bool IsCollisionToggleable() {
+			return true;
+		}
+		
+		public virtual bool IsAnchorsToggleable() {
+			return !this.AutoAnchors();
+		}
+
+
+		////////////////
+
 		private void UpdateInteractionsForControlsIf( bool isAlt, bool mouseLeft ) {
 			if( this.IsInteractingWithControls ) {
 				bool isInteracting = mouseLeft && isAlt;	//&& this.IsMouseHovering_Custom;
@@ -28,9 +39,9 @@ namespace HUDElementsLib {
 			Rectangle anchorB = HUDElement.GetBottomAnchorButtonForBox( area );
 			bool pressed = false;
 
-			if( toggler.Contains(mouse) && this.CanToggleCollisionsViaControl() ) {
+			if( toggler.Contains(mouse) && this.IsCollisionToggleable() ) {
 				pressed = this.ApplyCollisionsToggleControlPressIf();
-			} else if( !this.IsAnchorLocked() ) {
+			} else if( this.IsAnchorsToggleable() ) {
 				if( anchorR.Contains(mouse) ) {
 					pressed = this.ApplyRightAnchorToggleControlPressIf();
 				} else if( anchorB.Contains(mouse) ) {
@@ -50,7 +61,7 @@ namespace HUDElementsLib {
 		}
 
 
-		////////////////
+		////
 
 		private bool ApplyCollisionsToggleControlPressIf() {
 			if( !HUDElementsLibConfig.Instance.EnableCollisionsToggleControl ) {
