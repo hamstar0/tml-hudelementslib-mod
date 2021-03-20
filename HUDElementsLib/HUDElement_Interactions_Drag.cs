@@ -36,6 +36,9 @@ namespace HUDElementsLib {
 
 		private void ApplyDrag() {
 			Main.LocalPlayer.mouseInterface = true;
+//if( Main.LocalPlayer.mouseInterface ) {
+//	Main.NewText( "HUD_ApplyDrag 3" );
+//}
 
 			// Initialize drag state
 			if( !this.IsDraggingSinceLastTick ) {

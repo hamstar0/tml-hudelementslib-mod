@@ -27,7 +27,6 @@ namespace HUDElementsLib {
 		////////////////
 
 		internal ModHotKey HUDEditMode = null;
-		internal ModHotKey HUDReset = null;
 
 
 
@@ -35,7 +34,6 @@ namespace HUDElementsLib {
 
 		public override void Load() {
 			this.HUDEditMode = this.RegisterHotKey( "Edit Mode", "O" );
-			this.HUDReset = this.RegisterHotKey( "Reset Elements", "P" );
 
 			if( !Main.dedServ && Main.netMode != NetmodeID.Server ) {
 				this.MyUIMngr = new UserInterface();

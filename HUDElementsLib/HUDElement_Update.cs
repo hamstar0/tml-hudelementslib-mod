@@ -11,10 +11,15 @@ namespace HUDElementsLib {
 			//this.IsMouseHovering_Custom = area.Contains( Main.MouseScreen.ToPoint() );
 
 			//bool isInteracting = Main.playerInventory && Main.mouseLeft && this.IsMouseHovering_Custom;
-			bool isInteracting = Main.mouseLeft && this.IsMouseHovering_Custom;
+			bool isInteracting = Main.mouseLeft
+				&& this.IsMouseHovering_Custom
+				&& HUDElementsLibAPI.IsEditModeActive();
 
 			if( isInteracting ) {
 				Main.LocalPlayer.mouseInterface = true; // Locks control for this element
+//if( Main.LocalPlayer.mouseInterface ) {
+//	Main.NewText( "HUD_Elem_PreUpdForInt 1" );
+//}
 			}
 
 			return isInteracting;

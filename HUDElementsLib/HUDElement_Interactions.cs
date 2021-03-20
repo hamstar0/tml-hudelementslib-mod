@@ -11,12 +11,10 @@ namespace HUDElementsLib {
 			}
 
 			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
-			//bool editMode = Main.keyState.IsKeyDown( Keys.LeftAlt )
-			//	|| Main.keyState.IsKeyDown( Keys.RightAlt );
-			bool editMode = HUDElementsLibAPI.IsEditModeActive();
+			bool isEditMode = HUDElementsLibAPI.IsEditModeActive();
 
-			this.UpdateInteractionsForControlsIf( editMode, mouseLeft );
-			this.UpdateInteractionsForDragIf( editMode, mouseLeft );
+			this.UpdateInteractionsForControlsIf( isEditMode, mouseLeft );
+			this.UpdateInteractionsForDragIf( isEditMode, mouseLeft );
 
 			return true;
 		}

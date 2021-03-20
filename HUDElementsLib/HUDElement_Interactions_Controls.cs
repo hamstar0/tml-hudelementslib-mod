@@ -16,17 +16,20 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void UpdateInteractionsForControlsIf( bool isAlt, bool mouseLeft ) {
+		private void UpdateInteractionsForControlsIf( bool isEditMode, bool mouseLeft ) {
 			if( this.IsInteractingWithControls ) {
-				bool isInteracting = mouseLeft && isAlt;	//&& this.IsMouseHovering_Custom;
+				bool isInteracting = mouseLeft && isEditMode;	//&& this.IsMouseHovering_Custom;
 
 				this.IsInteractingWithControls = isInteracting;
 				Main.LocalPlayer.mouseInterface |= isInteracting;	// Repeatably locks control for this element, if needed
+//if( Main.LocalPlayer.mouseInterface ) {
+//	Main.NewText( "HUD_UpdIntForCtrlIf 1" );
+//}
 
 				return;	// Only the first tick of interaction matters
 			}
 
-			if( !isAlt ) { return; }
+			if( !isEditMode ) { return; }
 			if( !mouseLeft ) { return; }
 			if( !this.IsMouseHovering_Custom ) { return; }
 			if( HUDElementsLibAPI.GetDraggingElement() != null ) { return; }
@@ -55,6 +58,9 @@ namespace HUDElementsLib {
 
 			this.IsInteractingWithControls = pressed;
 			Main.LocalPlayer.mouseInterface |= pressed;
+//if( Main.LocalPlayer.mouseInterface ) {
+//	Main.NewText( "HUD_UpdIntForCtrlIf 2" );
+//}
 		}
 
 

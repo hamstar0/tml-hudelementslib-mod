@@ -1,7 +1,7 @@
 using System;
-using HUDElementsLib.Libraries.Helpers.HUD;
 using Microsoft.Xna.Framework;
 using Terraria;
+using HUDElementsLib.Libraries.Helpers.HUD;
 
 
 namespace HUDElementsLib {
@@ -11,22 +11,22 @@ namespace HUDElementsLib {
 				new VanillaHUDElementDefinition(
 					name: "Inventory Hotbar",
 					context: () => true,
-					position: () => new Vector2( 20, 18 ),
-					dimensions: () => new Vector2( 472, 48 ),
+					position: () => new Vector2( 20, 18 ),		// Main.inventoryScale,
+					dimensions: () => new Vector2( 472, 48 ),	// Main.inventoryScale,
 					displacement: () => new Vector2( 1, 0 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Inventory",
 					context: () => Main.playerInventory,
-					position: () => new Vector2( 20, 66 ),
-					dimensions: () => new Vector2( 472, 190 ),
+					position: () => new Vector2( 20, 66 ),		// Main.inventoryScale,
+					dimensions: () => new Vector2( 472, 190 ),	// Main.inventoryScale,
 					displacement: () => new Vector2( 0, 1 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Inventory Chest",
 					context: () => Main.playerInventory && Main.LocalPlayer.chest != -1,
-					position: () => new Vector2( 68, 256 ),
-					dimensions: () => new Vector2( 424, 170 ),
+					position: () => new Vector2( 68, 256 ),		// Main.inventoryScale,
+					dimensions: () => new Vector2( 424, 170 ),	// Main.inventoryScale,
 					displacement: () => new Vector2( 0, 1 )
 				),
 				new VanillaHUDElementDefinition(
@@ -48,7 +48,8 @@ namespace HUDElementsLib {
 							return new Vector2( 144, 418+48 );
 						}
 						return new Vector2( 144, 418 );
-					}
+					},
+					displacement: () => new Vector2( -1, 0 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Map Buttons",
@@ -72,10 +73,50 @@ namespace HUDElementsLib {
 					context: () => Main.mapStyle == 1,
 					position: () => new Vector2( -298, 84 ),
 					dimensions: () => new Vector2( 252, 252 )
-				)
-				// TODO add trash slot
-				// TODO add ammo slot
-				// TODO add info acc buttons (855 min screen width for info accessory buttons under life bar)
+				),
+				new VanillaHUDElementDefinition(
+					name: "Trash Slot",
+					context: () => Main.playerInventory,
+					position: () => new Vector2( 444, 256 ),	// Main.inventoryScale,
+					dimensions: () => new Vector2( 48, 48 ),	// Main.inventoryScale,
+					displacement: () => new Vector2( -1, 0 )
+				),
+				new VanillaHUDElementDefinition(
+					name: "Money & Ammo Slots",
+					context: () => Main.playerInventory,
+					position: () => new Vector2( 494, 82 ),		// Main.inventoryScale,
+					dimensions: () => new Vector2( 68, 192 ),	// Main.inventoryScale,
+					displacement: () => new Vector2( 1, 0 )
+				),
+				new VanillaHUDElementDefinition(
+					name: "Info Accessory Buttons",
+					context: () => Main.playerInventory,
+					position: () => {
+						if( Main.screenWidth < 855 || Main.mapStyle == 1 ) {
+							return new Vector2( -228, 320 );
+						}
+						return new Vector2( -302, 82 );
+					},
+					dimensions: () => {
+						if( Main.screenWidth < 855 || Main.mapStyle == 1 ) {
+							return new Vector2( 36, 144 );
+						}
+						return new Vector2( 260, 24 );
+					},
+					displacement: () => {
+						if( Main.screenWidth < 855 || Main.mapStyle == 1 ) {
+							return new Vector2( 1, 0 );
+						}
+						return new Vector2( 0, 1 );
+					}
+				),
+				new VanillaHUDElementDefinition(
+					name: "Crafting",
+					context: () => Main.playerInventory,
+					position: () => new Vector2( 20, -272 ),	// Main.inventoryScale,
+					dimensions: () => new Vector2( 96, 304 ),	// Main.inventoryScale,
+					displacement: () => new Vector2( 1, -1 )
+				),
 			};
 		}
 

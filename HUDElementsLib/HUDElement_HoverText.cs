@@ -41,7 +41,9 @@ namespace HUDElementsLib {
 				}
 			} else {
 				if( Main.playerInventory && !this.IsDragLocked() ) {
-					return ("Bind 'Edit Mode' to a key to interact", 60);
+					if( HUDElementsLibMod.Instance.HUDEditMode.GetAssignedKeys().Count == 0 ) {
+						return ("Bind 'Edit Mode' to a key to interact", 60);
+					}
 				}
 			}
 
