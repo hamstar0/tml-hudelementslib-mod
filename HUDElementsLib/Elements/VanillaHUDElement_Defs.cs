@@ -11,22 +11,32 @@ namespace HUDElementsLib {
 				new VanillaHUDElementDefinition(
 					name: "Inventory Hotbar",
 					context: () => true,
-					position: () => new Vector2( 20, 18 ),		// Main.inventoryScale,
-					dimensions: () => new Vector2( 472, 48 ),	// Main.inventoryScale,
+					position: () => {	// Main.inventoryScale?
+						if( Main.playerInventory ) {
+							return new Vector2( 20, 18 );
+						}
+						return new Vector2( 20, 24 );
+					},
+					dimensions: () => {	// Main.inventoryScale?
+						if( Main.playerInventory ) {
+							return new Vector2( 472, 48 );
+						}
+						return new Vector2( 440, 42 );
+					},
 					displacement: () => new Vector2( 1, 0 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Inventory",
 					context: () => Main.playerInventory,
-					position: () => new Vector2( 20, 66 ),		// Main.inventoryScale,
-					dimensions: () => new Vector2( 472, 190 ),	// Main.inventoryScale,
+					position: () => new Vector2( 20, 66 ),		// Main.inventoryScale?
+					dimensions: () => new Vector2( 472, 190 ),	// Main.inventoryScale?
 					displacement: () => new Vector2( 0, 1 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Inventory Chest",
 					context: () => Main.playerInventory && Main.LocalPlayer.chest != -1,
-					position: () => new Vector2( 68, 256 ),		// Main.inventoryScale,
-					dimensions: () => new Vector2( 424, 170 ),	// Main.inventoryScale,
+					position: () => new Vector2( 68, 256 ),		// Main.inventoryScale?
+					dimensions: () => new Vector2( 424, 170 ),	// Main.inventoryScale?
 					displacement: () => new Vector2( 0, 1 )
 				),
 				new VanillaHUDElementDefinition(
@@ -77,15 +87,15 @@ namespace HUDElementsLib {
 				new VanillaHUDElementDefinition(
 					name: "Trash Slot",
 					context: () => Main.playerInventory,
-					position: () => new Vector2( 444, 256 ),	// Main.inventoryScale,
-					dimensions: () => new Vector2( 48, 48 ),	// Main.inventoryScale,
+					position: () => new Vector2( 444, 256 ),	// Main.inventoryScale?
+					dimensions: () => new Vector2( 48, 48 ),	// Main.inventoryScale?
 					displacement: () => new Vector2( -1, 0 )
 				),
 				new VanillaHUDElementDefinition(
 					name: "Money & Ammo Slots",
 					context: () => Main.playerInventory,
-					position: () => new Vector2( 494, 82 ),		// Main.inventoryScale,
-					dimensions: () => new Vector2( 68, 192 ),	// Main.inventoryScale,
+					position: () => new Vector2( 494, 82 ),		// Main.inventoryScale?
+					dimensions: () => new Vector2( 68, 192 ),	// Main.inventoryScale?
 					displacement: () => new Vector2( 1, 0 )
 				),
 				new VanillaHUDElementDefinition(
@@ -113,8 +123,8 @@ namespace HUDElementsLib {
 				new VanillaHUDElementDefinition(
 					name: "Crafting",
 					context: () => Main.playerInventory,
-					position: () => new Vector2( 20, -272 ),	// Main.inventoryScale,
-					dimensions: () => new Vector2( 96, 304 ),	// Main.inventoryScale,
+					position: () => new Vector2( 20, -272 ),	// Main.inventoryScale?
+					dimensions: () => new Vector2( 96, 304 ),	// Main.inventoryScale?
 					displacement: () => new Vector2( 1, -1 )
 				),
 			};
