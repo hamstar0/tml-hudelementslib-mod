@@ -1,3 +1,4 @@
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -33,6 +34,15 @@ namespace HUDElementsLib {
 
 			mymod.MyUI?.Append( element );
 			mymod.MyUI?.Recalculate();
+		}
+
+
+		////////////////
+
+		public static void AddWidgetVisibilityHook( Func<string, bool> hook ) {
+			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
+
+			mymod.VisibilityHooks.Add( hook );
 		}
 	}
 }

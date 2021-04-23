@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
+using HUDElementsLib.Libraries.Helpers.TModLoader.Mods;
 
 
 namespace HUDElementsLib {
@@ -29,6 +32,11 @@ namespace HUDElementsLib {
 		internal ModHotKey HUDEditMode = null;
 
 
+		////////////////
+
+		internal List<Func<string, bool>> VisibilityHooks = new List<Func<string, bool>>();
+
+
 
 		////////////////
 
@@ -43,6 +51,13 @@ namespace HUDElementsLib {
 				this.HUDManager = new HUDManager( this.MyUI );
 				VanillaHUDElement.LoadVanillaElements();
 			}
+		}
+
+
+		////////////////
+
+		public override object Call( params object[] args ) {
+			return ModBoilerplateHelpers.HandleModCall( typeof(HUDElementsLibAPI), args );
 		}
 	}
 }
