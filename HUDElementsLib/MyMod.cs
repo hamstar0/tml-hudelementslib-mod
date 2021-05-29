@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
-using HUDElementsLib.Libraries.Helpers.TModLoader.Mods;
+using HUDElementsLib.Libraries.Libraries.TModLoader.Mods;
 
 
 namespace HUDElementsLib {
@@ -57,7 +57,7 @@ namespace HUDElementsLib {
 		////////////////
 
 		public override object Call( params object[] args ) {
-			return ModBoilerplateHelpers.HandleModCall( typeof(HUDElementsLibAPI), args );
+			return ModBoilerplateLibraries.HandleModCall( typeof(HUDElementsLibAPI), args );
 		}
 	}
 }

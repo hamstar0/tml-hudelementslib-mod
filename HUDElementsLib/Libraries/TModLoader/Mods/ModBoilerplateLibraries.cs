@@ -3,11 +3,11 @@ using System.Linq;
 using System.Reflection;
 
 
-namespace HUDElementsLib.Libraries.Helpers.TModLoader.Mods {
+namespace HUDElementsLib.Libraries.Libraries.TModLoader.Mods {
 	/// <summary>
-	/// Assorted static "helper" functions for alleviating tedious "boilerplate" code.
+	/// Assorted static library functions for alleviating tedious "boilerplate" code.
 	/// </summary>
-	public class ModBoilerplateHelpers {
+	public class ModBoilerplateLibraries {
 		/// <summary>
 		/// Allows using a class to bind its public static methods as `Mod.Call(...)` bindings (complete with parameter
 		/// validations). Meant to be called within `Mod.Call(...)`.

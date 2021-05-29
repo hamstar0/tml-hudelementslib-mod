@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using HUDElementsLib.Libraries.Helpers.HUD;
+using HUDElementsLib.Libraries.Libraries.HUD;
 
 
 namespace HUDElementsLib {
@@ -50,7 +50,7 @@ namespace HUDElementsLib {
 					name: "Armor And Accessories",
 					context: () => Main.playerInventory,
 					position: () => {
-						Vector2 topLeft = HUDElementHelpers.GetVanillaAccessorySlotScreenPosition(0);
+						Vector2 topLeft = HUDElementLibraries.GetVanillaAccessorySlotScreenPosition(0);
 						return new Vector2( -188, topLeft.Y-178 );
 					},
 					dimensions: () => {

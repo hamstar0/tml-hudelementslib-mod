@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 
 
-namespace HUDElementsLib.Libraries.Helpers.HUD {
+namespace HUDElementsLib.Libraries.Libraries.HUD {
 	/// <summary>
-	/// Assorted static "helper" functions pertaining to in-game HUD elements. 
+	/// Assorted static library functions pertaining to in-game HUD elements. 
 	/// </summary>
-	public class HUDElementHelpers {
+	public class HUDElementLibraries {
 		/// <summary>
 		/// Top left screen position of player's health.
 		/// </summary>

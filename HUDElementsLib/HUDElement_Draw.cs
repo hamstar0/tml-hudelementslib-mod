@@ -10,14 +10,14 @@ namespace HUDElementsLib {
 			if( !this.IsEnabled() ) {
 				return;
 			}
-
+			
 			var mymod = HUDElementsLibMod.Instance;
 			if( mymod.VisibilityHooks.Count > 0 ) {
 				if( mymod.VisibilityHooks.Any( h => !h.Invoke(this.Name) ) ) {
 					return;
 				}
 			}
-
+			
 			base.Draw( sb );
 
 			this.DrawOverlaysIf( sb );
