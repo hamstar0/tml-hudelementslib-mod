@@ -5,6 +5,21 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public static class HUDElementsLibAPI {
+		private static void MessageAboutHUD() {
+			Messages.MessagesAPI.AddMessagesCategoriesInitializeEvent( () => {
+				Messages.MessagesAPI.AddMessage(
+					title: "Reminder: Reposition custom HUD elements via. hotkey",
+					description: "Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",
+					modOfOrigin: HUDElementsLibMod.Instance,
+					id: "HUDElementsLibUsage",
+					parentMessage: Messages.MessagesAPI.ModInfoCategoryMsg
+				);
+			} );
+		}
+
+
+		////////////////
+
 		public static bool IsEditModeActive() {
 			return HUDElementsLibMod.Instance.HUDEditMode.Current;
 		}
@@ -34,6 +49,10 @@ namespace HUDElementsLib {
 
 			mymod.MyUI?.Append( element );
 			mymod.MyUI?.Recalculate();
+
+			if( ModLoader.GetMod( "Messages" ) != null ) {
+				HUDElementsLibAPI.MessageAboutHUD();
+			}
 		}
 
 
