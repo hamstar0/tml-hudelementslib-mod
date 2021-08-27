@@ -5,13 +5,17 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public static class HUDElementsLibAPI {
-		private static void MessageAboutHUD() {
+		private static void MessageAboutHUD_WeakRef() {
 			Messages.MessagesAPI.AddMessagesCategoriesInitializeEvent( () => {
+				string id = "HUDElementsLibUsage";
+
 				Messages.MessagesAPI.AddMessage(
 					title: "Reminder: Reposition custom HUD elements via. hotkey",
 					description: "Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",
 					modOfOrigin: HUDElementsLibMod.Instance,
-					id: "HUDElementsLibUsage",
+					id: id,
+					alertPlayer: Messages.MessagesAPI.IsUnread(id),
+					isImportant: false,
 					parentMessage: Messages.MessagesAPI.ModInfoCategoryMsg
 				);
 			} );
@@ -51,7 +55,7 @@ namespace HUDElementsLib {
 			mymod.MyUI?.Recalculate();
 
 			if( ModLoader.GetMod( "Messages" ) != null ) {
-				HUDElementsLibAPI.MessageAboutHUD();
+				HUDElementsLibAPI.MessageAboutHUD_WeakRef();
 			}
 		}
 
