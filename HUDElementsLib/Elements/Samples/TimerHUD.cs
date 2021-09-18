@@ -12,35 +12,6 @@ namespace HUDElementsLib.Elements.Samples {
 
 		////////////////
 		
-		public static long DefaultCountdownTicker( long currentTicks, out Color color ) {
-			if( currentTicks <= 0 ) {
-				color = Color.DarkGray;
-				return 0;
-			}
-
-			currentTicks--;
-
-			if( currentTicks > 60 * 60 ) {
-				color = Color.Lime;
-			} else if( currentTicks > 30 * 60 ) {
-				color = Color.White;
-			} else if( currentTicks > 10 * 60 ) {
-				color = Color.Yellow;
-			} else {
-				color = Color.Red;
-			}
-			return currentTicks - 1;
-		}
-
-		public static long DefaultClockTicker( long currentTicks, out Color color ) {
-			color = Color.White;
-			return currentTicks + 1;
-		}
-
-
-
-		////////////////
-
 		private long CurrentTicks = 0;
 
 		////

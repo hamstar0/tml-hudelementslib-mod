@@ -10,7 +10,7 @@ namespace HUDElementsLib {
 				string id = "HUDElementsLibUsage";
 
 				Messages.MessagesAPI.AddMessage(
-					title: "Reminder: Reposition custom HUD elements via. hotkey",
+					title: "Reposition HUD elements via. hotkey",
 					description: "Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",
 					modOfOrigin: HUDElementsLibMod.Instance,
 					id: id,

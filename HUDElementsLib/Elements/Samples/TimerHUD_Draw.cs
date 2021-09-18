@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using Terraria;
-using Terraria.UI;
 
 
 namespace HUDElementsLib.Elements.Samples {
@@ -12,41 +11,77 @@ namespace HUDElementsLib.Elements.Samples {
 			base.DrawSelf( sb );
 
 			DynamicSpriteFont font = Main.fontMouseText;
-			Vector2 textDim = font.MeasureString( this.TitleText );
 
-			CalculatedStyle dim = this.GetDimensions();
-			Vector2 dimCenter = dim.Center();
-			var pos = new Vector2( dimCenter.X, textDim.Y * 0.5f );
+			//CalculatedStyle dim = this.GetOuterDimensions();
+			Vector2 elemDim = new Vector2( this.Width.Pixels, this.Height.Pixels );
+			Vector2 elemCenter = elemDim * 0.5f;
+			Vector2 elemPos = this.GetHUDComputedPosition( true );	//new Vector2( dim.X, dim.Y )
 
 			//
 
-			sb.DrawString(
-				spriteFont: font,
-				text: this.TitleText,
-				position: pos,
-				color: Color.White,
-				rotation: 0f,
-				origin: textDim * 0.5f,
-				scale: 1f,
-				effects: SpriteEffects.None,
-				layerDepth: 0f
+			Vector2 titleDim = font.MeasureString( this.TitleText );
+			Vector2 titleCenter = titleDim * 0.5f;
+			Vector2 titlePos = new Vector2(
+				elemPos.X + (elemDim.X * 0.5f) - (titleDim.X * 0.5f),
+				elemPos.Y
 			);
+			//Vector2 titleMidPos = new Vector2(
+			//	elemPos.X + elemCenter.X,
+			//	elemPos.Y + titleCenter.Y
+			//);
+
+			Utils.DrawBorderString(
+				sb: sb,
+				text: this.TitleText,
+				pos: titlePos,
+				color: Color.White,
+				scale: 1f
+			);
+			//sb.DrawString(
+			//	spriteFont: font,
+			//	text: this.TitleText,
+			//	position: titleMidPos,
+			//	color: Color.White,
+			//	rotation: 0f,
+			//	origin: titleCenter,
+			//	scale: 1f,
+			//	effects: SpriteEffects.None,
+			//	layerDepth: 0f
+			//);
 
 			//
 
 			(string timerText, Color timerColor) = TimerHUD.RenderTimer( this.CurrentTicks, this.ShowTicks, this.Ticker );
 
-			sb.DrawString(
-				spriteFont: font,
-				text: timerText,
-				position: new Vector2( pos.X, textDim.Y + 2f ),
-				color: timerColor,
-				rotation: 0f,
-				origin: textDim * 0.5f,
-				scale: 1f,
-				effects: SpriteEffects.None,
-				layerDepth: 0f
+			Vector2 timerDim = font.MeasureString( timerText );
+			//Vector2 timerCenter = timerDim * 0.5f;
+			Vector2 timerPos = new Vector2(
+				elemPos.X + (elemDim.X * 0.5f) - (timerDim.X * 0.5f),
+				elemPos.Y + titleDim.Y + 4f
 			);
+			//Vector2 timerMidPos = new Vector2(
+			//	elemPos.X + elemCenter.X,
+			//	elemPos.Y + titleDim.Y + timerCenter.Y + 4f
+			//);
+
+			Utils.DrawBorderString(
+				sb: sb,
+				text: timerText,
+				pos: timerPos,
+				color: timerColor,
+				scale: 1f
+			);
+			//sb.DrawString(
+			//	spriteFont: font,
+			//	text: timerText,
+			//	position: timerMidPos,
+			//	color: timerColor,
+			//	rotation: 0f,
+			//	origin: timerCenter,
+			//	scale: 1f,
+			//	effects: SpriteEffects.None,
+			//	layerDepth: 0f
+			//);
 		}
 	}
 }

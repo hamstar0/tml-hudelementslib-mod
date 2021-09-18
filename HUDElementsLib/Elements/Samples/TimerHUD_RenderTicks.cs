@@ -5,39 +5,93 @@ using Terraria;
 
 namespace HUDElementsLib.Elements.Samples {
 	public partial class TimerHUD : HUDElement {
-		public static (string, Color) RenderTimer( long ticks, bool showTicks, TimeTicker ticker ) {
-			string output = ticks < 0L
-				? "-"
-				: "";
+		public static long DefaultCountdownTicker( long currentTicks, out Color color ) {
+			if( currentTicks <= 0 ) {
+				color = Color.DarkGray;
 
+				return 0;
+			}
+
+			//
+
+			currentTicks--;
+
+			if( currentTicks > 60 * 60 ) {
+				color = new Color( 128, 255, 128 );
+			} else if( currentTicks > 30 * 60 ) {
+				color = Color.White;
+			} else if( currentTicks > 15 * 60 ) {
+				color = new Color( 255, 255, 96 );
+			} else if( currentTicks > 5 * 60 ) {
+				color = new Color( 255, 96, 96 );
+			} else {
+				if( (currentTicks % 2) == 0 ) {
+					color = new Color( 255, 96, 96 );
+				} else {
+					color = new Color( 255, 255, 64 );
+				}
+			}
+			return currentTicks - 1;
+		}
+
+		public static long DefaultClockTicker( long currentTicks, out Color color ) {
+			color = Color.White;
+			return currentTicks + 1;
+		}
+
+
+		////////////////
+
+		public static (string, Color) RenderTimer( long ticks, bool showTicks, TimeTicker ticker ) {
 			long absTicks = Math.Abs( ticks );
 			long absSeconds = absTicks / 60L;
 			long absMinutes = absSeconds / 60L;
 			long absHours = absMinutes / 60L;
 
+			string output = ticks < 0L
+				? "-"
+				: "";
+
 			if( absHours > 0L ) {
-				output = output + absHours + ":";
+				output += absHours;
+
+				output += ":";
 			}
 
-			if( absMinutes > 10L ) {
-				output = output + "0" + absMinutes;
+			long absMinutesPer = absMinutes % 60L;
+			if( absMinutesPer < 10L ) {
+				output += "0" + absMinutesPer;
 			} else {
-				output = output + absMinutes;
+				output += absMinutesPer;
 			}
 
-			output = output + ":" + absSeconds;
+			output += ":";
+
+			long absSecondsPer = absSeconds % 60L;
+			if( absSecondsPer < 10L ) {
+				output += "0" + absSecondsPer;
+			} else {
+				output += absSecondsPer;
+			}
 
 			if( showTicks ) {
-				long absTicksOnly = absTicks % 60L;
+				output += ":";
 
-				if( absTicksOnly > 10L ) {
-					output = output + ":0" + absTicksOnly;
+				long absTicksPer = absTicks % 60L;
+				if( absTicksPer < 10L ) {
+					output += "0" + absTicksPer;
 				} else {
-					output = output + ":" + absTicksOnly;
+					output += absTicksPer;
 				}
 			}
 
-			ticker.Invoke( ticks+1L, out Color color );
+			//
+
+			Color color;
+			long newTicks = ticker.Invoke( ticks, out _ );
+
+			long tickDiff = ticks - newTicks;
+			ticker.Invoke( ticks+tickDiff, out color );
 
 			return (output, color);
 		}
