@@ -60,6 +60,8 @@ namespace HUDElementsLib.Elements.Samples {
 
 		public TimeTicker Ticker { get; private set; }
 
+		public Func<bool> Enabler { get; private set; }
+
 
 
 		////////////////
@@ -70,11 +72,13 @@ namespace HUDElementsLib.Elements.Samples {
 					string title,
 					long startTimeTicks,
 					bool showTicks,
+					Func<bool> enabler,
 					TimeTicker ticker )
 					: base( "Timer", pos, dim )  {
 			this.TitleText = title;
 			this.CurrentTicks = startTimeTicks;
 			this.ShowTicks = showTicks;
+			this.Enabler = enabler;
 			this.Ticker = ticker;
 		}
 
@@ -84,17 +88,26 @@ namespace HUDElementsLib.Elements.Samples {
 					string title,
 					long startTimeTicks,
 					bool showTicks,
+					Func<bool> enabler,
 					bool isCountdownOrElseClock = true )
 					: base( "Timer", pos, dim )  {
 			this.TitleText = title;
 			this.CurrentTicks = startTimeTicks;
 			this.ShowTicks = showTicks;
+			this.Enabler = enabler;
 
 			if( isCountdownOrElseClock ) {
 				this.Ticker = TimerHUD.DefaultCountdownTicker;
 			} else {
 				this.Ticker = TimerHUD.DefaultClockTicker;
 			}
+		}
+
+
+		////////////////
+
+		public override bool IsEnabled() {
+			return this.Enabler.Invoke();
 		}
 	}
 }
