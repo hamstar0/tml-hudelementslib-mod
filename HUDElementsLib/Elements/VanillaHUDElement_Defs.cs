@@ -4,7 +4,7 @@ using Terraria;
 using HUDElementsLib.Libraries.Libraries.HUD;
 
 
-namespace HUDElementsLib {
+namespace HUDElementsLib.Elements {
 	public partial class VanillaHUDElement : HUDElement {
 		static VanillaHUDElement() {
 			VanillaHUDElement.VanillaHUDInfo = new VanillaHUDElementDefinition[] {

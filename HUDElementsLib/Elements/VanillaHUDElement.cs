@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 
 
-namespace HUDElementsLib {
+namespace HUDElementsLib.Elements {
 	public struct VanillaHUDElementDefinition {
 		public string Name;
 		public Func<bool> Context;
