@@ -43,6 +43,10 @@ namespace HUDElementsLib.Elements.Samples {
 
 		private long CurrentTicks = 0;
 
+		////
+
+		private Action PerTickAction;
+
 
 		////////////////
 
@@ -80,6 +84,10 @@ namespace HUDElementsLib.Elements.Samples {
 			this.ShowTicks = showTicks;
 			this.Enabler = enabler;
 			this.Ticker = ticker;
+
+			this.PerTickAction = () => {
+				this.CurrentTicks = this.Ticker.Invoke( this.CurrentTicks, out _ );
+			};
 		}
 
 		public TimerHUD(
@@ -101,13 +109,46 @@ namespace HUDElementsLib.Elements.Samples {
 			} else {
 				this.Ticker = TimerHUD.DefaultClockTicker;
 			}
+
+			this.PerTickAction = () => {
+				this.CurrentTicks = this.Ticker.Invoke( this.CurrentTicks, out _ );
+			};
+		}
+
+
+		////////////////
+		
+		public override bool IsEnabled() {
+			return this.Enabler.Invoke();
+		}
+
+
+		////////////////
+		
+		public void SetTimerTicks( long ticks ) {
+			this.CurrentTicks = ticks;
+		}
+
+
+		////////////////
+		
+		public bool StartTimer() {
+			var mymod = HUDElementsLibMod.Instance;
+
+			return mymod.PerTickActions.Add( this.PerTickAction );
+		}
+
+		public bool PauseTimer() {
+			var mymod = HUDElementsLibMod.Instance;
+
+			return mymod.PerTickActions.Remove( this.PerTickAction );
 		}
 
 
 		////////////////
 
-		public override bool IsEnabled() {
-			return this.Enabler.Invoke();
+		public override void Update( GameTime gameTime ) {
+			base.Update( gameTime );
 		}
 	}
 }

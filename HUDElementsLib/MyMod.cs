@@ -37,6 +37,8 @@ namespace HUDElementsLib {
 
 		internal List<Func<string, bool>> VisibilityHooks = new List<Func<string, bool>>();
 
+		internal ISet<Action> PerTickActions = new HashSet<Action>();
+
 
 
 		////////////////
@@ -51,6 +53,15 @@ namespace HUDElementsLib {
 
 				this.HUDManager = new HUDManager( this.MyUI );
 				VanillaHUDElement.LoadVanillaElements();
+			}
+		}
+
+
+		////////////////
+
+		public override void MidUpdateTimeWorld() {
+			foreach( Action tickAction in this.PerTickActions ) {
+				tickAction.Invoke();
 			}
 		}
 
