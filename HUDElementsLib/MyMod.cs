@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
 using HUDElementsLib.Libraries.Libraries.TModLoader.Mods;
+using HUDElementsLib.Elements;
 
 
 namespace HUDElementsLib {

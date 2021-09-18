@@ -3,7 +3,7 @@
   <Import Project="C:\Users\Spinach\Documents\My Games\Terraria\ModLoader\references\tModLoader.targets" />
   <PropertyGroup>
     <AssemblyName>HUDElementsLib</AssemblyName>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
