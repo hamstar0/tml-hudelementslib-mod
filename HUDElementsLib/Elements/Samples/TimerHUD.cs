@@ -80,7 +80,6 @@ namespace HUDElementsLib.Elements.Samples {
 					bool showTicks,
 					Func<bool> enabler,
 					TimeTicker ticker ) {
-			this.BasicConstructor( title, startTimeTicks, showTicks, enabler, ticker );
 			this.TitleText = title;
 			this.CurrentTicks = startTimeTicks;
 			this.ShowTicks = showTicks;
