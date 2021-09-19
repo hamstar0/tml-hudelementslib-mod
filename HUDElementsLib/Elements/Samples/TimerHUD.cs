@@ -50,15 +50,7 @@ namespace HUDElementsLib.Elements.Samples {
 					Func<bool> enabler,
 					TimeTicker ticker )
 					: base( "Timer", pos, dim )  {
-			this.TitleText = title;
-			this.CurrentTicks = startTimeTicks;
-			this.ShowTicks = showTicks;
-			this.Enabler = enabler;
-			this.Ticker = ticker;
-
-			this.PerTickAction = () => {
-				this.CurrentTicks = this.Ticker.Invoke( this.CurrentTicks, out _ );
-			};
+			this.BasicConstructor( title, startTimeTicks, showTicks, enabler, ticker );
 		}
 
 		public TimerHUD(
@@ -70,16 +62,30 @@ namespace HUDElementsLib.Elements.Samples {
 					Func<bool> enabler,
 					bool isCountdownOrElseClock = true )
 					: base( "Timer", pos, dim )  {
+			TimeTicker ticker;
+			if( isCountdownOrElseClock ) {
+				ticker = TimerHUD.DefaultCountdownTicker;
+			} else {
+				ticker = TimerHUD.DefaultClockTicker;
+			}
+
+			this.BasicConstructor( title, startTimeTicks, showTicks, enabler, ticker );
+		}
+
+		////
+
+		private void BasicConstructor(
+					string title,
+					long startTimeTicks,
+					bool showTicks,
+					Func<bool> enabler,
+					TimeTicker ticker ) {
+			this.BasicConstructor( title, startTimeTicks, showTicks, enabler, ticker );
 			this.TitleText = title;
 			this.CurrentTicks = startTimeTicks;
 			this.ShowTicks = showTicks;
 			this.Enabler = enabler;
-
-			if( isCountdownOrElseClock ) {
-				this.Ticker = TimerHUD.DefaultCountdownTicker;
-			} else {
-				this.Ticker = TimerHUD.DefaultClockTicker;
-			}
+			this.Ticker = ticker;
 
 			this.PerTickAction = () => {
 				this.CurrentTicks = this.Ticker.Invoke( this.CurrentTicks, out _ );
@@ -88,7 +94,7 @@ namespace HUDElementsLib.Elements.Samples {
 
 
 		////////////////
-		
+
 		public override bool IsEnabled() {
 			return this.Enabler.Invoke();
 		}

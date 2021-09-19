@@ -6,7 +6,7 @@ using Terraria;
 namespace HUDElementsLib.Elements.Samples {
 	public partial class TimerHUD : HUDElement {
 		public static long DefaultCountdownTicker( long currentTicks, out Color color ) {
-			if( currentTicks <= 0 ) {
+			if( currentTicks <= 1 ) {
 				color = Color.DarkGray;
 
 				return 0;
@@ -31,7 +31,7 @@ namespace HUDElementsLib.Elements.Samples {
 					color = new Color( 255, 255, 64 );
 				}
 			}
-			return currentTicks - 1;
+			return currentTicks;
 		}
 
 		public static long DefaultClockTicker( long currentTicks, out Color color ) {
