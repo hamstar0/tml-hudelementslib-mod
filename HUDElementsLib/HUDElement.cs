@@ -46,6 +46,11 @@ namespace HUDElementsLib {
 			this.DefaultPositionWithAnchor = position;
 			this.CustomPositionWithAnchor = position;
 			this.CustomDimensions = dimensions;
+
+			this.Left.Set( position.X, 0f );
+			this.Top.Set( position.Y, 0f );
+			this.Width.Set( this.CustomDimensions.X, 0f );
+			this.Height.Set( this.CustomDimensions.Y, 0f );
 		}
 
 

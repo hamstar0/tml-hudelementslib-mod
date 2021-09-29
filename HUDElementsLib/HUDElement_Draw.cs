@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
@@ -21,6 +22,21 @@ namespace HUDElementsLib {
 			base.Draw( sb );
 
 			this.DrawOverlaysIf( sb );
+		}
+
+
+		protected override void DrawSelf( SpriteBatch spriteBatch ) {
+			Vector2 elemPos = this.GetHUDComputedPosition( true );
+			Vector2 dim = this.GetHUDComputedDimensions();
+
+			this.Left.Set( elemPos.X, 0f );
+			this.Top.Set( elemPos.Y, 0f );
+			this.Width.Set( dim.X, 0f );
+			this.Height.Set( dim.Y, 0f );
+
+			this.Recalculate();
+
+			base.DrawSelf( spriteBatch );
 		}
 
 
