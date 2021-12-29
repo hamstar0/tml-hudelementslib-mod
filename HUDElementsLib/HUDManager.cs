@@ -60,7 +60,7 @@ namespace HUDElementsLib {
 
 			if( !HUDElementsLibAPI.IsEditModeActive() ) {
 				foreach( HUDElement elem in this.Elements.Values ) {
-					if( this.UpdateInteractionsWithinEntireUiIf( elem ) ) {
+					if( this.UpdateInteractionsWithinEntireUI_If( elem ) ) {
 						break;
 					}
 				}

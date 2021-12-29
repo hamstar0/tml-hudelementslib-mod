@@ -27,7 +27,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private bool UpdateEditModeInteractionsIf() {
+		private bool UpdateEditModeInteractions_If() {
 			if( !this.IsEnabled() ) {
 				return false;
 			}
@@ -35,8 +35,8 @@ namespace HUDElementsLib {
 			bool mouseLeft = PlayerInput.Triggers.Current.MouseLeft;
 			bool isEditMode = HUDElementsLibAPI.IsEditModeActive();
 
-			this.UpdateInteractionsForEditModeControlsIf( isEditMode, mouseLeft );
-			this.UpdateInteractionsForEditModeDragIf( isEditMode, mouseLeft );
+			this.UpdateInteractionsForEditModeControls_If( isEditMode, mouseLeft );
+			this.UpdateInteractionsForEditModeDrag_If( isEditMode, mouseLeft );
 
 			return true;
 		}

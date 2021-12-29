@@ -30,7 +30,7 @@ namespace HUDElementsLib {
 		private int _HoverTextDuration = -1;
 		private int _HoverTextMaxDuration = -1;
 
-		private void DrawHoverTextIf( SpriteBatch sb, string text, int duration ) {
+		private void DrawHoverText_If( SpriteBatch sb, string text, int duration ) {
 			if( !this.IsMouseHoveringEditableBox ) {
 				return;
 			}

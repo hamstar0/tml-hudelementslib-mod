@@ -23,7 +23,7 @@ namespace HUDElementsLib {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 			mymod.HUDManager.FindAndApplyDisplacements( this );
 
-			if( !this.UpdateEditModeInteractionsIf() ) {
+			if( !this.UpdateEditModeInteractions_If() ) {
 				this.ResetEditModeInteractions();
 			}
 

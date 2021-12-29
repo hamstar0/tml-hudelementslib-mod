@@ -26,7 +26,7 @@ namespace HUDElementsLib {
 
 			//
 
-			HUDElement.DrawControlsIf(
+			HUDElement.DrawEditModeControls_If(
 				sb: sb,
 				area: area,
 				brightness: brightness,
@@ -53,7 +53,7 @@ namespace HUDElementsLib {
 
 		////
 
-		public static void DrawControlsIf(
+		public static void DrawEditModeControls_If(
 					SpriteBatch sb,
 					Rectangle area,
 					float brightness,
@@ -71,7 +71,7 @@ namespace HUDElementsLib {
 			}
 
 			if( collisionToggler.HasValue ) {
-				HUDElement.DrawControlsCollisionTogglerIf(
+				HUDElement.DrawEditModeControls_CollisionToggler_If(
 					sb: sb,
 					area: area,
 					brightness: brightness,
@@ -82,7 +82,7 @@ namespace HUDElementsLib {
 			}
 
 			if( resetButton.HasValue ) {
-				HUDElement.DrawControlsResetButtonIf(
+				HUDElement.DrawEditModeControls_ResetButton_If(
 					sb: sb,
 					area: area,
 					brightness: brightness,
@@ -93,7 +93,7 @@ namespace HUDElementsLib {
 			}
 
 			if( anchorRightButton.HasValue && anchorBottomButton.HasValue ) {
-				HUDElement.DrawControlsAnchorButtonsIf(
+				HUDElement.DrawEditModeControls_AnchorButtons_If(
 					sb: sb,
 					area: area,
 					brightness: brightness,

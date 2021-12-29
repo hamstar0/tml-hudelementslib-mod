@@ -7,7 +7,7 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public static void DrawControlsAnchorButtonsIf(
+		public static void DrawEditModeControls_AnchorButtons_If(
 					SpriteBatch sb,
 					Rectangle area,
 					float brightness,

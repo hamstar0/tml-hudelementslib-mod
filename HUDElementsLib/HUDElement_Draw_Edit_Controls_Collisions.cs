@@ -7,19 +7,19 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public static void DrawControlsResetButtonIf(
+		public static void DrawEditModeControls_CollisionToggler_If(
 					SpriteBatch sb,
 					Rectangle area,
 					float brightness,
 					bool on,
 					Vector2 hoverPoint,
 					ref bool isHovering ) {
-			if( !HUDElementsLibConfig.Instance.EnableResetButtonControl ) {
+			if( !HUDElementsLibConfig.Instance.EnableCollisionsToggleControl ) {
 				return;
 			}
 
-			var buttonArea = HUDElement.GetResetButtonArea( area );
-			var buttonIconArea = HUDElement.GetResetButtonIconArea( area );
+			var buttonArea = HUDElement.GetCollisionTogglerArea( area );
+			var buttonIconArea = HUDElement.GetCollisionTogglerIconArea( area );
 
 			isHovering = buttonArea.Contains( hoverPoint.ToPoint() );
 
@@ -39,7 +39,7 @@ namespace HUDElementsLib {
 				color: bgColor * brightness
 			);
 			sb.Draw(
-				texture: Main.itemTexture[ItemID.MagicMirror],
+				texture: Main.itemTexture[ItemID.Actuator],
 				destinationRectangle: buttonIconArea,
 				color: iconColor
 			);

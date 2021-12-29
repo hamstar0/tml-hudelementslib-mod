@@ -13,7 +13,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void UpdateInteractionsForEditModeDragIf( bool isEditMode, bool mouseLeft ) {
+		private void UpdateInteractionsForEditModeDrag_If( bool isEditMode, bool mouseLeft ) {
 			if( this.IsInteractingWithControls ) { return; }
 			if( this.IsDragLocked() ) { return; }
 

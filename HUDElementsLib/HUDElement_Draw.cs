@@ -21,7 +21,7 @@ namespace HUDElementsLib {
 			
 			base.Draw( sb );
 
-			this.DrawOverlaysIf( sb );
+			this.DrawOverlays_If( sb );
 		}
 
 
@@ -42,7 +42,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void DrawOverlaysIf( SpriteBatch sb ) {
+		private void DrawOverlays_If( SpriteBatch sb ) {
 			bool isHoverCollision = false;
 			bool isHoverAnchorRight = false;
 			bool isHoverAnchorBottom = false;
@@ -74,7 +74,7 @@ namespace HUDElementsLib {
 			);
 
 			if( !string.IsNullOrEmpty(hoverInfo.text ) ) {
-				this.DrawHoverTextIf( sb, hoverInfo.text, hoverInfo.duration );
+				this.DrawHoverText_If( sb, hoverInfo.text, hoverInfo.duration );
 			} else {
 				this.ClearHoverText();
 			}

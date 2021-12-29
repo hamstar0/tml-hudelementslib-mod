@@ -84,12 +84,12 @@ namespace HUDElementsLib {
 		////////////////
 
 		public void FindAndApplyDisplacements( HUDElement element ) {
-			if( !this.FindAndApplyDisplacementsIf(element) ) {
+			if( !this.FindAndApplyDisplacements_If(element) ) {
 				element.RevertDisplacedPosition();
 			}
 		}
 
-		private bool FindAndApplyDisplacementsIf( HUDElement element ) {
+		private bool FindAndApplyDisplacements_If( HUDElement element ) {
 			if( element.IsIgnoringCollisions ) { return false; }
 
 			bool isDisplaced = false;
@@ -99,7 +99,7 @@ namespace HUDElementsLib {
 				HUDElement obstacle = this.FindFirstCollision( element );
 				if( obstacle == null ) { break; }
 
-				Vector2? displacedPos = HUDElement.FindDisplacedPositionIf( currentArea, element, obstacle );
+				Vector2? displacedPos = HUDElement.FindDisplacedPosition_If( currentArea, element, obstacle );
 				if( !displacedPos.HasValue ) { break; }
 
 				isDisplaced = true;

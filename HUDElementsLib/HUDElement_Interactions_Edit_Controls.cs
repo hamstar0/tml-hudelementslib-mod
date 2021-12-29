@@ -16,7 +16,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void UpdateInteractionsForEditModeControlsIf( bool isEditMode, bool mouseLeft ) {
+		private void UpdateInteractionsForEditModeControls_If( bool isEditMode, bool mouseLeft ) {
 			if( this.IsInteractingWithControls ) {
 				bool isInteracting = mouseLeft && isEditMode;	//&& this.IsMouseHovering_Custom;
 
@@ -48,15 +48,15 @@ namespace HUDElementsLib {
 			bool pressed = false;
 
 			if( toggler.Contains(mouse) && this.IsCollisionToggleable() ) {
-				pressed = this.ApplyCollisionsToggleControlPressIf();
+				pressed = this.ApplyCollisionsToggleControlPress_If();
 			} else if( reset.Contains(mouse) && !this.IsDragLocked() ) {
 				pressed = true;
 				this.ResetPositionToDefault();
 			} else if( this.IsAnchorsToggleable() ) {
 				if( anchorR.Contains(mouse) ) {
-					pressed = this.ApplyRightAnchorToggleControlPressIf();
+					pressed = this.ApplyRightAnchorToggleControlPress_If();
 				} else if( anchorB.Contains(mouse) ) {
-					pressed = this.ApplyBottomAnchorToggleControlPressIf();
+					pressed = this.ApplyBottomAnchorToggleControlPress_If();
 				}
 			}
 
@@ -77,7 +77,7 @@ namespace HUDElementsLib {
 
 		////
 
-		private bool ApplyCollisionsToggleControlPressIf() {
+		private bool ApplyCollisionsToggleControlPress_If() {
 			if( !HUDElementsLibConfig.Instance.EnableCollisionsToggleControl ) {
 				return false;
 			}
@@ -88,7 +88,7 @@ namespace HUDElementsLib {
 			return true;
 		}
 
-		private bool ApplyRightAnchorToggleControlPressIf() {
+		private bool ApplyRightAnchorToggleControlPress_If() {
 			if( !HUDElementsLibConfig.Instance.EnableAnchorsToggleControl ) {
 				return false;
 			}
@@ -99,7 +99,7 @@ namespace HUDElementsLib {
 			return true;
 		}
 
-		private bool ApplyBottomAnchorToggleControlPressIf() {
+		private bool ApplyBottomAnchorToggleControlPress_If() {
 			if( !HUDElementsLibConfig.Instance.EnableAnchorsToggleControl ) {
 				return false;
 			}
