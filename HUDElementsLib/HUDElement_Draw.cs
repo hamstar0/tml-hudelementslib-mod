@@ -54,9 +54,9 @@ namespace HUDElementsLib {
 			bool editMode = HUDElementsLibAPI.IsEditModeActive();
 
 			if( editMode ) {
-				this.DrawOverlayTitle( sb );
-				this.DrawOverlayOfBoxes( sb );
-				this.DrawOverlayOfControls(
+				this.DrawEditModeTitle( sb );
+				this.DrawEditModeBoxes( sb );
+				this.DrawEditModeControls(
 					sb,
 					out isHoverCollision,
 					out isHoverReset,

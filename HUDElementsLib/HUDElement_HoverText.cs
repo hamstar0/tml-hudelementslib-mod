@@ -10,7 +10,7 @@ namespace HUDElementsLib {
 					bool isResetButton,
 					bool isAnchorRightToggle,
 					bool isAnchorBottomToggle ) {
-			if( !this.IsMouseHovering_Custom ) {
+			if( !this.IsMouseHoveringEditableBox ) {
 				return ("", -1);
 			}
 

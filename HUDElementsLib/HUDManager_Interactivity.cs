@@ -34,7 +34,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private bool UpdateInteractionsIf( HUDElement elem ) {
+		private bool UpdateInteractionsWithinEntireUiIf( HUDElement elem ) {
 			if( !elem.IsEnabled() ) {
 				return false;
 			}

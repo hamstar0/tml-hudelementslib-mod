@@ -6,28 +6,6 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		/*internal bool PreUpdateForInteractions() {
-			//Rectangle area = this.GetHUDComputedArea( false );	<- Incorrect rectangle when game or ui zooms
-			//this.IsMouseHovering_Custom = area.Contains( Main.MouseScreen.ToPoint() );
-
-			//bool isInteracting = Main.playerInventory && Main.mouseLeft && this.IsMouseHovering_Custom;
-			bool isInteracting = Main.mouseLeft
-				&& this.IsMouseHovering_Custom
-				&& HUDElementsLibAPI.IsEditModeActive();
-
-			if( isInteracting ) {
-				Main.LocalPlayer.mouseInterface = true; // Locks control for this element
-//if( Main.LocalPlayer.mouseInterface ) {
-//	Main.NewText( "HUD_Elem_PreUpdForInt 1" );
-//}
-			}
-
-			return isInteracting;
-		}*/
-
-
-		////////////////
-
 		public override void Update( GameTime gameTime ) {
 			if( !this.IsEnabled() ) {
 				return;
@@ -36,7 +14,7 @@ namespace HUDElementsLib {
 			base.Update( gameTime );
 
 			Rectangle area = this.GetHUDComputedArea( false );  // Original spot only
-			this.IsMouseHovering_Custom = area.Contains( Main.MouseScreen.ToPoint() );
+			this.IsMouseHoveringEditableBox = area.Contains( Main.mouseX, Main.mouseY );
 
 			this.UpdateHUD();
 		}
@@ -45,8 +23,8 @@ namespace HUDElementsLib {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 			mymod.HUDManager.FindAndApplyDisplacements( this );
 
-			if( !this.UpdateInteractionsIf() ) {
-				this.ResetInteractions();
+			if( !this.UpdateEditModeInteractionsIf() ) {
+				this.ResetEditModeInteractions();
 			}
 
 			this.UpdateHUDPosition();

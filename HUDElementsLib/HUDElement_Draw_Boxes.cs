@@ -6,12 +6,12 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private void DrawOverlayOfBoxes( SpriteBatch sb ) {
+		private void DrawEditModeBoxes( SpriteBatch sb ) {
 			Rectangle area = this.GetHUDComputedArea( false );
 			Color baseColor = this.IsDragLocked()
 				? Color.Red
 				: Color.White;
-			baseColor *= this.IsMouseHovering_Custom
+			baseColor *= this.IsMouseHoveringEditableBox
 				? 1f
 				: 0.8f;
 			float brightness = this.IsDraggingSinceLastTick
@@ -25,12 +25,12 @@ namespace HUDElementsLib {
 				area: area,
 				color: baseColor * brightness,
 				bodyOpacity: this.IsIgnoringCollisions ? 0.2f : 0.5f,
-				pulses: !this.IsMouseHovering_Custom
+				pulses: !this.IsMouseHoveringEditableBox
 			);
 
 			if( this.DisplacedPosition.HasValue ) {
 				Color displacedColor = Color.Yellow * 0.5f;
-				displacedColor *= this.IsMouseHovering_Custom
+				displacedColor *= this.IsMouseHoveringEditableBox
 					? 1f
 					: 0.65f;
 
@@ -41,7 +41,7 @@ namespace HUDElementsLib {
 					area: displacedArea,
 					color: displacedColor,
 					bodyOpacity: 0.5f,
-					pulses: !this.IsMouseHovering_Custom
+					pulses: !this.IsMouseHoveringEditableBox
 				);
 			}
 		}

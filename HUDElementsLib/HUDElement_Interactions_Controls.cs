@@ -16,7 +16,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void UpdateInteractionsForControlsIf( bool isEditMode, bool mouseLeft ) {
+		private void UpdateInteractionsForEditModeControlsIf( bool isEditMode, bool mouseLeft ) {
 			if( this.IsInteractingWithControls ) {
 				bool isInteracting = mouseLeft && isEditMode;	//&& this.IsMouseHovering_Custom;
 
@@ -29,10 +29,14 @@ namespace HUDElementsLib {
 				return;	// Only the first tick of interaction matters
 			}
 
+			//
+
 			if( !isEditMode ) { return; }
 			if( !mouseLeft ) { return; }
-			if( !this.IsMouseHovering_Custom ) { return; }
+			if( !this.IsMouseHoveringEditableBox ) { return; }
 			if( HUDElementsLibAPI.GetDraggingElement() != null ) { return; }
+
+			//
 
 			Point mouse = Main.MouseScreen.ToPoint();
 			Rectangle area = this.GetHUDComputedArea( false );

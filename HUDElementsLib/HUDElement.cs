@@ -10,7 +10,7 @@ namespace HUDElementsLib {
 
 		protected Vector2? DisplacedPosition = null;
 
-		private bool IsMouseHovering_Custom = false;
+		private bool IsMouseHoveringEditableBox = false;
 
 
 		////////////////

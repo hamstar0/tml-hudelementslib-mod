@@ -13,21 +13,24 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private void UpdateInteractionsForDragIf( bool isAlt, bool mouseLeft ) {
+		private void UpdateInteractionsForEditModeDragIf( bool isEditMode, bool mouseLeft ) {
 			if( this.IsInteractingWithControls ) { return; }
 			if( this.IsDragLocked() ) { return; }
 
+			//
+
 			HUDElement currDrag = HUDElementsLibAPI.GetDraggingElement();
-			if( currDrag != null && currDrag != this ) { return; }
 
-			bool isInteracting = mouseLeft && isAlt;
+			if( currDrag == null || currDrag == this ) {
+				bool isInteracting = mouseLeft && isEditMode;
 
-			if( isInteracting ) {
-				if( this.IsDraggingSinceLastTick || this.IsMouseHovering_Custom ) {
-					this.ApplyDrag();
+				if( isInteracting ) {
+					if( this.IsDraggingSinceLastTick || this.IsMouseHoveringEditableBox ) {
+						this.ApplyDrag();
+					}
+				} else {
+					this.DesiredDragPosition = null;
 				}
-			} else {
-				this.DesiredDragPosition = null;
 			}
 		}
 

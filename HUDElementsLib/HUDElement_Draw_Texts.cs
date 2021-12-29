@@ -7,7 +7,7 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private void DrawOverlayTitle( SpriteBatch sb ) {
+		private void DrawEditModeTitle( SpriteBatch sb ) {
 			Rectangle area = this.GetHUDComputedArea( false );
 
 			sb.DrawString(
@@ -31,7 +31,7 @@ namespace HUDElementsLib {
 		private int _HoverTextMaxDuration = -1;
 
 		private void DrawHoverTextIf( SpriteBatch sb, string text, int duration ) {
-			if( !this.IsMouseHovering_Custom ) {
+			if( !this.IsMouseHoveringEditableBox ) {
 				return;
 			}
 			if( this.IsInteractingAny ) {

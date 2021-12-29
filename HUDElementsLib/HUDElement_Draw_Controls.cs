@@ -6,16 +6,16 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		private void DrawOverlayOfControls(
+		private void DrawEditModeControls(
 					SpriteBatch sb,
 					out bool isHoverCollision,
 					out bool isHoverReset,
 					out bool isHoverAnchorRight,
 					out bool isHoverAnchorBottom ) {
-			isHoverCollision = this.IsMouseHovering_Custom && this.IsCollisionToggleable();
-			isHoverReset = this.IsMouseHovering_Custom && !this.IsDragLocked();
-			isHoverAnchorRight = this.IsMouseHovering_Custom && this.IsAnchorsToggleable();
-			isHoverAnchorBottom = this.IsMouseHovering_Custom && this.IsAnchorsToggleable();
+			isHoverCollision = this.IsMouseHoveringEditableBox && this.IsCollisionToggleable();
+			isHoverReset = this.IsMouseHoveringEditableBox && !this.IsDragLocked();
+			isHoverAnchorRight = this.IsMouseHoveringEditableBox && this.IsAnchorsToggleable();
+			isHoverAnchorBottom = this.IsMouseHoveringEditableBox && this.IsAnchorsToggleable();
 
 			//
 
