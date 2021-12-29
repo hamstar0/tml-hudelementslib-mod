@@ -51,11 +51,18 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		internal void PreUpdateForInteractions() {
+		internal void PreUpdateForInteractionsIf() {
+			if( HUDElementsLibAPI.IsEditModeActive() ) {
+				return;
+			}
+
 			foreach( HUDElement elem in this.Elements.Values ) {
-				if( elem.PreUpdateForInteractions() ) {
+				if( this.UpdateInteractionsIf(elem) ) {
 					break;
 				}
+				//if( elem.PreUpdateForInteractions() ) {
+				//	break;
+				//}
 			}
 		}
 	}

@@ -72,7 +72,7 @@ namespace HUDElementsLib {
 
 		private void PreUpdateLocal() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
-			mymod.HUDManager?.PreUpdateForInteractions();  //:blobshrug:
+			mymod.HUDManager?.PreUpdateForInteractionsIf();  //:blobshrug:
 		}
 	}
 }

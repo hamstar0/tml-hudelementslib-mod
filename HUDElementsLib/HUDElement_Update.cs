@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		internal bool PreUpdateForInteractions() {
+		/*internal bool PreUpdateForInteractions() {
 			//Rectangle area = this.GetHUDComputedArea( false );	<- Incorrect rectangle when game or ui zooms
 			//this.IsMouseHovering_Custom = area.Contains( Main.MouseScreen.ToPoint() );
 
@@ -23,7 +23,7 @@ namespace HUDElementsLib {
 			}
 
 			return isInteracting;
-		}
+		}*/
 
 
 		////////////////
