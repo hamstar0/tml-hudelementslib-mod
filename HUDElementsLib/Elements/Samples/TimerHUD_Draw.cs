@@ -7,8 +7,10 @@ using Terraria;
 
 namespace HUDElementsLib.Elements.Samples {
 	public partial class TimerHUD : HUDElement {
-		protected override void DrawSelf( SpriteBatch sb ) {
-			base.DrawSelf( sb );
+		protected override void PostDrawSelf( bool isSelfDrawn, SpriteBatch sb ) {
+			if( !isSelfDrawn ) {
+				return;
+			}
 
 			DynamicSpriteFont font = Main.fontMouseText;
 
