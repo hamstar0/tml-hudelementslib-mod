@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.UI;
 using Terraria.ModLoader;
+using HUDElementsLib.Elements;
 
 
 namespace HUDElementsLib {
@@ -53,45 +55,66 @@ namespace HUDElementsLib {
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			GameInterfaceDrawMethod widgetsUI = delegate {
+/*if( this.MyUI != null ) {
+List<UIElement> elems;
+ModLibsCore.Libraries.DotNET.Reflection.ReflectionLibraries.Get(
+	this.MyUI,
+	"Elements",
+	out elems
+);
+ModLibsCore.Libraries.Debug.DebugLibraries.Print(
+	"interface",
+	string.Join(", ", elems
+		.Where( e=>e.GetType()!=typeof(VanillaHUDElement) )
+		.Select( e=>((HUDElement)e).Name )
+	)
+);
+}*/
 				this.MyUI?.Update( Main._drawInterfaceGameTime );  //:blobshrug:
 				this.MyUI?.Draw( Main.spriteBatch );
+
 				return true;
 			};
 
-			int mouseTextIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Mouse Text" ) );
+			int mouseTextIdx = layers.FindIndex( layer => layer.Name.Equals("Vanilla: Mouse Text") );
 			if( mouseTextIdx >= 0 ) {
-				var invOverLayer = new LegacyGameInterfaceLayer( "HUDElementsLib: Widgets", widgetsUI, InterfaceScaleType.UI );
+				var invOverLayer = new LegacyGameInterfaceLayer(
+					name: "HUDElementsLib: Widgets",
+					drawMethod: widgetsUI,
+					scaleType: InterfaceScaleType.UI
+				);
 				layers.Insert( mouseTextIdx, invOverLayer );
 			}
 
 			//
 
-			int cursorIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
+			int cursorIdx = layers.FindIndex( layer => layer.Name.Equals("Vanilla: Cursor") );
 			if( cursorIdx >= 0 ) {
 				foreach( HUDElement elem in this.HUDManager.Elements.Values ) {
 					if( elem.ConsumesCursor() ) {
 						layers.RemoveAt( cursorIdx );
+
 						break;
 					}
 				}
 			}
 
+			//
+
 			if( HUDElementsLibAPI.IsEditModeActive() ) {
-				this.DisableHUDInterfaceLayers( layers );
+				this.DisableHUDInterfaceLayersForEditMode( layers );
 			}
 		}
 
 
 		////
 
-		private void DisableHUDInterfaceLayers( List<GameInterfaceLayer> layers ) {
+		private void DisableHUDInterfaceLayersForEditMode( List<GameInterfaceLayer> layers ) {
 			foreach( string layerName in HUDElementsLibMod.LayerNames ) {
 				int idx = layers.FindIndex( layer => layer.Name.Equals(layerName) );
-				if( idx <= -1 ) {
-					continue;
+				if( idx >= 0 ) {
+					layers.RemoveAt( idx );
 				}
-
-				layers.RemoveAt( idx );
 			}
 		}
 	}

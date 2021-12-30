@@ -119,12 +119,5 @@ namespace HUDElementsLib.Elements.Samples {
 
 			return mymod.PerTickActions.Remove( this.PerTickAction );
 		}
-
-
-		////////////////
-
-		public override void Update( GameTime gameTime ) {
-			base.Update( gameTime );
-		}
 	}
 }

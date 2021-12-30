@@ -51,6 +51,7 @@ namespace HUDElementsLib {
 
 			//
 
+//ModLibsCore.Libraries.Debug.DebugLibraries.Print( "edit_"+this.Name, area.ToString() );
 			HUDElement.DrawEditModeBox(
 				sb: sb,
 				area: area,

@@ -54,7 +54,7 @@ namespace HUDElementsLib {
 			mymod.MyUI?.Append( element );
 			mymod.MyUI?.Recalculate();
 
-			if( ModLoader.GetMod( "Messages" ) != null ) {
+			if( ModLoader.GetMod("Messages") != null ) {
 				HUDElementsLibAPI.MessageAboutHUD_WeakRef();
 			}
 		}

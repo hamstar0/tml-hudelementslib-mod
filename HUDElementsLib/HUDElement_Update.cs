@@ -13,8 +13,16 @@ namespace HUDElementsLib {
 
 			base.Update( gameTime );
 
+			//
+
 			Rectangle area = this.GetHUDComputedArea( false );  // Original spot only
 			this.IsMouseHoveringEditableBox = area.Contains( Main.mouseX, Main.mouseY );
+/*ModLibsCore.Libraries.Debug.DebugLibraries.Print(
+	"upd_2_"+this.Name,
+	"i:"+this.IsMouseHoveringEditableBox+", a:"+area+", x:"+Main.mouseX+", y:"+Main.mouseY
+);*/
+
+			//
 
 			this.UpdateHUD();
 		}

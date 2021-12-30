@@ -56,7 +56,7 @@ namespace HUDElementsLib {
 			if( editMode ) {
 				this.DrawEditModeTitle( sb );
 				this.DrawEditModeBoxes( sb );
-				this.DrawEditModeControls(
+				this.DrawEditModeControls_If(
 					sb,
 					out isHoverCollision,
 					out isHoverReset,
@@ -64,6 +64,8 @@ namespace HUDElementsLib {
 					out isHoverAnchorBottom
 				);
 			}
+
+			//
 
 			(string text, int duration) hoverInfo = this.GetHoverText(
 				editMode,

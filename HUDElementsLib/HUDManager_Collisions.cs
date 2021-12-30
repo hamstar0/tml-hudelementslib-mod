@@ -92,15 +92,22 @@ namespace HUDElementsLib {
 		private bool FindAndApplyDisplacements_If( HUDElement element ) {
 			if( element.IsIgnoringCollisions ) { return false; }
 
+			//
+
 			bool isDisplaced = false;
+
 			Rectangle currentArea = element.GetHUDComputedArea( false );
 
 			for( int i=0; i<250; i++ ) {
 				HUDElement obstacle = this.FindFirstCollision( element );
-				if( obstacle == null ) { break; }
+				if( obstacle == null ) {
+					break;
+				}
 
 				Vector2? displacedPos = HUDElement.FindDisplacedPosition_If( currentArea, element, obstacle );
-				if( !displacedPos.HasValue ) { break; }
+				if( !displacedPos.HasValue ) {
+					break;
+				}
 
 				isDisplaced = true;
 				element.SetDisplacedPosition( displacedPos.Value );
@@ -111,7 +118,6 @@ namespace HUDElementsLib {
 //	+" basepos: "+element.GetPositionOnHUD(true)
 //	+" displacepos: "+element.GetPositionOnHUD(false) );
 //}
-
 			return isDisplaced;
 		}
 	}
