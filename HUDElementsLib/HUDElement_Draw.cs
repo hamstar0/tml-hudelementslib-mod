@@ -11,6 +11,8 @@ namespace HUDElementsLib {
 			if( !this.IsEnabled() ) {
 				return;
 			}
+
+			//
 			
 			var mymod = HUDElementsLibMod.Instance;
 			if( mymod.VisibilityHooks.Count > 0 ) {
@@ -18,14 +20,20 @@ namespace HUDElementsLib {
 					return;
 				}
 			}
+
+			//
 			
 			base.Draw( sb );
+
+			//
 
 			this.DrawOverlays_If( sb );
 		}
 
 
-		protected override void DrawSelf( SpriteBatch spriteBatch ) {
+		////
+
+		protected sealed override void DrawSelf( SpriteBatch sb ) {
 			Vector2 elemPos = this.GetHUDComputedPosition( true );
 			Vector2 dim = this.GetHUDComputedDimensions();
 
@@ -34,9 +42,29 @@ namespace HUDElementsLib {
 			this.Width.Set( dim.X, 0f );
 			this.Height.Set( dim.Y, 0f );
 
+			//
+
 			this.Recalculate();
 
-			base.DrawSelf( spriteBatch );
+			//
+
+			bool isSelfDrawn = this.PreDrawSelf( sb );
+
+			if( isSelfDrawn ) {
+				base.DrawSelf( sb );
+			}
+
+			this.PostDrawSelf( isSelfDrawn, sb );
+		}
+
+
+		////
+
+		protected virtual bool PreDrawSelf( SpriteBatch sb ) {
+			return true;
+		}
+
+		protected virtual void PostDrawSelf( bool isSelfDrawn, SpriteBatch sb ) {
 		}
 
 

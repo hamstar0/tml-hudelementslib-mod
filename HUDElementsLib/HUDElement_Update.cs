@@ -6,10 +6,14 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public override void Update( GameTime gameTime ) {
+		public sealed override void Update( GameTime gameTime ) {
 			if( !this.IsEnabled() ) {
 				return;
 			}
+
+			//
+
+			this.PreUpdateWhileActive();
 
 			base.Update( gameTime );
 
@@ -25,6 +29,8 @@ namespace HUDElementsLib {
 			//
 
 			this.UpdateHUD();
+
+			this.PostUpdateWhileActive();
 		}
 
 		private void UpdateHUD() {
@@ -49,5 +55,12 @@ namespace HUDElementsLib {
 			this.Width.Pixels = dim.X;
 			this.Height.Pixels = dim.Y;
 		}
+
+
+		////////////////
+
+		protected virtual void PreUpdateWhileActive() { }
+		
+		protected virtual void PostUpdateWhileActive() { }
 	}
 }
