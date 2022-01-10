@@ -12,6 +12,8 @@ namespace HUDElementsLib.Elements.Samples {
 				return;
 			}
 
+			//
+
 			DynamicSpriteFont font = Main.fontMouseText;
 
 			//CalculatedStyle dim = this.GetOuterDimensions();

@@ -231,5 +231,20 @@ namespace HUDElementsLib {
 
 			return true;
 		}
+
+
+		////
+
+		private void ClearInteractionsIfAny() {
+			var mousePos = new Vector2( (float)Main.mouseX, (float)Main.mouseY );
+
+			//
+
+			if( this._LastElementHover != null ) {
+				this._LastElementHover.MouseOut( new UIMouseEvent( this._LastElementHover, mousePos ) );
+
+				this._LastElementHover = null;
+			}
+		}
 	}
 }

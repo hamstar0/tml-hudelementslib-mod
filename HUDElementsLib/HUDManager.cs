@@ -59,10 +59,18 @@ namespace HUDElementsLib {
 			}
 
 			if( !HUDElementsLibAPI.IsEditModeActive() ) {
+				bool hasInteracted = false;
+
 				foreach( HUDElement elem in this.Elements.Values ) {
-					if( this.UpdateInteractionsWithinEntireUI_If( elem ) ) {
+					hasInteracted = this.UpdateInteractionsWithinEntireUI_If( elem );
+
+					if( hasInteracted ) {
 						break;
 					}
+				}
+
+				if( !hasInteracted ) {
+					this.ClearInteractionsIfAny();
 				}
 			}
 		}
