@@ -55,7 +55,11 @@ namespace HUDElementsLib.Elements.Samples {
 
 			//
 
-			(string timerText, Color timerColor) = TimerHUD.RenderTimer( this.CurrentTicks, this.ShowTicks, this.Ticker );
+			(string timerText, Color timerColor) = TimerHUD.RenderTimer(
+				this.CurrentTicks,
+				this.ShowTicks,
+				this.Ticker
+			);
 
 			Vector2 timerDim = font.MeasureString( timerText );
 			//Vector2 timerCenter = timerDim * 0.5f;

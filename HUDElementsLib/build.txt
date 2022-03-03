@@ -1,6 +1,6 @@
 displayName = HUD Elements Lib
 author = hamstar
-version = 4.0.0
+version = 4.1.0
 weakReferences = Messages@1.1.0
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://forums.terraria.org/index.php?threads/hud-elements-lib.103890/

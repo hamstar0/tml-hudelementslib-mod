@@ -21,12 +21,6 @@ namespace HUDElementsLib.Elements.Samples {
 
 		////////////////
 
-		public UIPanel ContainerElem { get; private set; }
-		public UITextPanel<string> TitleElem { get; private set; }
-		public UITextPanel<string> TimerElem { get; private set; }
-
-		////
-
 		public string TitleText { get; private set; }
 
 		public bool ShowTicks { get; private set; }
@@ -49,7 +43,7 @@ namespace HUDElementsLib.Elements.Samples {
 					bool showTicks,
 					Func<bool> enabler,
 					TimeTicker ticker )
-					: base( "Timer", pos, dim )  {
+					: base( "Timer_"+title, pos, dim )  {
 			this.BasicConstructor( title, startTimeTicks, showTicks, enabler, ticker );
 		}
 
@@ -61,7 +55,7 @@ namespace HUDElementsLib.Elements.Samples {
 					bool showTicks,
 					Func<bool> enabler,
 					bool isCountdownOrElseClock = true )
-					: base( "Timer", pos, dim )  {
+					: base( "Timer_"+title, pos, dim )  {
 			TimeTicker ticker;
 			if( isCountdownOrElseClock ) {
 				ticker = TimerHUD.DefaultCountdownTicker;
