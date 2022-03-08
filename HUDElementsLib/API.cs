@@ -49,7 +49,7 @@ namespace HUDElementsLib {
 		public static void AddWidget( HUDElement element ) {    //string layerName = "Vanilla: Mouse Text"
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 
-			mymod.HUDManager.LoadHUDElement( element );
+			mymod.HUDManager?.LoadHUDElement( element );
 
 			mymod.MyUI?.Append( element );
 			mymod.MyUI?.Recalculate();
