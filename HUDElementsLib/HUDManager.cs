@@ -9,7 +9,7 @@ namespace HUDElementsLib {
 	partial class HUDManager {
 		public struct ElementInfo {
 			public Vector2 ScreenPosition;
-			public bool IsIgnoringCollisions;
+			public bool? IsIgnoringCollisions;
 		}
 
 
@@ -33,12 +33,15 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		public void LoadHUDElementInfo( string name, float x, float y, bool isIgnoringCollisions ) {
+		public void LoadHUDElementInfo( string name, float x, float y, bool? isIgnoringCollisions ) {
 			var pos = new Vector2( x, y );
 
 			if( this.Elements.ContainsKey(name) ) {
 				this.Elements[name].SetUncomputedPosition( pos, false );
-				this.Elements[name].IsIgnoringCollisions = isIgnoringCollisions;
+				if( isIgnoringCollisions.HasValue ) {
+					this.Elements[name].IsIgnoringCollisions = isIgnoringCollisions.Value;
+				}
+
 				this.Elements[name].Recalculate();
 			} else {
 				this.SavedElementInfo[name] = new ElementInfo {
@@ -51,13 +54,19 @@ namespace HUDElementsLib {
 		public void LoadHUDElement( HUDElement element ) {
 			this.Elements[ element.Name ] = element;
 
+			//
+
 			if( this.SavedElementInfo.ContainsKey(element.Name) ) {
 				ElementInfo elemInfo = this.SavedElementInfo[ element.Name ];
 
 				this.SavedElementInfo.Remove( element.Name );
 
+				//
+
 				element.SetUncomputedPosition( elemInfo.ScreenPosition, false );
-				element.IsIgnoringCollisions = elemInfo.IsIgnoringCollisions;
+				if( elemInfo.IsIgnoringCollisions.HasValue ) {
+					element.IsIgnoringCollisions = elemInfo.IsIgnoringCollisions.Value;
+				}
 				element.Recalculate();
 			}
 		}

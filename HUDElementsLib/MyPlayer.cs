@@ -32,9 +32,12 @@ namespace HUDElementsLib {
 				string name = tag.GetString( $"hud_element_{i}" );
 				float x = tag.GetFloat( $"hud_element_x_{i}" );
 				float y = tag.GetFloat( $"hud_element_y_{i}" );
-				bool isIgnoringCollisions = tag.ContainsKey( $"hud_element_y_{i}" )
-					? tag.GetBool( $"hud_element_c_{i}" )
+				bool hasCollisionData = tag.ContainsKey( $"hud_element_cc_{i}")
+					? (bool)tag.GetBool( $"hud_element_cc_{i}" )
 					: false;
+				bool? isIgnoringCollisions = hasCollisionData
+					? (bool?)tag.GetBool( $"hud_element_c_{i}" )
+					: (bool?)null;
 
 				hudMngr.LoadHUDElementInfo( name, x, y, isIgnoringCollisions );
 			}
@@ -61,6 +64,8 @@ namespace HUDElementsLib {
 				tag[ $"hud_element_x_{i}" ] = (float)elem.GetPositionAndAnchors().X;
 				tag[ $"hud_element_y_{i}" ] = (float)elem.GetPositionAndAnchors().Y;
 				tag[ $"hud_element_c_{i}" ] = (bool)elem.IsIgnoringCollisions;
+				tag[ $"hud_element_cc_{i}" ] = true;
+
 				i++;
 			}
 
@@ -70,7 +75,11 @@ namespace HUDElementsLib {
 				tag[ $"hud_element_{i}" ] = name;
 				tag[ $"hud_element_x_{i}" ] = (float)elemInfo.ScreenPosition.X;
 				tag[ $"hud_element_y_{i}" ] = (float)elemInfo.ScreenPosition.Y;
-				tag[ $"hud_element_c_{i}" ] = (bool)elemInfo.IsIgnoringCollisions;
+				tag[ $"hud_element_c_{i}" ] = elemInfo.IsIgnoringCollisions.HasValue
+					? (bool)elemInfo.IsIgnoringCollisions.Value
+					: false;
+				tag[ $"hud_element_cc_{i}" ] = (bool)elemInfo.IsIgnoringCollisions.HasValue;
+
 				i++;
 			}
 
