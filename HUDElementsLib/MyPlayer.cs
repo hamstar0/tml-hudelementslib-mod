@@ -8,31 +8,47 @@ using Terraria.ModLoader.IO;
 
 namespace HUDElementsLib {
 	class HUDElementsLibPlayer : ModPlayer {
+		public override bool CloneNewInstances => false;
+
+
+
+		////////////////
+
 		public override void Load( TagCompound tag ) {
 			if( !tag.ContainsKey("hud_element_count") ) {
 				return;
 			}
 
+			//
+
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 			HUDManager hudMngr = mymod.HUDManager;
+
+			//
 
 			int count = tag.GetInt( "hud_element_count" );
 
 			for( int i=0; i<count; i++ ) {
-				string name = tag.GetString( "hud_element_"+i );
-				float x = tag.GetFloat( "hud_element_x_"+i );
-				float y = tag.GetFloat( "hud_element_y_"+i );
+				string name = tag.GetString( $"hud_element_{i}" );
+				float x = tag.GetFloat( $"hud_element_x_{i}" );
+				float y = tag.GetFloat( $"hud_element_y_{i}" );
+				bool isIgnoringCollisions = tag.ContainsKey( $"hud_element_y_{i}" )
+					? tag.GetBool( $"hud_element_c_{i}" )
+					: false;
 
-				hudMngr.LoadHUDElementInfo( name, x, y );
+				hudMngr.LoadHUDElementInfo( name, x, y, isIgnoringCollisions );
 			}
 		}
 
 		public override TagCompound Save() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 			HUDManager hudMngr = mymod.HUDManager;
+
 			IEnumerable<HUDElement> elements = hudMngr.Elements
 				.Where( kv => !kv.Value.SkipSave() )
 				.Select( kv => kv.Value );
+
+			//
 
 			var tag = new TagCompound {
 				{ "hud_element_count", elements.Count() + hudMngr.SavedElementInfo.Count }
@@ -41,18 +57,20 @@ namespace HUDElementsLib {
 			int i = 0;
 
 			foreach( HUDElement elem in elements ) {
-				tag[ "hud_element_"+i ] = elem.Name;
-				tag[ "hud_element_x_"+i ] = (float)elem.GetPositionAndAnchors().X;
-				tag[ "hud_element_y_"+i ] = (float)elem.GetPositionAndAnchors().Y;
+				tag[ $"hud_element_{i}" ] = elem.Name;
+				tag[ $"hud_element_x_{i}" ] = (float)elem.GetPositionAndAnchors().X;
+				tag[ $"hud_element_y_{i}" ] = (float)elem.GetPositionAndAnchors().Y;
+				tag[ $"hud_element_c_{i}" ] = (bool)elem.IsIgnoringCollisions;
 				i++;
 			}
 
 			foreach( string name in hudMngr.SavedElementInfo.Keys ) {
-				Vector2 elemInfo = hudMngr.SavedElementInfo[ name ];
+				HUDManager.ElementInfo elemInfo = hudMngr.SavedElementInfo[ name ];
 
-				tag[ "hud_element_"+i ] = name;
-				tag[ "hud_element_x_"+i ] = (float)elemInfo.X;
-				tag[ "hud_element_y_"+i ] = (float)elemInfo.Y;
+				tag[ $"hud_element_{i}" ] = name;
+				tag[ $"hud_element_x_{i}" ] = (float)elemInfo.ScreenPosition.X;
+				tag[ $"hud_element_y_{i}" ] = (float)elemInfo.ScreenPosition.Y;
+				tag[ $"hud_element_c_{i}" ] = (bool)elemInfo.IsIgnoringCollisions;
 				i++;
 			}
 

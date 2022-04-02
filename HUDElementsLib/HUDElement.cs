@@ -26,7 +26,7 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual bool IsIgnoringCollisions { get; protected set; } = false;
+		public virtual bool IsIgnoringCollisions { get; protected internal set; } = false;
 
 
 		////////////////

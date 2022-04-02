@@ -7,9 +7,18 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	partial class HUDManager {
+		public struct ElementInfo {
+			public Vector2 ScreenPosition;
+			public bool IsIgnoringCollisions;
+		}
+
+
+
+		////////////////
+
 		//internal IDictionary<string, ISet<HUDElement>> Elements = new Dictionary<string, ISet<HUDElement>>();
 		public IDictionary<string, HUDElement> Elements = new Dictionary<string, HUDElement>();
-		public IDictionary<string, Vector2> SavedElementInfo = new Dictionary<string, Vector2>();
+		public IDictionary<string, ElementInfo> SavedElementInfo = new Dictionary<string, ElementInfo>();
 
 		private UIState MyUI;
 
@@ -24,14 +33,18 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		public void LoadHUDElementInfo( string name, float x, float y ) {
+		public void LoadHUDElementInfo( string name, float x, float y, bool isIgnoringCollisions ) {
 			var pos = new Vector2( x, y );
 
 			if( this.Elements.ContainsKey(name) ) {
 				this.Elements[name].SetUncomputedPosition( pos, false );
+				this.Elements[name].IsIgnoringCollisions = isIgnoringCollisions;
 				this.Elements[name].Recalculate();
 			} else {
-				this.SavedElementInfo[name] = pos;
+				this.SavedElementInfo[name] = new ElementInfo {
+					ScreenPosition = pos,
+					IsIgnoringCollisions = isIgnoringCollisions
+				};
 			}
 		}
 
@@ -39,11 +52,12 @@ namespace HUDElementsLib {
 			this.Elements[ element.Name ] = element;
 
 			if( this.SavedElementInfo.ContainsKey(element.Name) ) {
-				Vector2 elemInfo = this.SavedElementInfo[ element.Name ];
+				ElementInfo elemInfo = this.SavedElementInfo[ element.Name ];
 
 				this.SavedElementInfo.Remove( element.Name );
 
-				element.SetUncomputedPosition( elemInfo, false );
+				element.SetUncomputedPosition( elemInfo.ScreenPosition, false );
+				element.IsIgnoringCollisions = elemInfo.IsIgnoringCollisions;
 				element.Recalculate();
 			}
 		}
