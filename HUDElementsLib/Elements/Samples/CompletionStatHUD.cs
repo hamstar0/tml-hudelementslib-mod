@@ -10,7 +10,12 @@ namespace HUDElementsLib.Elements.Samples {
 
 
 		////////////////
-		
+
+		public float Scale = 1f;
+
+
+		////////////////
+
 		public string TitleText { get; private set; }
 
 		////

@@ -24,6 +24,7 @@ namespace HUDElementsLib.Elements.Samples {
 			//
 
 			Vector2 titleDim = font.MeasureString( this.TitleText );
+			titleDim *= this.Scale;
 			Vector2 titleCenter = titleDim * 0.5f;
 			Vector2 titlePos = new Vector2(
 				elemPos.X + (elemDim.X * 0.5f) - (titleDim.X * 0.5f),
@@ -39,7 +40,7 @@ namespace HUDElementsLib.Elements.Samples {
 				text: this.TitleText,
 				pos: titlePos,
 				color: Color.White,
-				scale: 1f
+				scale: this.Scale
 			);
 			//sb.DrawString(
 			//	spriteFont: font,
@@ -48,7 +49,7 @@ namespace HUDElementsLib.Elements.Samples {
 			//	color: Color.White,
 			//	rotation: 0f,
 			//	origin: titleCenter,
-			//	scale: 1f,
+			//	scale: this.Scale,
 			//	effects: SpriteEffects.None,
 			//	layerDepth: 0f
 			//);
@@ -62,6 +63,7 @@ namespace HUDElementsLib.Elements.Samples {
 			);
 
 			Vector2 timerDim = font.MeasureString( timerText );
+			timerDim *= this.Scale;
 			//Vector2 timerCenter = timerDim * 0.5f;
 			Vector2 timerPos = new Vector2(
 				elemPos.X + (elemDim.X * 0.5f) - (timerDim.X * 0.5f),
@@ -77,7 +79,7 @@ namespace HUDElementsLib.Elements.Samples {
 				text: timerText,
 				pos: timerPos,
 				color: timerColor,
-				scale: 1f
+				scale: this.Scale
 			);
 			//sb.DrawString(
 			//	spriteFont: font,
@@ -86,7 +88,7 @@ namespace HUDElementsLib.Elements.Samples {
 			//	color: timerColor,
 			//	rotation: 0f,
 			//	origin: timerCenter,
-			//	scale: 1f,
+			//	scale: this.Scale,
 			//	effects: SpriteEffects.None,
 			//	layerDepth: 0f
 			//);

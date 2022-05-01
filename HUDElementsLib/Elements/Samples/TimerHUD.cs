@@ -19,6 +19,11 @@ namespace HUDElementsLib.Elements.Samples {
 		private Action PerTickAction;
 
 
+		////
+
+		public float Scale = 1f;
+
+
 		////////////////
 
 		public string TitleText { get; private set; }

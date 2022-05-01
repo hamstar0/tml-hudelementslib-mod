@@ -21,6 +21,7 @@ namespace HUDElementsLib.Elements.Samples {
 			DynamicSpriteFont font = Main.fontMouseText;
 
 			Vector2 elemDim = new Vector2( this.Width.Pixels, this.Height.Pixels );
+			elemDim *= this.Scale;
 			Vector2 elemCenter = elemDim * 0.5f;
 			Vector2 elemPos = this.GetHUDComputedPosition( true );
 
@@ -38,7 +39,7 @@ namespace HUDElementsLib.Elements.Samples {
 				text: titleText,
 				pos: titlePos,
 				color: Color.White,
-				scale: 1f
+				scale: this.Scale
 			);
 
 			//
@@ -47,6 +48,7 @@ namespace HUDElementsLib.Elements.Samples {
 			(string statText, Color statColor) = CompletionStatHUD.RenderStat( completed, total );
 
 			Vector2 statDim = font.MeasureString( statText );
+			statDim *= this.Scale;
 			Vector2 statPos = new Vector2(
 				elemPos.X + (elemDim.X * 0.5f) - (statDim.X * 0.5f),
 				elemPos.Y + titleDim.Y + 4f
@@ -57,7 +59,7 @@ namespace HUDElementsLib.Elements.Samples {
 				text: statText,
 				pos: statPos,
 				color: statColor,
-				scale: 1f
+				scale: this.Scale
 			);
 		}
 	}

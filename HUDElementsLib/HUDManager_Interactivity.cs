@@ -43,6 +43,9 @@ namespace HUDElementsLib {
 			}
 
 			GameTime time = Main._drawInterfaceGameTime;
+			if( time == null ) {
+				return false;
+			}
 
 			this._ClickDisabledMillisecondsRemaining = Math.Max(
 				0.0d,
