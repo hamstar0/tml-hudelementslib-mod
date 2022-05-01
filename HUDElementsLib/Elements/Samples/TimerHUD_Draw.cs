@@ -39,7 +39,7 @@ namespace HUDElementsLib.Elements.Samples {
 				sb: sb,
 				text: this.TitleText,
 				pos: titlePos,
-				color: Color.White,
+				color: this.TitleColor,
 				scale: this.Scale
 			);
 			//sb.DrawString(

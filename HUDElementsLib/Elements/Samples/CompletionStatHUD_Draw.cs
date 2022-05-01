@@ -38,7 +38,7 @@ namespace HUDElementsLib.Elements.Samples {
 				sb: sb,
 				text: titleText,
 				pos: titlePos,
-				color: Color.White,
+				color: this.TitleColor,
 				scale: this.Scale
 			);
 

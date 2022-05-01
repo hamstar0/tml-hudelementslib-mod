@@ -13,6 +13,8 @@ namespace HUDElementsLib.Elements.Samples {
 
 		public float Scale = 1f;
 
+		public Color TitleColor = Color.White;
+
 
 		////////////////
 
