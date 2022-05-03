@@ -5,20 +5,40 @@ using Terraria.ModLoader;
 
 namespace HUDElementsLib {
 	public static class HUDElementsLibAPI {
-		private static void MessageAboutHUD_WeakRef() {
-			Messages.MessagesAPI.AddMessagesCategoriesInitializeEvent( () => {
+		private static void MessageAboutHUD_If() {
+			Mod msgMod = ModLoader.GetMod( "Messages" );
+			if( msgMod != null ) {
+				return;
+			}
+
+			//
+			
+			void AddUsageMessage() {
 				string id = "HUDElementsLibUsage";
 
-				Messages.MessagesAPI.AddMessage(
-					title: "Reposition HUD elements via. hotkey",
-					description: "Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",
-					modOfOrigin: HUDElementsLibMod.Instance,
-					id: id,
-					alertPlayer: Messages.MessagesAPI.IsUnread(id),
-					isImportant: false,
-					parentMessage: Messages.MessagesAPI.ModInfoCategoryMsg
+				bool isUnread = (bool)msgMod.Call( "IsUnread", id );
+
+				object rawParentMsg = msgMod.Call( "GetMessage", "Messages - Mod Info" ); //MessagesAPI.ModInfoCategoryMsg
+
+				//
+
+				msgMod.Call(
+					"AddMessage",
+					"Reposition HUD elements via. hotkey", //title:
+					"Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",    //description:
+					HUDElementsLibMod.Instance, //modOfOrigin:
+					id, //id:
+					isUnread,    //alertPlayer:
+					false,  //isImportant:
+					rawParentMsg //parentMessage:
 				);
-			} );
+			}
+
+			Action usageMessageAdder = AddUsageMessage;
+
+			//
+
+			msgMod.Call( "AddMessagesCategoriesInitializeEvent", usageMessageAdder );
 		}
 
 
@@ -54,9 +74,7 @@ namespace HUDElementsLib {
 			mymod.MyUI?.Append( element );
 			mymod.MyUI?.Recalculate();
 
-			if( ModLoader.GetMod("Messages") != null ) {
-				HUDElementsLibAPI.MessageAboutHUD_WeakRef();
-			}
+			HUDElementsLibAPI.MessageAboutHUD_If();
 		}
 
 
