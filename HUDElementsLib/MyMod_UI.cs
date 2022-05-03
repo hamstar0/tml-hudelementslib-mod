@@ -54,7 +54,16 @@ namespace HUDElementsLib {
 		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
+			if( Main.gameMenu ) {
+				return;
+			}
+
+			//
+
 			GameInterfaceDrawMethod widgetsUI = delegate {
+				if( Main.gameMenu ) {
+					return true;
+				}
 /*if( this.MyUI != null ) {
 List<UIElement> elems;
 ModLibsCore.Libraries.DotNET.Reflection.ReflectionLibraries.Get(

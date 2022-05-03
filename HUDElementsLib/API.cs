@@ -45,7 +45,10 @@ namespace HUDElementsLib {
 		////////////////
 
 		public static bool IsEditModeActive() {
-			return HUDElementsLibMod.Instance.HUDEditMode.Current;
+			return HUDElementsLibMod.Instance
+				.HUDEditMode?
+				.Current
+					?? false;
 		}
 
 
