@@ -35,7 +35,6 @@ namespace HUDElementsLib.Elements {
 
 		////////////////
 
-		public Func<bool> EnablingCondition { get; private set; }
 		private Func<Vector2> DynamicCustomPositionAndAnchors;
 		private Func<Vector2> DynamicCustomDimensions;
 		private Func<Vector2> DisplacementOverride;
@@ -45,8 +44,7 @@ namespace HUDElementsLib.Elements {
 		////////////////
 
 		internal VanillaHUDElement( VanillaHUDElementDefinition def )
-					: base( def.Name, def.PositionWithAnchors(), def.Dimensions() ) {
-			this.EnablingCondition = def.Context;
+					: base( def.Name, def.PositionWithAnchors(), def.Dimensions(), def.Context ) {
 			this.DynamicCustomPositionAndAnchors = def.PositionWithAnchors;
 			this.DynamicCustomDimensions = def.Dimensions;
 			this.DisplacementOverride = def.Displacement;
@@ -56,8 +54,6 @@ namespace HUDElementsLib.Elements {
 		////////////////
 
 		public override bool SkipSave() => true;
-
-		public override bool IsEnabled() => this.EnablingCondition.Invoke();
 
 		public override bool IsDragLocked() => true;
 

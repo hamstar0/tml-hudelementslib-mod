@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 
 
 namespace HUDElementsLib.Elements.Samples {
@@ -36,8 +35,6 @@ namespace HUDElementsLib.Elements.Samples {
 
 		public TimeTicker Ticker { get; private set; }
 
-		public Func<bool> Enabler { get; private set; }
-
 
 
 		////////////////
@@ -50,8 +47,8 @@ namespace HUDElementsLib.Elements.Samples {
 					bool showTicks,
 					Func<bool> enabler,
 					TimeTicker ticker )
-					: base( "Timer_"+title, pos, dim )  {
-			this.BasicConstructor( title, startTimeTicks, showTicks, enabler, ticker );
+					: base( "Timer_"+title, pos, dim, enabler )  {
+			this.BasicConstructor( title, startTimeTicks, showTicks, ticker );
 		}
 
 		public TimerHUD(
@@ -62,7 +59,7 @@ namespace HUDElementsLib.Elements.Samples {
 					bool showTicks,
 					Func<bool> enabler,
 					bool isCountdownOrElseClock = true )
-					: base( "Timer_"+title, pos, dim )  {
+					: base( "Timer_"+title, pos, dim, enabler )  {
 			TimeTicker ticker;
 			if( isCountdownOrElseClock ) {
 				ticker = TimerHUD.DefaultCountdownTicker;
@@ -70,7 +67,7 @@ namespace HUDElementsLib.Elements.Samples {
 				ticker = TimerHUD.DefaultClockTicker;
 			}
 
-			this.BasicConstructor( title, startTimeTicks, showTicks, enabler, ticker );
+			this.BasicConstructor( title, startTimeTicks, showTicks, ticker );
 		}
 
 		////
@@ -79,12 +76,10 @@ namespace HUDElementsLib.Elements.Samples {
 					string title,
 					long startTimeTicks,
 					bool showTicks,
-					Func<bool> enabler,
 					TimeTicker ticker ) {
 			this.TitleText = title;
 			this.CurrentTicks = startTimeTicks;
 			this.ShowTicks = showTicks;
-			this.Enabler = enabler;
 			this.Ticker = ticker;
 
 			this.PerTickAction = () => {
@@ -95,13 +90,6 @@ namespace HUDElementsLib.Elements.Samples {
 
 		////////////////
 
-		public override bool IsEnabled() {
-			return this.Enabler.Invoke();
-		}
-
-
-		////////////////
-		
 		public void SetTimerTicks( long ticks ) {
 			this.CurrentTicks = ticks;
 		}

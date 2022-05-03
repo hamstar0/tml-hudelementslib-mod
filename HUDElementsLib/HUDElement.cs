@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.UI;
@@ -31,6 +32,11 @@ namespace HUDElementsLib {
 
 		////////////////
 
+		public Func<bool> Enabler { get; private set; }
+
+
+		////////////////
+
 		public bool IsInteractingWithControls { get; private set; } = false;
 
 		public bool IsDraggingSinceLastTick => this.DesiredDragPosition.HasValue;
@@ -41,11 +47,12 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public HUDElement( string name, Vector2 position, Vector2 dimensions ) : base() {
+		public HUDElement( string name, Vector2 position, Vector2 dimensions, Func<bool> enabler ) : base() {
 			this.Name = name;
 			this.DefaultPositionWithAnchor = position;
 			this.CustomPositionWithAnchor = position;
 			this.CustomDimensions = dimensions;
+			this.Enabler = enabler;
 
 			this.Left.Set( position.X, 0f );
 			this.Top.Set( position.Y, 0f );
@@ -66,7 +73,7 @@ namespace HUDElementsLib {
 			posMid.X = midX - posMid.X;
 			posMid.Y = midY - posMid.Y;
 
-			return Vector2.Normalize( posMid );	// by default, aim to screen center
+			return Vector2.Normalize( posMid ); // by default, aim to screen center
 		}
 
 
@@ -79,7 +86,7 @@ namespace HUDElementsLib {
 		////
 
 		public virtual bool IsEnabled() {
-			return true;
+			return this.Enabler.Invoke();
 		}
 
 		////

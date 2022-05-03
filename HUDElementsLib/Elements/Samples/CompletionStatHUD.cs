@@ -24,10 +24,6 @@ namespace HUDElementsLib.Elements.Samples {
 
 		public StatGetter Stat { get; private set; }
 
-		////
-
-		public Func<bool> Enabler { get; private set; }
-
 
 
 		////////////////
@@ -37,17 +33,9 @@ namespace HUDElementsLib.Elements.Samples {
 					Vector2 dim,
 					string title,
 					Func<bool> enabler,
-					StatGetter stat ) : base( "Stat_"+title, pos, dim )  {
-				this.TitleText = title;
-			this.Enabler = enabler;
+					StatGetter stat ) : base( "Stat_"+title, pos, dim, enabler )  {
+			this.TitleText = title;
 			this.Stat = stat;
-		}
-
-
-		////////////////
-
-		public override bool IsEnabled() {
-			return this.Enabler.Invoke();
 		}
 	}
 }
