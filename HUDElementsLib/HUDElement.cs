@@ -22,12 +22,12 @@ namespace HUDElementsLib {
 		/// <summary>
 		/// Original starting screen offset amount from percent anchors. Element will return here when user sets it to reset.
 		/// </summary>
-		protected Vector2 OriginalRelativePosition;
+		protected Vector2 OriginalPositionOffset;
 		/// <summary></summary>
 		protected Vector2 OriginalPositionPercent;
 
 		/// <summary>Get screen offset amount from percent anchors.</summary>
-		protected Vector2 CurrentRelativePosition;
+		protected Vector2 CurrentPositionOffset;
 		/// <summary></summary>
 		protected Vector2 CurrentPositionPercent;
 
@@ -68,8 +68,8 @@ namespace HUDElementsLib {
 					Func<bool> enabler ) : base() {
 			this.Name = name;
 
-			this.OriginalRelativePosition = positionOffset;
-			this.CurrentRelativePosition = positionOffset;
+			this.OriginalPositionOffset = positionOffset;
+			this.CurrentPositionOffset = positionOffset;
 
 			this.OriginalPositionPercent = positionPercent;
 			this.CurrentPositionPercent = positionPercent;
@@ -128,7 +128,7 @@ namespace HUDElementsLib {
 		////////////////
 
 		public void ResetPositionToDefault() {
-			this.CurrentRelativePosition = this.OriginalRelativePosition;
+			this.CurrentPositionOffset = this.OriginalPositionOffset;
 		}
 	}
 }

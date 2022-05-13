@@ -47,6 +47,10 @@ namespace HUDElementsLib {
 		////
 		
 		private void UpdateHUDPosition() {
+			this.UpdateScreenSpaceConstraints();
+
+			//
+
 			Vector2 pos = this.GetHUDComputedPosition( true );
 			Vector2 dim = this.GetHUDComputedDimensions();
 
@@ -58,9 +62,20 @@ namespace HUDElementsLib {
 
 
 		////////////////
-
+		
 		protected virtual void PreUpdateWhileActive() { }
 		
 		protected virtual void PostUpdateWhileActive() { }
+
+
+		////////////////
+
+		private void UpdateScreenSpaceConstraints() {
+			Vector2 dim = this.GetHUDComputedDimensions();
+
+			HUDElement.FitOffsetToScreen( ref this.OriginalPositionOffset, this.OriginalPositionPercent, dim );
+
+			HUDElement.FitOffsetToScreen( ref this.CurrentPositionOffset, this.CurrentPositionPercent, dim );
+		}
 	}
 }

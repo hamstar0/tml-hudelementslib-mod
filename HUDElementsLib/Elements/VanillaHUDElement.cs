@@ -67,7 +67,7 @@ namespace HUDElementsLib.Elements {
 		public override Vector2 GetHUDComputedPosition( bool applyDisplacement ) {
 			(Vector2 relPos, Vector2 percPos) = this.DynamicIntendedPosition();
 
-			this.CurrentRelativePosition = relPos;
+			this.CurrentPositionOffset = relPos;
 			this.CurrentPositionPercent = percPos;
 
 			return base.GetHUDComputedPosition( applyDisplacement );

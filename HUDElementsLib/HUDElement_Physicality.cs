@@ -5,6 +5,34 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
+		public static Vector2 ComputeScreenPosition( Vector2 positionOffset, Vector2 positionPercent ) {
+			return new Vector2(
+				(positionPercent.X * (float)Main.screenWidth ) + (float)positionOffset.X,
+				(positionPercent.Y * (float)Main.screenHeight ) + (float)positionOffset.Y
+			);
+		}
+
+		public static void FitOffsetToScreen( ref Vector2 positionOffset, Vector2 positionPercent, Vector2 dim ) {
+			Vector2 origScrPos = HUDElement.ComputeScreenPosition( positionOffset, positionPercent );
+			Vector2 origEdges = origScrPos + dim;
+
+			if( origScrPos.X < 0f ) {
+				positionOffset.X += -origScrPos.X;
+			} else if( origEdges.X > Main.screenWidth ) {
+				positionOffset.X += origEdges.X - Main.screenWidth;
+			}
+
+			if( origScrPos.Y < 0f ) {
+				positionOffset.Y += -origScrPos.Y;
+			} else if( origEdges.Y > Main.screenHeight ) {
+				positionOffset.Y += origEdges.Y - Main.screenHeight;
+			}
+		}
+
+
+
+		////////////////
+
 		public virtual bool AutoAnchors() {
 			return true;
 		}
@@ -17,7 +45,7 @@ namespace HUDElementsLib {
 		/// </summary>
 		/// <returns></returns>
 		public virtual (Vector2 relative, Vector2 percent) GetIntendedPosition() {
-			return (this.CurrentRelativePosition, this.CurrentPositionPercent);
+			return (this.CurrentPositionOffset, this.CurrentPositionPercent);
 		}
 
 		/// <summary>
@@ -25,10 +53,7 @@ namespace HUDElementsLib {
 		/// </summary>
 		/// <returns></returns>
 		public virtual Vector2 GetComputedIntendedPosition() {
-			return new Vector2(
-				(this.CurrentPositionPercent.X * (float)Main.screenWidth) + (float)this.CurrentRelativePosition.X,
-				(this.CurrentPositionPercent.Y * (float)Main.screenHeight) + (float)this.CurrentRelativePosition.Y
-			);
+			return HUDElement.ComputeScreenPosition( this.CurrentPositionOffset, this.CurrentPositionPercent );
 		}
 
 		/// <summary>
@@ -37,12 +62,12 @@ namespace HUDElementsLib {
 		/// <param name="applyDisplacement">Gets the position of the element after being displaced by collisions.</param>
 		/// <returns></returns>
 		public virtual Vector2 GetHUDComputedPosition( bool applyDisplacement ) {
-			Vector2 pos = this.GetComputedIntendedPosition();
+			Vector2 scrPos = this.GetComputedIntendedPosition();
 
 			if( applyDisplacement && this.DisplacedOffset.HasValue ) {
-				return pos + this.DisplacedOffset.Value;
+				return scrPos + this.DisplacedOffset.Value;
 			} else {
-				return pos;
+				return scrPos;
 			}
 		}
 
@@ -105,7 +130,7 @@ namespace HUDElementsLib {
 		/// <param name="relPos"></param>
 		/// <param name="percPos"></param>
 		public void SetIntendedPosition( Vector2 relPos, Vector2 percPos ) {
-			this.CurrentRelativePosition = relPos;
+			this.CurrentPositionOffset = relPos;
 			this.CurrentPositionPercent = percPos;
 		}
 
