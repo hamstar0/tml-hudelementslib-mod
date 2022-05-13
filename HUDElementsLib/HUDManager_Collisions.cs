@@ -85,7 +85,7 @@ namespace HUDElementsLib {
 
 		public void FindAndApplyDisplacements( HUDElement element ) {
 			if( !this.FindAndApplyDisplacements_If(element) ) {
-				element.RevertDisplacedPosition();
+				element.RevertDisplacedOffset();
 			}
 		}
 
@@ -104,13 +104,17 @@ namespace HUDElementsLib {
 					break;
 				}
 
-				Vector2? displacedPos = HUDElement.FindDisplacedPosition_If( currentArea, element, obstacle );
-				if( !displacedPos.HasValue ) {
+				Vector2? displacedPosition = HUDElement.FindDisplacedPosition_If( currentArea, element, obstacle );
+				if( !displacedPosition.HasValue ) {
 					break;
 				}
 
+				//
+
+				Vector2 displacedOffset = displacedPosition.Value - element.GetHUDComputedPosition( false );
+
 				isDisplaced = true;
-				element.SetDisplacedPosition( displacedPos.Value );
+				element.SetDisplacedOffset( displacedOffset );
 			}
 
 //if( element.Name == "PKE Meter" || element.Name == "PKEMeter" ) {

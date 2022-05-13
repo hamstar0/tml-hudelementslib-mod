@@ -5,13 +5,6 @@ using Terraria.UI;
 
 namespace HUDElementsLib {
 	public partial class HUDElement : UIElement {
-		public bool IsRightAnchored() => this.CustomPositionWithAnchor.X < 0f;
-
-		public bool IsBottomAnchored() => this.CustomPositionWithAnchor.Y < 0f;
-
-
-		////
-
 		public virtual bool AutoAnchors() {
 			return true;
 		}
@@ -19,38 +12,58 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public virtual Vector2 GetPositionAndAnchors() {
-			return this.CustomPositionWithAnchor;
+		/// <summary>
+		/// Gets position relative to anchors, and also the anchor percents.
+		/// </summary>
+		/// <returns></returns>
+		public virtual (Vector2 relative, Vector2 percent) GetIntendedPosition() {
+			return (this.CurrentRelativePosition, this.CurrentPositionPercent);
 		}
 
-		public virtual Vector2 GetAnchorComputedPosition() {
+		/// <summary>
+		/// Gets intended screen position of element.
+		/// </summary>
+		/// <returns></returns>
+		public virtual Vector2 GetComputedIntendedPosition() {
 			return new Vector2(
-				this.CustomPositionWithAnchor.X < 0
-					? Main.screenWidth + this.CustomPositionWithAnchor.X
-					: this.CustomPositionWithAnchor.X,
-				this.CustomPositionWithAnchor.Y < 0
-					? Main.screenHeight + this.CustomPositionWithAnchor.Y
-					: this.CustomPositionWithAnchor.Y
+				(this.CurrentPositionPercent.X * (float)Main.screenWidth) + (float)this.CurrentRelativePosition.X,
+				(this.CurrentPositionPercent.Y * (float)Main.screenHeight) + (float)this.CurrentRelativePosition.Y
 			);
 		}
 
+		/// <summary>
+		/// Gets the final position the element will appear and be interactable at.
+		/// </summary>
+		/// <param name="applyDisplacement">Gets the position of the element after being displaced by collisions.</param>
+		/// <returns></returns>
 		public virtual Vector2 GetHUDComputedPosition( bool applyDisplacement ) {
-			if( applyDisplacement && this.DisplacedPosition.HasValue ) {
-				return this.DisplacedPosition.Value;
+			Vector2 pos = this.GetComputedIntendedPosition();
+
+			if( applyDisplacement && this.DisplacedOffset.HasValue ) {
+				return pos + this.DisplacedOffset.Value;
 			} else {
-				return this.GetAnchorComputedPosition();
+				return pos;
 			}
 		}
 
 		////
 
+		/// <summary>
+		/// Gets the final dimensions the element will appear with.
+		/// </summary>
+		/// <returns></returns>
 		public virtual Vector2 GetHUDComputedDimensions() {
-			return this.CustomDimensions;
+			return this.CurrentDimensions;
 		}
 
 
 		////////////////
 
+		/// <summary>
+		/// Gets the final dimensions and position the element will appear and be interactable with.
+		/// </summary>
+		/// <param name="applyDisplacement"></param>
+		/// <returns></returns>
 		public Rectangle GetHUDComputedArea( bool applyDisplacement ) {
 			Vector2 pos = this.GetHUDComputedPosition( applyDisplacement );
 			Vector2 dim = this.GetHUDComputedDimensions();
@@ -66,64 +79,45 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public void SetUncomputedPosition( Vector2 pos, bool conveyAnyExistingAnchors ) {
-			if( conveyAnyExistingAnchors ) {
-				if( this.CustomPositionWithAnchor.X < 0 && pos.X >= 0 ) {
-					pos.X -= Main.screenWidth;
-				}
-				if( this.CustomPositionWithAnchor.Y < 0 && pos.Y >= 0 ) {
-					pos.Y -= Main.screenHeight;
-				}
+		/// <summary>
+		/// Sets the desired position of the element, not factoring collisions.
+		/// </summary>
+		/// <param name="relPos"></param>
+		/// <param name="conveyPercent">Translates the given screen position to be relative to the internal percent
+		/// position.</param>
+		public void SetIntendedPosition( Vector2 screenPos, bool conveyPercent ) {
+			Vector2 relPos = screenPos;
+			Vector2 perc = default;
+
+			if( conveyPercent ) {
+				perc = this.CurrentPositionPercent;
+
+				relPos.X -= (float)Main.screenWidth * perc.X;
+				relPos.Y -= (float)Main.screenHeight * perc.Y;
 			}
 
-			this.CustomPositionWithAnchor = pos;
-
-			if( this.AutoAnchors() ) {
-				Vector2 hudPos = this.GetAnchorComputedPosition();
-
-				if( hudPos.X >= (Main.screenWidth/2) ) {
-					this.CustomPositionWithAnchor.X = hudPos.X - Main.screenWidth;
-				}
-				if( hudPos.Y >= (Main.screenHeight/2) ) {
-					this.CustomPositionWithAnchor.Y = hudPos.Y - Main.screenHeight;
-				}
-			}
+			this.SetIntendedPosition( relPos, perc );
 		}
 
-
-		////////////////
-		
-		public void ToggleRightAnchor() {
-			Vector2 pos = this.GetHUDComputedPosition( false );  // flips anchors if negative
-			pos.Y = this.CustomPositionWithAnchor.Y;
-
-			if( this.CustomPositionWithAnchor.X >= 0 ) {	// flips X anchor if positive
-				pos.X -= Main.screenWidth;
-			}
-
-			this.SetUncomputedPosition( pos, false );
-		}
-
-		public void ToggleBottomAnchor() {
-			Vector2 pos = this.GetHUDComputedPosition( false );  // flips anchors if negative
-			pos.X = this.CustomPositionWithAnchor.X;
-
-			if( this.CustomPositionWithAnchor.Y >= 0 ) {    // flips Y anchor if positive
-				pos.Y -= Main.screenHeight;
-			}
-
-			this.SetUncomputedPosition( pos, false );
+		/// <summary>
+		/// Sets the desired position of the element, not factoring collisions.
+		/// </summary>
+		/// <param name="relPos"></param>
+		/// <param name="percPos"></param>
+		public void SetIntendedPosition( Vector2 relPos, Vector2 percPos ) {
+			this.CurrentRelativePosition = relPos;
+			this.CurrentPositionPercent = percPos;
 		}
 
 
 		////////////////
 
-		internal void SetDisplacedPosition( Vector2 pos ) {
-			this.DisplacedPosition = pos;
+		internal void SetDisplacedOffset( Vector2 offset ) {
+			this.DisplacedOffset = offset;
 		}
 
-		internal void RevertDisplacedPosition() {
-			this.DisplacedPosition = null;
+		internal void RevertDisplacedOffset() {
+			this.DisplacedOffset = null;
 		}
 	}
 }

@@ -94,7 +94,9 @@ namespace HUDElementsLib {
 			}
 
 			this.IsInteractingWithControls = true;
-			this.ToggleRightAnchor();
+			this.CurrentPositionPercent.X = this.CurrentPositionPercent.X >= 1f
+				? 0f
+				: 1f;
 
 			return true;
 		}
@@ -105,7 +107,9 @@ namespace HUDElementsLib {
 			}
 
 			this.IsInteractingWithControls = true;
-			this.ToggleBottomAnchor();
+			this.CurrentPositionPercent.Y = this.CurrentPositionPercent.Y >= 1f
+				? 0f
+				: 1f;
 
 			return true;
 		}

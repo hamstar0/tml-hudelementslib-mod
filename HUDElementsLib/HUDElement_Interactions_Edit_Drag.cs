@@ -39,9 +39,6 @@ namespace HUDElementsLib {
 
 		private void ApplyDrag() {
 			Main.LocalPlayer.mouseInterface = true;
-//if( Main.LocalPlayer.mouseInterface ) {
-//	Main.NewText( "HUD_ApplyDrag 3" );
-//}
 
 			// Initialize drag state
 			if( !this.IsDraggingSinceLastTick ) {
@@ -51,6 +48,8 @@ namespace HUDElementsLib {
 				return;
 			}
 
+			//
+
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
 
 			Vector2 movedSince = Main.MouseScreen - this.PreviousDragMousePos;
@@ -59,6 +58,8 @@ namespace HUDElementsLib {
 			if( movedSince == default ) {
 				return;
 			}
+
+			//
 
 			this.DesiredDragPosition += movedSince;
 
@@ -76,7 +77,7 @@ namespace HUDElementsLib {
 			Vector2 validPos = mymod.HUDManager.FindNonCollidingPosition( this, this.DesiredDragPosition.Value );
 			//Vector2 validPos = this.DesiredDragPosition.Value;
 
-			this.SetUncomputedPosition( validPos, true );
+			this.SetIntendedPosition( validPos, true );
 		}
 	}
 }

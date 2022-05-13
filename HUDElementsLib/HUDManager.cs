@@ -8,7 +8,8 @@ using Terraria.UI;
 namespace HUDElementsLib {
 	partial class HUDManager {
 		public struct ElementInfo {
-			public Vector2 ScreenPosition;
+			public Vector2 RelativePosition;
+			public Vector2 PositionPercent;
 			public bool? IsIgnoringCollisions;
 		}
 
@@ -33,11 +34,9 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		public void LoadHUDElementInfo( string name, float x, float y, bool? isIgnoringCollisions ) {
-			var pos = new Vector2( x, y );
-
+		public void LoadHUDElementInfo( string name, Vector2 relPos, Vector2 percPos, bool? isIgnoringCollisions ) {
 			if( this.Elements.ContainsKey(name) ) {
-				this.Elements[name].SetUncomputedPosition( pos, false );
+				this.Elements[name].SetIntendedPosition( relPos, percPos );
 				if( isIgnoringCollisions.HasValue ) {
 					this.Elements[name].IsIgnoringCollisions = isIgnoringCollisions.Value;
 				}
@@ -45,7 +44,8 @@ namespace HUDElementsLib {
 				this.Elements[name].Recalculate();
 			} else {
 				this.SavedElementInfo[name] = new ElementInfo {
-					ScreenPosition = pos,
+					RelativePosition = relPos,
+					PositionPercent = percPos,
 					IsIgnoringCollisions = isIgnoringCollisions
 				};
 			}
@@ -63,7 +63,8 @@ namespace HUDElementsLib {
 
 				//
 
-				element.SetUncomputedPosition( elemInfo.ScreenPosition, false );
+				element.SetIntendedPosition( elemInfo.RelativePosition, elemInfo.PositionPercent );
+
 				if( elemInfo.IsIgnoringCollisions.HasValue ) {
 					element.IsIgnoringCollisions = elemInfo.IsIgnoringCollisions.Value;
 				}

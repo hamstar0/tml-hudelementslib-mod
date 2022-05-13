@@ -7,19 +7,19 @@ namespace HUDElementsLib.Elements {
 	public struct VanillaHUDElementDefinition {
 		public string Name;
 		public Func<bool> Context;
-		public Func<Vector2> PositionWithAnchors;
+		public Func<(Vector2 relPos, Vector2 percPos)> Position;
 		public Func<Vector2> Dimensions;
 		public Func<Vector2> Displacement;
 
 		public VanillaHUDElementDefinition(
 					string name,
 					Func<bool> context,
-					Func<Vector2> position,
+					Func<(Vector2 relPos, Vector2 percPos)> position,
 					Func<Vector2> dimensions,
 					Func<Vector2> displacement = null ) {
 			this.Name = name;
 			this.Context = context;
-			this.PositionWithAnchors = position;
+			this.Position = position;
 			this.Dimensions = dimensions;
 			this.Displacement = displacement;
 		}
@@ -35,8 +35,8 @@ namespace HUDElementsLib.Elements {
 
 		////////////////
 
-		private Func<Vector2> DynamicCustomPositionAndAnchors;
-		private Func<Vector2> DynamicCustomDimensions;
+		private Func<(Vector2 relPos, Vector2 percPos)> DynamicIntendedPosition;
+		private Func<Vector2> DynamicIntendedDimensions;
 		private Func<Vector2> DisplacementOverride;
 
 
@@ -44,9 +44,9 @@ namespace HUDElementsLib.Elements {
 		////////////////
 
 		internal VanillaHUDElement( VanillaHUDElementDefinition def )
-					: base( def.Name, def.PositionWithAnchors(), def.Dimensions(), def.Context ) {
-			this.DynamicCustomPositionAndAnchors = def.PositionWithAnchors;
-			this.DynamicCustomDimensions = def.Dimensions;
+					: base( def.Name, def.Position().relPos, def.Position().percPos, def.Dimensions(), def.Context ) {
+			this.DynamicIntendedPosition = def.Position;
+			this.DynamicIntendedDimensions = def.Dimensions;
 			this.DisplacementOverride = def.Displacement;
 		}
 
@@ -65,12 +65,16 @@ namespace HUDElementsLib.Elements {
 		////////////////
 		
 		public override Vector2 GetHUDComputedPosition( bool applyDisplacement ) {
-			this.CustomPositionWithAnchor = this.DynamicCustomPositionAndAnchors();
+			(Vector2 relPos, Vector2 percPos) = this.DynamicIntendedPosition();
+
+			this.CurrentRelativePosition = relPos;
+			this.CurrentPositionPercent = percPos;
+
 			return base.GetHUDComputedPosition( applyDisplacement );
 		}
 
 		public override Vector2 GetHUDComputedDimensions() {
-			this.CustomDimensions = this.DynamicCustomDimensions();
+			this.CurrentDimensions = this.DynamicIntendedDimensions();
 			return base.GetHUDComputedDimensions();
 		}
 

@@ -60,7 +60,7 @@ namespace HUDElementsLib {
 				pulses: !this.IsMouseHoveringEditableBox
 			);
 
-			if( this.DisplacedPosition.HasValue ) {
+			if( this.DisplacedOffset.HasValue ) {
 				Color displacedColor = Color.Yellow * 0.5f;
 				displacedColor *= this.IsMouseHoveringEditableBox
 					? 1f

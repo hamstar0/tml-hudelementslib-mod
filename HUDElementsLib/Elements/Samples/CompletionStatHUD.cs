@@ -29,11 +29,12 @@ namespace HUDElementsLib.Elements.Samples {
 		////////////////
 
 		public CompletionStatHUD(
-					Vector2 pos,
+					Vector2 relPos,
+					Vector2 percPos,
 					Vector2 dim,
 					string title,
 					Func<bool> enabler,
-					StatGetter stat ) : base( "Stat_"+title, pos, dim, enabler )  {
+					StatGetter stat ) : base( "Stat_"+title, relPos, percPos, dim, enabler )  {
 			this.TitleText = title;
 			this.Stat = stat;
 		}

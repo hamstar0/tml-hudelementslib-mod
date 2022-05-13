@@ -40,26 +40,28 @@ namespace HUDElementsLib.Elements.Samples {
 		////////////////
 
 		public TimerHUD(
-					Vector2 pos,
+					Vector2 relPos,
+					Vector2 percPos,
 					Vector2 dim,
 					string title,
 					long startTimeTicks,
 					bool showTicks,
 					Func<bool> enabler,
 					TimeTicker ticker )
-					: base( "Timer_"+title, pos, dim, enabler )  {
+					: base( "Timer_"+title, relPos, percPos, dim, enabler )  {
 			this.BasicConstructor( title, startTimeTicks, showTicks, ticker );
 		}
 
 		public TimerHUD(
-					Vector2 pos,
+					Vector2 relPos,
+					Vector2 percPos,
 					Vector2 dim,
 					string title,
 					long startTimeTicks,
 					bool showTicks,
 					Func<bool> enabler,
 					bool isCountdownOrElseClock = true )
-					: base( "Timer_"+title, pos, dim, enabler )  {
+					: base( "Timer_"+title, relPos, percPos, dim, enabler )  {
 			TimeTicker ticker;
 			if( isCountdownOrElseClock ) {
 				ticker = TimerHUD.DefaultCountdownTicker;

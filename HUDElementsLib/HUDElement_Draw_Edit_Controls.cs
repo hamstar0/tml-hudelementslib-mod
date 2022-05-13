@@ -43,11 +43,11 @@ namespace HUDElementsLib {
 				resetButton: isHoverReset
 					? !this.IsDragLocked()
 					: (bool?)null,
-				anchorRightButton: isHoverAnchorRight
-					? this.IsRightAnchored()
+				anchorRightButton: this.CurrentPositionPercent.X >= 1f
+					? true
 					: (bool?)null,
-				anchorBottomButton: isHoverAnchorBottom
-					? this.IsBottomAnchored()
+				anchorBottomButton: this.CurrentPositionPercent.Y >= 1f
+					? true
 					: (bool?)null,
 				hoverPoint: Main.MouseScreen,
 				isHoverCollisionToggle: ref isHoverCollision,
