@@ -52,6 +52,11 @@ namespace HUDElementsLib {
 				this.MyUIMngr.SetState( this.MyUI );
 
 				this.HUDManager = new HUDManager( this.MyUI );
+			}
+		}
+
+		public override void PostSetupContent() {
+			if( !Main.dedServ && Main.netMode != NetmodeID.Server ) {
 				VanillaHUDElement.LoadVanillaElements();
 			}
 		}

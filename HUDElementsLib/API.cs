@@ -16,22 +16,29 @@ namespace HUDElementsLib {
 			void AddUsageMessage() {
 				string id = "HUDElementsLibUsage";
 
-				bool isUnread = (bool)msgMod.Call( "IsUnread", id );
+				try {
+					msgMod = ModLoader.GetMod( "Messages" );
 
-				object rawParentMsg = msgMod.Call( "GetMessage", "Messages - Mod Info" ); //MessagesAPI.ModInfoCategoryMsg
+					bool isUnread = (bool)msgMod.Call( "IsUnread", id );
 
-				//
+					object rawParentMsg = msgMod.Call( "GetMessage", "Messages - Mod Info" ); //MessagesAPI.ModInfoCategoryMsg
 
-				msgMod.Call(
-					"AddMessage",
-					"Reposition HUD elements via. hotkey", //title:
-					"Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",    //description:
-					HUDElementsLibMod.Instance, //modOfOrigin:
-					id, //id:
-					isUnread,    //alertPlayer:
-					false,  //isImportant:
-					rawParentMsg //parentMessage:
-				);
+					//
+
+					msgMod.Call(
+						"AddMessage",
+						"Reposition HUD elements via. hotkey", //title:
+						"Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",    //description:
+						HUDElementsLibMod.Instance, //modOfOrigin:
+						isUnread,    //alertPlayer:
+						false,  //isImportant:
+						rawParentMsg, //parentMessage:
+						id, //id:
+						0   //weight:
+					);
+				} catch( Exception e ) {
+					HUDElementsLibMod.Instance.Logger.Error( "", e );
+				}
 			}
 
 			Action usageMessageAdder = AddUsageMessage;
