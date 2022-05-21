@@ -7,7 +7,7 @@ namespace HUDElementsLib {
 	public static class HUDElementsLibAPI {
 		private static void MessageAboutHUD_If() {
 			Mod msgMod = ModLoader.GetMod( "Messages" );
-			if( msgMod != null ) {
+			if( msgMod == null ) {
 				return;
 			}
 
