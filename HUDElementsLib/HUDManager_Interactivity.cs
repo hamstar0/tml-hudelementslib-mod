@@ -34,11 +34,14 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		private bool UpdateInteractionsWithinEntireUI_If( HUDElement elem ) {
+		private bool UpdateInteractionsWithinEntireUI_If( HUDElement elem, Vector2 mouseScrPos ) {
+			int mouseX = (int)mouseScrPos.X;
+			int mouseY = (int)mouseScrPos.Y;
+
 			if( !elem.IsEnabled() ) {
 				return false;
 			}
-			if( !elem.GetHUDComputedArea(true).Contains(Main.mouseX, Main.mouseY) ) {
+			if( !elem.GetHUDComputedArea(true).Contains(mouseX, mouseY) ) {
 				return false;
 			}
 
@@ -47,10 +50,14 @@ namespace HUDElementsLib {
 				return false;
 			}
 
+			//
+
 			this._ClickDisabledMillisecondsRemaining = Math.Max(
 				0.0d,
 				this._ClickDisabledMillisecondsRemaining - time.ElapsedGameTime.TotalMilliseconds
 			);
+
+			//
 
 			if( this._ClickDisabledMillisecondsRemaining > 0.0d ) {
 				return true;
@@ -58,7 +65,6 @@ namespace HUDElementsLib {
 
 			//
 
-			var mousePos = new Vector2( (float)Main.mouseX, (float)Main.mouseY );
 			bool mouseLeftDown = Main.mouseLeft; //&& Main.hasFocus;
 			bool mouseRightDown = Main.mouseRight; //&& Main.hasFocus;
 			bool mouseMiddleDown = Main.mouseMiddle; //&& Main.hasFocus;
@@ -69,10 +75,10 @@ namespace HUDElementsLib {
 
 			if( elem != this._LastElementHover ) {
 				if( this._LastElementHover != null ) {
-					this._LastElementHover.MouseOut( new UIMouseEvent(this._LastElementHover, mousePos) );
+					this._LastElementHover.MouseOut( new UIMouseEvent(this._LastElementHover, mouseScrPos) );
 				}
 
-				elem.MouseOver( new UIMouseEvent(elem, mousePos) );
+				elem.MouseOver( new UIMouseEvent(elem, mouseScrPos) );
 
 				this._LastElementHover = elem;
 			}
@@ -83,24 +89,24 @@ namespace HUDElementsLib {
 			if( mouseLeftDown && !this._WasMouseLeftDown ) {
 				this._LastElementLeftDown = elem;
 
-				elem.MouseDown( new UIMouseEvent( elem, mousePos ) );
+				elem.MouseDown( new UIMouseEvent(elem, mouseScrPos) );
 
 				double milliSinceLastMouseDown = time.TotalGameTime.TotalMilliseconds - this._LastMouseDownMilliseconds;
 
 				if( this._LastElementLeftClicked == elem && milliSinceLastMouseDown < 500.0 ) {
-					elem.DoubleClick( new UIMouseEvent( elem, mousePos ) );
+					elem.DoubleClick( new UIMouseEvent( elem, mouseScrPos ) );
 					this._LastElementLeftClicked = null;
 				}
 
 				this._LastMouseDownMilliseconds = time.TotalGameTime.TotalMilliseconds;
 			} else if( this._LastElementLeftDown != null ) {
-				if( this._LastElementLeftDown.GetHUDComputedArea(true).Contains(Main.mouseX, Main.mouseY) ) {
-					this._LastElementLeftDown.Click( new UIMouseEvent(this._LastElementLeftDown, mousePos) );
+				if( this._LastElementLeftDown.GetHUDComputedArea(true).Contains(mouseX, mouseY) ) {
+					this._LastElementLeftDown.Click( new UIMouseEvent(this._LastElementLeftDown, mouseScrPos) );
 
 					this._LastElementLeftClicked = this._LastElementLeftDown;
 				}
 
-				this._LastElementLeftDown.MouseUp( new UIMouseEvent(this._LastElementLeftDown, mousePos) );
+				this._LastElementLeftDown.MouseUp( new UIMouseEvent(this._LastElementLeftDown, mouseScrPos) );
 
 				this._LastElementLeftDown = null;
 			}
@@ -111,24 +117,24 @@ namespace HUDElementsLib {
 			if( mouseRightDown && !this._WasMouseRightDown ) {
 				this._LastElementRightDown = elem;
 
-				elem.RightMouseDown( new UIMouseEvent( elem, mousePos ) );
+				elem.RightMouseDown( new UIMouseEvent(elem, mouseScrPos) );
 
 				double milliSinceLastMouseRightDown = time.TotalGameTime.TotalMilliseconds - this._LastMouseRightDownMilliseconds;
 
 				if( this._LastElementRightClicked == elem && milliSinceLastMouseRightDown < 500.0 ) {
-					elem.RightDoubleClick( new UIMouseEvent( elem, mousePos ) );
+					elem.RightDoubleClick( new UIMouseEvent(elem, mouseScrPos) );
 					this._LastElementRightClicked = null;
 				}
 
 				this._LastMouseRightDownMilliseconds = time.TotalGameTime.TotalMilliseconds;
 			} else if( this._LastElementRightDown != null ) {
-				if( this._LastElementRightDown.GetHUDComputedArea( true ).Contains( Main.mouseX, Main.mouseY ) ) {
-					this._LastElementRightDown.RightClick( new UIMouseEvent( this._LastElementRightDown, mousePos ) );
+				if( this._LastElementRightDown.GetHUDComputedArea(true).Contains(mouseX, mouseY) ) {
+					this._LastElementRightDown.RightClick( new UIMouseEvent(this._LastElementRightDown, mouseScrPos) );
 
 					this._LastElementRightClicked = this._LastElementRightDown;
 				}
 
-				this._LastElementRightDown.RightMouseUp( new UIMouseEvent( this._LastElementRightDown, mousePos ) );
+				this._LastElementRightDown.RightMouseUp( new UIMouseEvent(this._LastElementRightDown, mouseScrPos) );
 
 				this._LastElementRightDown = null;
 			}
@@ -138,25 +144,25 @@ namespace HUDElementsLib {
 			if( mouseMiddleDown && !this._WasMouseMiddleDown ) {
 				this._LastElementMiddleDown = elem;
 
-				elem.MiddleMouseDown( new UIMouseEvent( elem, mousePos ) );
+				elem.MiddleMouseDown( new UIMouseEvent(elem, mouseScrPos) );
 
 				double milliSinceLastMouseMiddleDown = time.TotalGameTime.TotalMilliseconds - this._LastMouseMiddleDownMilliseconds;
 
 				if( this._LastElementMiddleClicked == elem && milliSinceLastMouseMiddleDown < 500.0 ) {
-					elem.MiddleDoubleClick( new UIMouseEvent( elem, mousePos ) );
+					elem.MiddleDoubleClick( new UIMouseEvent(elem, mouseScrPos) );
 
 					this._LastElementMiddleClicked = null;
 				}
 
 				this._LastMouseMiddleDownMilliseconds = time.TotalGameTime.TotalMilliseconds;
 			} else if( this._LastElementMiddleDown != null ) {
-				if( this._LastElementMiddleDown.GetHUDComputedArea( true ).Contains( Main.mouseX, Main.mouseY ) ) {
-					this._LastElementMiddleDown.MiddleClick( new UIMouseEvent( this._LastElementMiddleDown, mousePos ) );
+				if( this._LastElementMiddleDown.GetHUDComputedArea(true).Contains(mouseX, mouseY) ) {
+					this._LastElementMiddleDown.MiddleClick( new UIMouseEvent(this._LastElementMiddleDown, mouseScrPos) );
 
 					this._LastElementMiddleClicked = this._LastElementMiddleDown;
 				}
 
-				this._LastElementMiddleDown.MiddleMouseUp( new UIMouseEvent( this._LastElementMiddleDown, mousePos ) );
+				this._LastElementMiddleDown.MiddleMouseUp( new UIMouseEvent(this._LastElementMiddleDown, mouseScrPos) );
 
 				this._LastElementMiddleDown = null;
 			}
@@ -166,25 +172,25 @@ namespace HUDElementsLib {
 			if( mouseXButton1Down && !this._WasMouseXButton1Down ) {
 				this._LastElementXButton1Down = elem;
 
-				elem.XButton1MouseDown( new UIMouseEvent( elem, mousePos ) );
+				elem.XButton1MouseDown( new UIMouseEvent(elem, mouseScrPos) );
 
 				double milliSinceLastX1Down = time.TotalGameTime.TotalMilliseconds - this._LastMouseXButton1DownMilliseconds;
 				
 				if( this._LastElementXButton1Clicked == elem && milliSinceLastX1Down < 500.0 ) {
-					elem.XButton1DoubleClick( new UIMouseEvent( elem, mousePos ) );
+					elem.XButton1DoubleClick( new UIMouseEvent(elem, mouseScrPos) );
 
 					this._LastElementXButton1Clicked = null;
 				}
 
 				this._LastMouseXButton1DownMilliseconds = time.TotalGameTime.TotalMilliseconds;
 			} else if( this._LastElementXButton1Down != null ) {
-				if( this._LastElementXButton1Down.GetHUDComputedArea( true ).Contains( Main.mouseX, Main.mouseY ) ) {
-					this._LastElementXButton1Down.XButton1Click( new UIMouseEvent( this._LastElementXButton1Down, mousePos ) );
+				if( this._LastElementXButton1Down.GetHUDComputedArea(true).Contains(mouseX, mouseY) ) {
+					this._LastElementXButton1Down.XButton1Click( new UIMouseEvent(this._LastElementXButton1Down, mouseScrPos) );
 
 					this._LastElementXButton1Clicked = this._LastElementXButton1Down;
 				}
 
-				this._LastElementXButton1Down.XButton1MouseUp( new UIMouseEvent( this._LastElementXButton1Down, mousePos ) );
+				this._LastElementXButton1Down.XButton1MouseUp( new UIMouseEvent(this._LastElementXButton1Down, mouseScrPos) );
 
 				this._LastElementXButton1Down = null;
 			}
@@ -194,25 +200,25 @@ namespace HUDElementsLib {
 			if( mouseXButton2Down && !this._WasMouseXButton2Down ) {
 				this._LastElementXButton2Down = elem;
 
-				elem.XButton2MouseDown( new UIMouseEvent( elem, mousePos ) );
+				elem.XButton2MouseDown( new UIMouseEvent(elem, mouseScrPos) );
 
 				double millisSinceLastX2Down = time.TotalGameTime.TotalMilliseconds - this._LastMouseXButton2DownMilliseconds;
 				
 				if( this._LastElementXButton2Clicked == elem && millisSinceLastX2Down < 500.0 ) {
 
-					elem.XButton2DoubleClick( new UIMouseEvent( elem, mousePos ) );
+					elem.XButton2DoubleClick( new UIMouseEvent(elem, mouseScrPos) );
 					this._LastElementXButton2Clicked = null;
 				}
 
 				this._LastMouseXButton2DownMilliseconds = time.TotalGameTime.TotalMilliseconds;
 			} else if( this._LastElementXButton2Down != null ) {
-				if( this._LastElementXButton2Down.GetHUDComputedArea( true ).Contains( Main.mouseX, Main.mouseY ) ) {
-					this._LastElementXButton2Down.XButton2Click( new UIMouseEvent( this._LastElementXButton2Down, mousePos ) );
+				if( this._LastElementXButton2Down.GetHUDComputedArea(true).Contains(mouseX, mouseY) ) {
+					this._LastElementXButton2Down.XButton2Click( new UIMouseEvent(this._LastElementXButton2Down, mouseScrPos) );
 
 					this._LastElementXButton2Clicked = this._LastElementXButton2Down;
 				}
 
-				this._LastElementXButton2Down.XButton2MouseUp( new UIMouseEvent( this._LastElementXButton2Down, mousePos ) );
+				this._LastElementXButton2Down.XButton2MouseUp( new UIMouseEvent(this._LastElementXButton2Down, mouseScrPos) );
 
 				this._LastElementXButton2Down = null;
 			}
@@ -220,7 +226,7 @@ namespace HUDElementsLib {
 			//
 
 			if( PlayerInput.ScrollWheelDeltaForUI != 0 ) {
-				elem.ScrollWheel( new UIScrollWheelEvent( elem, mousePos, PlayerInput.ScrollWheelDeltaForUI ) );
+				elem.ScrollWheel( new UIScrollWheelEvent( elem, mouseScrPos, PlayerInput.ScrollWheelDeltaForUI ) );
 				// PlayerInput.ScrollWheelDeltaForUI = 0; Moved after ModHooks.UpdateUI(gameTime);
 			}
 
@@ -238,13 +244,9 @@ namespace HUDElementsLib {
 
 		////
 
-		private void ClearInteractionsIfAny() {
-			var mousePos = new Vector2( (float)Main.mouseX, (float)Main.mouseY );
-
-			//
-
+		private void ClearInteractionsIfAny( Vector2 mouseScrPos ) {
 			if( this._LastElementHover != null ) {
-				this._LastElementHover.MouseOut( new UIMouseEvent( this._LastElementHover, mousePos ) );
+				this._LastElementHover.MouseOut( new UIMouseEvent(this._LastElementHover, mouseScrPos) );
 
 				this._LastElementHover = null;
 			}

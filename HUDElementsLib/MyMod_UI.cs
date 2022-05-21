@@ -79,11 +79,17 @@ ModLibsCore.Libraries.Debug.DebugLibraries.Print(
 	)
 );
 }*/
+				this.HUDManager?.PreUpdateForInteractions( Main.MouseScreen );  //:blobshrug:
+
+				//
+
 				this.MyUI?.Update( Main._drawInterfaceGameTime );  //:blobshrug:
 				this.MyUI?.Draw( Main.spriteBatch );
 
 				return true;
 			};
+
+			//
 
 			int mouseTextIdx = layers.FindIndex( layer => layer.Name.Equals("Vanilla: Mouse Text") );
 			if( mouseTextIdx >= 0 ) {

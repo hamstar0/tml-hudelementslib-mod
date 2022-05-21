@@ -75,7 +75,7 @@ namespace HUDElementsLib {
 
 		////////////////
 		
-		internal void PreUpdateForInteractions() {
+		internal void PreUpdateForInteractions( Vector2 mouseScrPos ) {
 			foreach( HUDElement elem in this.Elements.Values ) {
 				if( elem.UpdateEditModeInteractionsWithinEntireUI() ) {
 					break;
@@ -86,7 +86,7 @@ namespace HUDElementsLib {
 				bool hasInteracted = false;
 
 				foreach( HUDElement elem in this.Elements.Values ) {
-					hasInteracted = this.UpdateInteractionsWithinEntireUI_If( elem );
+					hasInteracted = this.UpdateInteractionsWithinEntireUI_If( elem, mouseScrPos );
 
 					if( hasInteracted ) {
 						break;
@@ -94,7 +94,7 @@ namespace HUDElementsLib {
 				}
 
 				if( !hasInteracted ) {
-					this.ClearInteractionsIfAny();
+					this.ClearInteractionsIfAny( mouseScrPos );
 				}
 			}
 		}

@@ -97,17 +97,19 @@ namespace HUDElementsLib {
 
 		////////////////
 
-		public override void PreUpdate() {
+		/*public override void PreUpdate() {
 			if( this.player.whoAmI == Main.myPlayer ) {
-				this.PreUpdateLocal();
+				this.PreUpdate_Local();
 			}
 		}
 
 		////
 
-		private void PreUpdateLocal() {
+		private void PreUpdate_Local() {
 			var mymod = ModContent.GetInstance<HUDElementsLibMod>();
-			mymod.HUDManager?.PreUpdateForInteractions();  //:blobshrug:
-		}
+			Vector2 mouseScrPos = Main.MouseScreen;
+
+			mymod.HUDManager?.PreUpdateForInteractions( mouseScrPos );  //:blobshrug:
+		}*/
 	}
 }

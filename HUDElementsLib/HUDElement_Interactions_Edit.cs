@@ -16,9 +16,6 @@ namespace HUDElementsLib {
 
 			if( isInteracting ) {
 				Main.LocalPlayer.mouseInterface = true; // Locks control for this element
-														//if( Main.LocalPlayer.mouseInterface ) {
-														//	Main.NewText( "HUD_Elem_PreUpdForInt 1" );
-														//}
 			}
 
 			return isInteracting;
