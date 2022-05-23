@@ -15,11 +15,16 @@ namespace HUDElementsLib {
 			//
 			
 			void AddUsageMessage() {
+				msgMod = ModLoader.GetMod( "Messages" );
+				if( msgMod.Version < new Version(1, 4, 0, 3) ) {
+					return;
+				}
+
+				//
+
 				string id = "HUDElementsLibUsage";
 
 				try {
-					msgMod = ModLoader.GetMod( "Messages" );
-
 					bool isUnread = (bool)msgMod.Call( "IsUnread", id );
 
 					object rawParentMsg = msgMod.Call( "GetMessage", "Messages - Mod Info" ); //MessagesAPI.ModInfoCategoryMsg
@@ -29,7 +34,7 @@ namespace HUDElementsLib {
 					Color? color = null;
 
 					msgMod.Call(
-						"AddMessage",
+						"AddColoredMessage",
 						"Reposition HUD elements via. hotkey", //title:
 						"Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",    //description:
 						(Color?)color,	//color:
