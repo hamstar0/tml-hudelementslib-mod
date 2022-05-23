@@ -31,13 +31,10 @@ namespace HUDElementsLib {
 
 					//
 
-					Color? color = null;
-
 					msgMod.Call(
-						"AddColoredMessage",
+						"AddMessageNoColor",
 						"Reposition HUD elements via. hotkey", //title:
 						"Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",    //description:
-						(Color?)color,	//color:
 						(Mod)HUDElementsLibMod.Instance, //modOfOrigin:
 						(bool)isUnread,    //alertPlayer:
 						false,  //isImportant:
