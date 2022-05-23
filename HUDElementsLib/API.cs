@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -25,15 +26,18 @@ namespace HUDElementsLib {
 
 					//
 
+					Color? color = null;
+
 					msgMod.Call(
 						"AddMessage",
 						"Reposition HUD elements via. hotkey", //title:
 						"Bind a key to activate Edit Mode to reposition custom HUD elements freely to your liking.",    //description:
-						HUDElementsLibMod.Instance, //modOfOrigin:
-						isUnread,    //alertPlayer:
+						(Color?)color,	//color:
+						(Mod)HUDElementsLibMod.Instance, //modOfOrigin:
+						(bool)isUnread,    //alertPlayer:
 						false,  //isImportant:
 						rawParentMsg, //parentMessage:
-						id, //id:
+						(string)id, //id:
 						0   //weight:
 					);
 				} catch( Exception e ) {
